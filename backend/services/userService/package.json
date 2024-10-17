@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "dist/app.js",
-    "build": "tsc",
-    "dev": " nodemon --exec ts-node src/app.ts"
-  },
+  "start": "node index.js",
+  "build": "tsc",
+  "dev": "nodemon --exec ts-node src/index.ts"
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",
