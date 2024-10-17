@@ -1,6 +1,16 @@
+import UserModel from '../../models/userModel'
 import User, {IUser} from '../../models/userModel'
+import { BaseRepository } from '../baseRepository'
+import { Model } from 'mongoose'
 
-export class UserRepository{
+
+
+export class UserRepository  extends BaseRepository<IUser> {
+
+    constructor(userModel:Model<IUser>=UserModel){
+        super(userModel)
+    }
+
 
     async createUser(user:IUser) : Promise<IUser>{
         return await User.create(user)

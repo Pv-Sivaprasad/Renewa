@@ -22,6 +22,7 @@ export class AuthService {
         if(exsistingUser) throw new Error('User already exists')
 
             const hashedPassword=await bcrypt.hash(password,10)
+
             const newUser=await this.userRespository.createUser({
                 username,
                 email,
@@ -33,3 +34,4 @@ export class AuthService {
     }
 
 }
+
