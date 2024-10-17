@@ -23,6 +23,24 @@ class AuthController {
 
   }
 
+  async signin(req:Request,res:Response) : Promise<void> {
+
+    console.log('Entering user sign in authcontroller');
+
+    try {
+
+        const {email,password}=req.body
+
+
+      // const token= await authService.loginUser(email,password)
+
+    } catch (error) {
+      
+    }
+    
+
+  }
+
 
 }
 
