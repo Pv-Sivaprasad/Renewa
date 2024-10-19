@@ -1,9 +1,18 @@
+
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [],
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'footer-color': 'rgba(28,12,60,255)',
+      }
+    },
   },
   plugins: [],
 }
+
 

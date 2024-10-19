@@ -1,5 +1,6 @@
 import { Route,Routes } from 'react-router'
 import UserHome from '../pages/user/UserHome'
+import UserLogin from '../pages/user/UserLogin'
 
 
 const userRoute = () => {
@@ -7,6 +8,8 @@ const userRoute = () => {
     <Routes>
 
     <Route path='/' element={<UserHome/>} />
+    <Route path='/login' element={<UserLogin/>} />
+    
 
     </Routes>
   )
