@@ -32,7 +32,7 @@ const UserRegistration = () => {
                                 type="text"
                                 id="name"
                                 placeholder="Enter your name"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                className="mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600"
                                 required
                             />
                         </div>
@@ -42,7 +42,7 @@ const UserRegistration = () => {
                                 type="email"
                                 id="email"
                                 placeholder="Enter your email"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                className="mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600"
                                 required
                             />
                         </div>
@@ -52,7 +52,7 @@ const UserRegistration = () => {
                                 type="password"
                                 id="password"
                                 placeholder="Enter your password"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                className="mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600"
                                 required
                             />
                         </div>
@@ -62,7 +62,7 @@ const UserRegistration = () => {
                                 type="password"
                                 id="password"
                                 placeholder="Enter your password"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                className="mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600"
                                 required
                             />
                         </div>
