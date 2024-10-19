@@ -1,5 +1,5 @@
 import React from 'react'
-import banner from '../../assets/banner.jpeg'
+import banner from '../../assets/user/banner.jpeg'
 import UserHeader from '../../components/user/UserHeader'
 import UserFooter from '../../components/user/UserFooter'
 

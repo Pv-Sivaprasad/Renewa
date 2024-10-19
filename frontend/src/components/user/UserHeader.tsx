@@ -1,5 +1,5 @@
 import React from 'react';
-import back from '../../assets/back.png'; 
+import back from '../../assets/user/back.png'; 
 import { Link } from 'react-router-dom';
 
 const UserHeader = () => {
@@ -14,9 +14,11 @@ const UserHeader = () => {
       
       <nav>
         <ul className='flex space-x-6'>
+          <Link to='/'>
           <li>
             <button className='hover:bg-blue-600 px-4 py-2 rounded cursor-pointer'>Home</button>
           </li>
+          </Link>
           <li>
             <button className='hover:bg-blue-600 px-4 py-2 rounded cursor-pointer'>About</button>
           </li>

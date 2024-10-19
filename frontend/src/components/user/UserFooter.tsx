@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from '../../assets/logo.png';
-import back from '../../assets/back.png'
+import logo from '../../assets/user/logo.png';
+import back from '../../assets/user/back.png'
 const UserFooter: React.FC = () => {
   return (
     <footer className="footer bg-footer-color">
