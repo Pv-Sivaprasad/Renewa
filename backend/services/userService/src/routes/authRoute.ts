@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import AuthController from '../controllers/authController'
+import {S3Client} from '@aws-sdk/client-s3'
 
 
 const auth_route=express.Router()
