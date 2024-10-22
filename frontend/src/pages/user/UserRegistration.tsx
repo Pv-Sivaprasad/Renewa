@@ -102,7 +102,7 @@ const UserRegistration: React.FC = () => {
                 </button>
                 <br />
                 <div className="log flex items-center justify-center mt-4">
-                  <p className='text-black mr-2'>New here? Register now ....</p>
+                <p className='text-black mr-2'>Already a member ? Sign in  now ....</p>
                   <Link to='/login'>
                     <span className='text-white underline'>Sign In</span>
                   </Link>
