@@ -12,7 +12,7 @@ const api= axios.create({
 export const signInRequest=async(email:string,password:string)=>{
     console.log(email,password);
     console.log('reached here');
-    const response=await api.post('/user/signin',{email,password})
+    const response=await api.post('/signin',{email,password})
     console.log(response)
     return response
 }

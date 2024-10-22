@@ -1,9 +1,17 @@
 import { UserRepository } from "../repositories/implementations/userRespository";
+import { OtpRepostitory } from "../repositories/implementations/otpRepository";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from "../models/userModel";
+import Otp from "../models/otpModel";
 import { RegisterDto, LoginDto } from "../dto/authDto";
 import {generateAccessToken,generateRefreshToken} from '../utils/token.util'
+import { generateOtp } from "../utils/otp.util";
+import { MailService } from "../utils/email.util";
+
+
+const mailService= new MailService()
+
 
 
  type SignInResult={
@@ -17,9 +25,11 @@ import {generateAccessToken,generateRefreshToken} from '../utils/token.util'
 export class AuthService {
 
     private userRespository: UserRepository;
+    private otpRepository:OtpRepostitory
 
     constructor() {
         this.userRespository = new UserRepository()
+        this.otpRepository=new OtpRepostitory()
     }
 
 
@@ -38,9 +48,15 @@ export class AuthService {
             password: hashedPassword
         } as IUser)
 
+        const otp=generateOtp()
+        console.log('otp generated in registerUser authsrvice',otp);
+        await mailService.sendOtpEmail(email,otp)
         return newUser
-
     }
+
+
+
+
 
     async loginUser(loginData: LoginDto): Promise< SignInResult | string> {
 
