@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec ts-node index.ts",
-    "dev": "concurrently \"npm run dev --prefix ../services/userService\"  \"npm run start\""
+    "dev": "concurrently \"npm run dev --prefix ../services/userService\" \"npm run start\""
   },
   "keywords": [],
   "author": "",

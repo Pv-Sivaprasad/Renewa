@@ -3,6 +3,15 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from "../models/userModel";
 import { RegisterDto, LoginDto } from "../dto/authDto";
+import {generateAccessToken,generateRefreshToken} from '../utils/token.util'
+
+
+ type SignInResult={
+    success:boolean;
+    message:string;
+    accessToken?:string;
+    refreshToken?:string;
+}
 
 
 export class AuthService {
@@ -33,26 +42,35 @@ export class AuthService {
 
     }
 
-    async loginUser(loginData: LoginDto): Promise<string> {
+    async loginUser(loginData: LoginDto): Promise< SignInResult | string> {
 
         const { email, password } = loginData
-
+        console.log(email,password,'in the loginUser in authService');
+        
         const user = await this.userRespository.findUserByEmail(email)
+        console.log(user,'this is the user that found from database in user from authService');
+        
         if (!user) {
             throw new Error('Invalid Credentials')
         }
-
+        
         const isValidPassword = await bcrypt.compare(password, user.password)
-
+        console.log(isValidPassword,'the password');
+        
         if (!isValidPassword) {
             throw new Error('Invalid credentials');
         }
 
-        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET!, {
-            expiresIn: '1h',
-        });
+       
+        
+        const accessToken=generateAccessToken({id: user.id.toString()})
+        const refreshToken=generateRefreshToken({id:user.id.toString()})
+        console.log(accessToken,'the token created for the user');
+        console.log(refreshToken,'the refresh token created for the user');
+        
 
-        return token;
+
+        return {success:true,message:"sign in successfully completed",accessToken,refreshToken}
     }
 
 }

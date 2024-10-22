@@ -15,6 +15,10 @@ const targets = {
   doctorService: process.env.DOCTOR_SERVICE_URL
 };
 
+app.get('/',(req,res)=>{
+  console.log('apigateway is ok');
+  
+})
 
 app.use(
   '/user',

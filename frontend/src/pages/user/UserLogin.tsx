@@ -41,6 +41,11 @@ const UserLogin: React.FC = () => {
       console.log('Form data submitted:', data); 
       const {email,password}=data
       const response =await signInRequest(email,password)
+      if(response.data.success){
+        navigate('/user/dashboard')
+      }else{
+        setError(response.data.message)
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
