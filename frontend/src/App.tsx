@@ -4,11 +4,10 @@ import './index.css'
 
 const App = () => {
   return (
-    <Router>
+  
       <div className="App">
         <UserRoute/>
       </div>
-    </Router>
   )
 }
 
