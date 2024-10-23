@@ -11,14 +11,17 @@ class AuthController {
 
     console.log('entering user sign up in authcontroller');
     try {
-      const { username, email, password } = req.body
-      console.log(username, 'name', email, 'email', 'password', password);
-
+      const { username, email, password ,confirmPassword} = req.body
+      console.log(username, 'name', email, 'email', 'password', password,'cnfPwd',confirmPassword);
+      console.log(req.body,'asdfkfhsd');
+      
       const response = await authService.registerUser(req.body)
+      console.log('the response recived from authservice register user is',response);
+      
      return res.status(HttpStatus.OK).json(response)
 
     } catch (error) {
-      console.log('error in the signup auth controller');
+      console.log('error in the signup auth controller',error);
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Internal server error'})
 
     }

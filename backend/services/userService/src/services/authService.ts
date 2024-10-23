@@ -34,9 +34,12 @@ export class AuthService {
     }
 
 
-    async registerUser(registerData: RegisterDto): Promise<IUser> {
+    async registerUser(registerData: RegisterDto): Promise<{ success: boolean; message: string }> {
+        console.log('reached register user in the authService');
+        
         const { username, email, password } = registerData
-
+        console.log(registerData);
+        
         const exsistingUser = await this.userRespository.findUserByEmail(email)
 
         if (exsistingUser) throw new Error('User already exists')
@@ -54,7 +57,7 @@ export class AuthService {
         await mailService.sendOtpEmail(email,otp)
         await this.otpRepository.create({email,otp} as IOtp)
         
-        return newUser
+        return {success:true,message:"Email with otp has forwarded"}
     }
 
 
