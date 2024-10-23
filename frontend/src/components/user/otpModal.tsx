@@ -4,9 +4,10 @@ interface OtpModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (otp: string) => void;
+    email:string;
 }
 
-const OtpModal: React.FC<OtpModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const OtpModal: React.FC<OtpModalProps> = ({ isOpen, onClose, onSubmit,email }) => {
     const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -47,6 +48,7 @@ const OtpModal: React.FC<OtpModalProps> = ({ isOpen, onClose, onSubmit }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-4 text-center">Enter OTP</h2>
+                <p className="text-sm text-gray-600 mb-2">Email: {email}</p>
                 <div className="flex justify-center space-x-2 mb-6">
                     {otp.map((digit, index) => (
                         <input

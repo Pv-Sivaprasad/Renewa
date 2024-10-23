@@ -19,12 +19,21 @@ export const signInRequest=async(email:string,password:string)=>{
 export const signUpRequest=async(formData)=>{
     console.log(formData,'asdfkadsjfdf');
     
-    console.log('data forwarding to backend in signup');
+    console.log('data forwarding to backend in signup in userapi');
+
     const response=await api.post('/signup',formData)
-    console.log('data recieved from signup',response);
+    console.log('data recieved from signup in userapi',response);
 
     if(!response) console.log('returning is not gettin correctly');
     
-    console.log('the response in the api.post signn  in is ',response)
+   
     return response
+}
+
+
+export const otpSignup=async(otp,email)=>{
+    console.log('the otp before forwarding to backend in user api',otp);
+
+    const response=await api.post('/otpverify',{otp,email})
+    
 }

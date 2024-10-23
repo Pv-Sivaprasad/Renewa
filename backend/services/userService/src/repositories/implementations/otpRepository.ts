@@ -10,7 +10,7 @@ export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepositor
     }
 
     async createOtp(otpData: IOtp): Promise<IOtp> {
-        const newOtp = new this.model(otpData); 
+        const newOtp = new this.model(otpData); // Create a new instance using the model
         return await newOtp.save(); 
     }
 
@@ -22,5 +22,10 @@ export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepositor
             return null; 
         }
     }
+    // In your OtpRepository
+async deleteOtpByEmail(email: string): Promise<void> {
+    await Otp.deleteOne({ email });  // Correctly find and delete based on email
+}
+
 
 }

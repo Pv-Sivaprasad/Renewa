@@ -7,6 +7,8 @@ const authService = new AuthService()
 
 class AuthController {
 
+
+  // This is the sign up in the project 
   async signup(req: Request, res: Response) {
 
     console.log('entering user sign up in authcontroller');
@@ -28,7 +30,22 @@ class AuthController {
 
   }
 
+async otpverify(req:Request,res:Response) {
+  console.log('entering the otp verify in authcontriller');
 
+    try {
+      const data=req.body
+      console.log('the otp recieved in the body in the otpverfiy authcontroller',data);
+      console.log(typeof data);
+      
+      const response=await authService.verifyOtpUser(data)
+      
+    } catch (error) {
+      console.log('error in otpverify of authcontroller ',error);
+      
+    }
+
+}
 
 
 // This is the sign in for the project with access and refresh token

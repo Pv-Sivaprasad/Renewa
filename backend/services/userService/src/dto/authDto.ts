@@ -9,3 +9,8 @@ export interface LoginDto{
     email:string,
     password:string
 }
+
+export interface OtpDto{
+    email:string,
+    otp:string
+}

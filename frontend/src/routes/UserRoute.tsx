@@ -11,7 +11,7 @@ const userRoute = () => {
     <Route path='/' element={<UserHome/>} />
     <Route path='/login' element={<UserLogin/>} />
     <Route path='/register' element={<UserRegistration/>} />
-    
+        
 
     </Routes>
   )

@@ -8,6 +8,7 @@ const authController=new AuthController()
 
 auth_route.post('/signup',authController.signup)
 auth_route.post('/signin',authController.signin)
+auth_route.post('/otpverify',authController.otpverify)
 
 
 

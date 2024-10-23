@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import reg from '../../assets/user/registration-bg.jpeg'
 import { validateForm } from '../../utils/validations'
-import { signUpRequest } from '../../services/userApi'
+import { signUpRequest,otpSignup } from '../../services/userApi'
 import { toast } from 'react-toastify'
 import OtpModal from '../../components/user/otpModal'
 
@@ -48,12 +48,10 @@ const UserRegistration: React.FC = () => {
         e.preventDefault()
 
         const { isValid, errors } = validateForm(formData);
-        
         if(!isValid){
             console.log('validation error happenend',errors);
             setFormErrors(errors)
         }
-
         const response= await signUpRequest(formData)
         console.log(response,'recied details from backend');
         if(response.data.success){
@@ -63,14 +61,20 @@ const UserRegistration: React.FC = () => {
             
         }
         
-
-        
         
     }
-    const handleOtpSubmit=(otp:string)=>{
-    
-        console.log('otp submitted is',otp);
+    const handleOtpSubmit=async(otp:string,)=>{
         
+        const email=formData.email
+        console.log(email,'email');
+        
+        console.log('otp submitted is',otp);
+        setOtpModalOpen(false)
+
+        const otpVerify= await  otpSignup(otp,email)
+    
+    
+    
     }
     return (
         <div>
@@ -163,6 +167,7 @@ const UserRegistration: React.FC = () => {
                 isOpen={otpModalOpen} 
                 onClose={() => setOtpModalOpen(false)} 
                 onSubmit={handleOtpSubmit} 
+                 email={formData.email}
             />
                 </div>
             </div>
