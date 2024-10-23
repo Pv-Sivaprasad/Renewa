@@ -1,22 +1,22 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose,{Document,Schema} from "mongoose";
 import IOtp from "../interfaces/IOtp";
 
 
-const otpSchema : Schema =new Schema({
-    email:{
-        type:String,
-        required:true
+const OtpSchema: Schema = new Schema({
+    email: { 
+        type: String,
+         required: true
     },
-    otp:{
-        type:String,
-        required:true
+    otp: { 
+        type: String,
+         required: true
     },
-    createdAt:{
-        type:String,
-        default:Date.now,
-        expires:'60s'
-    }
-})
+    createdAt: {
+         type: Date,
+          default: Date.now,
+           expires: '5m'
+    } 
+});
 
-const Otp=mongoose.model<IOtp>('Otp',otpSchema)
+const Otp=mongoose.model<IOtp>('Otp',OtpSchema)
 export default Otp

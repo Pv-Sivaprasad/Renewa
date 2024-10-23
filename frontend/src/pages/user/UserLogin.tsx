@@ -41,7 +41,15 @@ const UserLogin: React.FC = () => {
       console.log('Form data submitted:', data); 
       const {email,password}=data
       const response =await signInRequest(email,password)
+      console.log('respose recieve from backend',response);
+      
+      if(response.data.accessToken){
+        localStorage.setItem('accessToken',response.data.accessToken)
+      }
+
       if(response.data.success){
+        console.log('goint to navigate to logged in page');
+        
         navigate('/user/dashboard')
       }else{
         setError(response.data.message)
@@ -75,7 +83,8 @@ const UserLogin: React.FC = () => {
                 placeholder="Enter your email"
                 {...register('email')}
                 className={`mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 ${errors.email ? 'border-red-500' : ''}`}
-              />
+                autoComplete='email'
+                />
               {/* Display validation error message */}
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message?.toString()}</p>}
             </div>
@@ -90,6 +99,7 @@ const UserLogin: React.FC = () => {
                 placeholder="Enter your password"
                 {...register('password')}
                 className={`mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 ${errors.password ? 'border-red-500' : ''}`}
+                autoComplete='password'
               />
               {/* Display validation error message */}
               {errors.password && <p className="text-red-500 text-sm">{errors.password.message?.toString()}</p>}

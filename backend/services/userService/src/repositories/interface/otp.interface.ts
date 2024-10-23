@@ -1,8 +1,9 @@
 import IOtp from "../../interfaces/IOtp";
 
-interface IOtpRepository {
+export default interface IOtpRepository {
 
-    findOtpByEmail(email:string):Promise<IOtp | null>
+    createOtp(otpData: IOtp): Promise<IOtp>;
+    
+    findOtpByEmail(email: string): Promise<IOtp | null>;
+    
 }
-
-export default IOtpRepository

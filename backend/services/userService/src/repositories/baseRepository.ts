@@ -5,7 +5,7 @@ import {IRepository} from './interface/repository.interface'
 
 export class BaseRepository <T extends Document > implements IRepository<T>{
     
-    private readonly model:Model<T>
+    protected readonly model:Model<T>
 
     constructor (model:Model<T>){
         this.model=model

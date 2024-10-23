@@ -1,13 +1,14 @@
 import { UserRepository } from "../repositories/implementations/userRespository";
-import { OtpRepostitory } from "../repositories/implementations/otpRepository";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from "../models/userModel";
 import Otp from "../models/otpModel";
 import { RegisterDto, LoginDto } from "../dto/authDto";
+import { OtpRepository } from "../repositories/implementations/otpRepository";
 import {generateAccessToken,generateRefreshToken} from '../utils/token.util'
 import { generateOtp } from "../utils/otp.util";
 import { MailService } from "../utils/email.util";
+import IOtp from "../interfaces/IOtp";
 
 
 const mailService= new MailService()
@@ -25,11 +26,11 @@ const mailService= new MailService()
 export class AuthService {
 
     private userRespository: UserRepository;
-    private otpRepository:OtpRepostitory
+    private otpRepository:OtpRepository
 
     constructor() {
         this.userRespository = new UserRepository()
-        this.otpRepository=new OtpRepostitory()
+        this.otpRepository= new OtpRepository()
     }
 
 
@@ -51,6 +52,8 @@ export class AuthService {
         const otp=generateOtp()
         console.log('otp generated in registerUser authsrvice',otp);
         await mailService.sendOtpEmail(email,otp)
+        await this.otpRepository.create({email,otp} as IOtp)
+        
         return newUser
     }
 

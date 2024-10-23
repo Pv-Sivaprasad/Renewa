@@ -1,23 +1,25 @@
 import IOtp from "../../interfaces/IOtp";
-import Otp from "../../models/otpModel";
+import Otp from '../../models/otpModel'
 import { BaseRepository } from "../baseRepository";
 import IOtpRepository from "../interface/otp.interface";
 
-
-export class OtpRepostitory extends BaseRepository<IOtp> implements IOtpRepository {
-
-
+export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepository{
+   
     constructor(){
         super(Otp)
     }
 
-    async findOtpByEmail (email:string): Promise<IOtp |null>{
+    async createOtp(otpData: IOtp): Promise<IOtp> {
+        const newOtp = new this.model(otpData); 
+        return await newOtp.save(); 
+    }
+
+    async findOtpByEmail(email: string): Promise<IOtp | null> {
         try {
-            const otp=await Otp.findOne({email})
-            return otp
+            return await this.model.findOne({ email }); 
         } catch (error) {
-            console.log('error in finding the otp by email',error);
-            return null
+            console.error('Error in finding the OTP by email:', error);
+            return null; 
         }
     }
 
