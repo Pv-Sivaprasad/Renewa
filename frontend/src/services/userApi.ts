@@ -26,14 +26,31 @@ export const signUpRequest=async(formData)=>{
 
     if(!response) console.log('returning is not gettin correctly');
     
-   
     return response
 }
 
 
 export const otpSignup=async(otp,email)=>{
     console.log('the otp before forwarding to backend in user api',otp);
-
     const response=await api.post('/otpverify',{otp,email})
+    console.log(response,'the response that recieved from backend to userApi');
+    if(!response) {
+        console.log('error in sign in ');
+        return {success:false,message:"otpsignup in userapi not working"}
+    }
+    return response
+    
+}
+
+
+export const googleSignIn=async(email:string,username:string)=>{
+    console.log('the google sign in email and name before sending to backend',email,username);
+    const response=await api.post('/google-signin',{email,username})
+    console.log(response,'the response that recieved from backend to userApi');
+    if(!response) {
+        console.log('error in sign in ');
+        return {success:false,message:"otpsignup in google signin not working"}
+    }
+    return response
     
 }

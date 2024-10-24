@@ -3,11 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import UserHeader from '../../components/user/UserHeader';
 import UserFooter from '../../components/user/UserFooter';
 import login from '../../assets/user/login.jpg';
-import google from '../../assets/user/googleLogo.jpeg';
+import GoogleSignIn from '../../components/user/google';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {signInRequest} from '../../services/userApi'
+
 
 // Zod validation schema
 const signInSchema = z.object({
@@ -120,12 +121,9 @@ const UserLogin: React.FC = () => {
               </Link>
             </div>
           </form>
-
+          <GoogleSignIn/>
           <br />
-          <button className="flex items-center justify-center w-full text-white border-gray-300 p-2 rounded-xl transition duration-200">
-            <img src={google} alt="Google" className="w-5 h-5 mr-2" />
-            Sign In with Google
-          </button>
+          
         </div>
       </div>
 

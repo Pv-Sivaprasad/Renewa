@@ -14,3 +14,8 @@ export interface OtpDto{
     email:string,
     otp:string
 }
+
+export interface GoogleDto{
+    username:string
+    email:string,
+}
