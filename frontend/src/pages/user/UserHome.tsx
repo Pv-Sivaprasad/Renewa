@@ -1,13 +1,14 @@
 import React from 'react'
 import UserHeader from '../../components/user/UserHeader'
 import UserFooter from '../../components/user/UserFooter'
+import App from '../../components/user/navbar'
 
 
 
 const UserHome = () => {
   return (
     <div>
-        <UserHeader/>
+      <App/>
       <h1> welome </h1>
       <UserFooter/>
     </div>

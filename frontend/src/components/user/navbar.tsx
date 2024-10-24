@@ -1,4 +1,12 @@
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, } from "@nextui-org/navbar";
+import DropdownTrigger from "@nextui-org/react";
+import DropdownMenu from "@nextui-org/react";
+
+import  DropdownItem  from "@nextui-org/react";
+import  Avatar  from "@nextui-org/react";
+import  Dropdown  from "@nextui-org/react";
+import  Link  from "@nextui-org/react";
+import  Input from "@nextui-org/react";
 // import {AcmeLogo} from "./AcmeLogo.jsx";
 // import {SearchIcon} from "./SearchIcon.jsx";
 
@@ -39,7 +47,7 @@ export default function App() {
           }}
           placeholder="Type to search..."
           size="sm"
-        //   startContent={<SearchIcon size={18} />}   
+          // startContent={<SearchIcon size={18} />}
           type="search"
         />
         <Dropdown placement="bottom-end">

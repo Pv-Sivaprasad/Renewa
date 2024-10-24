@@ -6,7 +6,11 @@
     "module": "ESNext",
     "target": "ESNext",
     // other options
-  }
+  },
+  "include": [
+    "src/**/*",    // Ensure TypeScript processes all files in src/
+    "src/declaration.d.ts"  // Explicitly include your declaration file
+  ]
 }
 
 // {

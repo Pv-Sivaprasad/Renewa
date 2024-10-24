@@ -1,5 +1,4 @@
 import { BrowserRouter as Router,Route,Routes } from "react-router-dom"
-
 import UserRoute from './routes/UserRoute'
 import './index.css'
 import { ToastContainer } from "react-toastify"
@@ -10,6 +9,7 @@ const App = () => {
   return (
   
       <div className="App">
+        
         <UserRoute/>
         <ToastContainer/>
         
