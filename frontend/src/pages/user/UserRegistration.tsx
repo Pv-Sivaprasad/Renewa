@@ -44,25 +44,51 @@ const UserRegistration: React.FC = () => {
         })
     }
 
+    
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
+        e.preventDefault();
+    
+        
         const { isValid, errors } = validateForm(formData);
-        if(!isValid){
-            console.log('validation error happenend',errors);
-            setFormErrors(errors)
+        if (!isValid) {
+            console.log('Validation error happened', errors);
+            setFormErrors(errors);
+            return;
         }
-        const response= await signUpRequest(formData)
-        console.log(response,'recied details from backend');
-        if(response.data.success){
-              toast.success(response.data.message)
-            console.log('toast completed');
-            setOtpModalOpen(true)
+    
+      
+        try {
+            const response = await signUpRequest(formData);
+            console.log(response, 'Received details from backend');
             
+            
+            if (response.data.success) {
+                toast.success(response.data.message);
+                console.log('Toast completed');
+                setOtpModalOpen(true);  
+    
+            } else {
+                
+                if (response.data.message.includes('OTP is still valid')) {
+                   
+                    toast.info(response.data.message); 
+                    setOtpModalOpen(true);  
+                } else if (response.data.message.includes('OTP expired')) {
+                   
+                    toast.warning(response.data.message);
+                    setOtpModalOpen(true);  
+                } else {
+                  
+                    toast.error(response.data.message);
+                }
+            }
+        } catch (error) {
+            console.error('Error during sign-up request:', error);
+            toast.error('Something went wrong. Please try again later.');
         }
-        
-        
-    }
+    };
+    
+
     const handleOtpSubmit=async(otp:string,)=>{
         
         const email=formData.email

@@ -1,4 +1,4 @@
-import IOtp from "../../interfaces/IOtp";
+import IOtp from "../../interfaces/Iotp";
 import Otp from '../../models/otpModel'
 import { BaseRepository } from "../baseRepository";
 import IOtpRepository from "../interface/otp.interface";
@@ -22,6 +22,17 @@ export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepositor
             return null; 
         }
     }
+
+
+    async updateOtpByEmail(email: string, otp: string): Promise<void> {
+        await Otp.updateOne({ email }, { otp, createdAt: new Date() });  // Update the OTP and reset creation time
+    }
+    
+    async saveOtp(email: string, otp: string): Promise<void> {
+        const newOtp = new Otp({ email, otp });
+        await newOtp.save();  // Save the OTP with expiration time
+    }
+
     // In your OtpRepository
 async deleteOtpByEmail(email: string): Promise<void> {
     await Otp.deleteOne({ email });  // Correctly find and delete based on email

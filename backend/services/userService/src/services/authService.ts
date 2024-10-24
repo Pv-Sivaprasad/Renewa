@@ -8,7 +8,7 @@ import { OtpRepository } from "../repositories/implementations/otpRepository";
 import {generateAccessToken,generateRefreshToken} from '../utils/token.util'
 import { generateOtp } from "../utils/otp.util";
 import { MailService } from "../utils/email.util";
-import IOtp from "../interfaces/IOtp";
+import IOtp from "../interfaces/Iotp";
 
 
 const mailService= new MailService()
@@ -40,31 +40,112 @@ export class AuthService {
     }
 
 
-    async registerUser(registerData: RegisterDto): Promise<{ success: boolean; message: string }> {
-        console.log('reached register user in the authService');
+    // async registerUser(registerData: RegisterDto): Promise<{ success: boolean; message: string }> {
+    //     console.log('reached register user in the authService');
         
-        const { username, email, password } = registerData
+    //     const { username, email, password } = registerData
+    //     console.log(registerData);
+        
+    //     const exsistingUser = await this.userRespository.findUserByEmail(email)
+
+    //         //if all the data is ok and verified
+    //     if (exsistingUser && exsistingUser.isVerified) {
+    //         return { success: false, message: 'User already registered and verified. Please login.' };
+    //     }
+
+
+    //         //if email exist and is not verified
+    //     if(exsistingUser && !exsistingUser.isVerified){
+
+    //         const getOtp=await this.otpRepository.findOtpByEmail(email)
+
+    //         if(getOtp){
+    //             const currentTime=new Date().getTime()
+    //             const expirationTime=new Date(getOtp.createdAt).getTime() + 5 * 60 * 1000;
+    //         }else{
+    //             const newOtp=generateOtp()
+    //             await this.otpRepository.updateOtpByEmail(email, newOtp);
+    //         }
+
+
+    //     }
+        
+        
+    //     if (exsistingUser) throw new Error('User already exists')
+
+    //     const hashedPassword = await bcrypt.hash(password, 10)
+
+    //     const newUser = await this.userRespository.createUser({
+    //         username,
+    //         email,
+    //         password: hashedPassword
+    //     } as IUser)
+
+    //     const otp=generateOtp()
+    //     console.log('otp generated in registerUser authsrvice',otp);
+    //     await mailService.sendOtpEmail(email,otp)
+    //     await this.otpRepository.create({email,otp} as IOtp)
+        
+    //     return {success:true,message:"Email with otp has forwarded"}
+    // }
+    async registerUser(registerData: RegisterDto): Promise<{ success: boolean; message: string }> {
+        console.log('Reached register user in the authService');
+        
+        const { username, email, password } = registerData;
         console.log(registerData);
         
-        const exsistingUser = await this.userRespository.findUserByEmail(email)
-
-        if (exsistingUser) throw new Error('User already exists')
-
-        const hashedPassword = await bcrypt.hash(password, 10)
-
+        
+        const existingUser = await this.userRespository.findUserByEmail(email);
+    
+       
+        if (existingUser && existingUser.isVerified) {
+            return { success: false, message: 'User already registered and verified. Please login.' };
+        }
+    
+        
+        if (existingUser && !existingUser.isVerified) {
+          
+            const getOtp = await this.otpRepository.findOtpByEmail(email);
+    
+            if (getOtp) {
+               
+                const currentTime = new Date().getTime();
+                const expirationTime = new Date(getOtp.createdAt).getTime() + 5 * 60 * 1000;
+    
+                
+                if (currentTime < expirationTime) {
+                    return { success: false, message: 'OTP is still valid. Please verify using the same OTP.' };
+                } else {
+                   
+                    const newOtp = generateOtp();
+                    await this.otpRepository.updateOtpByEmail(email, newOtp); 
+                    await mailService.sendOtpEmail(email, newOtp);
+                    return { success: false, message: 'OTP expired. A new OTP has been sent to your email.' };
+                }
+            } else {
+                
+                const newOtp = generateOtp();
+                await this.otpRepository.create({ email, otp: newOtp } as IOtp); 
+                await mailService.sendOtpEmail(email, newOtp);
+                return { success: false, message: 'No OTP found. A new OTP has been sent to your email.' };
+            }
+        }
+     
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await this.userRespository.createUser({
             username,
             email,
-            password: hashedPassword
-        } as IUser)
-
-        const otp=generateOtp()
-        console.log('otp generated in registerUser authsrvice',otp);
-        await mailService.sendOtpEmail(email,otp)
-        await this.otpRepository.create({email,otp} as IOtp)
-        
-        return {success:true,message:"Email with otp has forwarded"}
+            password: hashedPassword,
+        } as IUser);
+    
+       
+        const otp = generateOtp();
+        console.log('OTP generated in registerUser authService:', otp);
+        await mailService.sendOtpEmail(email, otp);
+        await this.otpRepository.create({ email, otp } as IOtp);
+        return { success: true, message: 'Email with OTP has been sent.' };
     }
+    
 
 
     async verifyOtpUser(otpData:OtpDto) : Promise<otpVerfiyResult| string> {
