@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import UserHeader from '../../components/user/UserHeader';
 import UserFooter from '../../components/user/UserFooter';
 import login from '../../assets/user/login.jpg';
-import GoogleSignIn from '../../components/user/google';
+import GoogleSignIn from '../../components/user/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,7 +19,7 @@ const signInSchema = z.object({
     .regex(/[0-9]/, { message: 'Password must contain at least one number' }),
 });
 
-// Define the TypeScript type based on the Zod schema
+
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
 const UserLogin: React.FC = () => {
@@ -34,7 +34,7 @@ const UserLogin: React.FC = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  // Handle form submission
+
   const onSubmit: SubmitHandler<SignInSchemaType> = async (data) => {
     console.log('starting to  attempt');
     
@@ -48,10 +48,11 @@ const UserLogin: React.FC = () => {
         localStorage.setItem('accessToken',response.data.accessToken)
       }
 
-      if(response.data.success){
+      if(response.data.message.includes('Login completed with refersh token')){
         console.log('goint to navigate to logged in page');
+        console.log('=====================================');
         
-        navigate('/user/dashboard')
+        navigate('/userhome')
       }else{
         setError(response.data.message)
       }
@@ -65,12 +66,12 @@ const UserLogin: React.FC = () => {
       <UserHeader />
 
       <div className="flex h-screen bg-blue-700">
-        {/* Left div for the image */}
+       
         <div className="w-1/2 flex items-center justify-center">
-          <img src={login} alt="Login" className="w-auto h-auto" /> {/* Adjust size as needed */}
+          <img src={login} alt="Login" className="w-auto h-auto" /> 
         </div>
 
-        {/* Right div for the login form */}
+        
         <div className="w-1/2 flex flex-col items-center justify-center p-10">
           <h1 className="text-3xl font-bold mb-6">Login</h1>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm">
@@ -86,7 +87,7 @@ const UserLogin: React.FC = () => {
                 className={`mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 ${errors.email ? 'border-red-500' : ''}`}
                 autoComplete='email'
                 />
-              {/* Display validation error message */}
+              
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message?.toString()}</p>}
             </div>
 
@@ -102,7 +103,7 @@ const UserLogin: React.FC = () => {
                 className={`mt-1 block w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600 ${errors.password ? 'border-red-500' : ''}`}
                 autoComplete='password'
               />
-              {/* Display validation error message */}
+              
               {errors.password && <p className="text-red-500 text-sm">{errors.password.message?.toString()}</p>}
             </div>
 
