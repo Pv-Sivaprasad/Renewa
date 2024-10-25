@@ -63,8 +63,8 @@ export const forgetPassword=async(email:string)=>{
 }
 
 
-export const resetPassword=async(otp:string,password:string)=>{
-    const response=await api.post('/reset',{otp,password})
+export const resetPassword=async(email:string,otp:string,password:string)=>{
+    const response=await api.post('/reset',{email,otp,password})
     if(!response) {
         console.log('error in reset password ');
         return {success:false,message:"error in reset password"}

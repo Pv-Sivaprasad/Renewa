@@ -150,7 +150,7 @@ class AuthController {
     
         })
       }else{
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: response });
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: response }); 
       }
       
   }
