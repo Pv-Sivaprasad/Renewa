@@ -35,7 +35,7 @@ const UserHeader = () => {
 
                     {/* Conditional rendering for Login or Profile */}
                     {isAuthenticated ? (
-                        <Link to='/profile'>
+                        <Link to='/dashboard'>
                             <li>
                                 <button className='hover:bg-blue-600 px-4 py-2 rounded cursor-pointer'>Profile</button>
                             </li>

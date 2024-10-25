@@ -5,18 +5,10 @@
     "esModuleInterop": true,
     "module": "ESNext",
     "target": "ESNext",
+    "skipLibCheck": true,
+    "types": ["node", "react", "react-dom", "prop-types"]
     // other options
   },
-  "include": [
-    "src/**/*",    // Ensure TypeScript processes all files in src/
-    "src/declaration.d.ts"  // Explicitly include your declaration file
-  ]
+ 
 }
 
-// {
-//   "files": [],
-//   "references": [
-//     { "path": "./tsconfig.app.json" },
-//     { "path": "./tsconfig.node.json" }
-//   ]
-// }
