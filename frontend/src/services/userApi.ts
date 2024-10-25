@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-console.log(import.meta.env.VITE_USER_API_URL,'the user api is this');
-
 
 const api= axios.create({
     baseURL: import.meta.env.VITE_USER_API_URL
@@ -53,4 +51,23 @@ export const googleSignIn=async(email:string,username:string)=>{
     }
     return response
     
+}
+
+export const forgetPassword=async(email:string)=>{
+    const response=await api.post('/forget',{email})
+    if(!response) {
+        console.log('error in forget password ');
+        return {success:false,message:"error in forget password"}
+    }
+    return response
+}
+
+
+export const resetPassword=async(otp:string,password:string)=>{
+    const response=await api.post('/reset',{otp,password})
+    if(!response) {
+        console.log('error in reset password ');
+        return {success:false,message:"error in reset password"}
+    }
+    return response
 }

@@ -113,8 +113,16 @@ const UserLogin: React.FC = () => {
             >
               Sign In
             </button>
+            <div className="forget p-2 ml-8">
+         
+            <p onClick={() => navigate('/forgot-password')} className="cursor-pointer text-white">
+                Forgot Password?
+            </p>   
+            </div>
+           
+        
 
-            <br />
+           
             <div className="log flex items-center justify-center mt-4">
               <p className="text-black mr-2">New here? Register now ....</p>
               <Link to="/register">
@@ -122,6 +130,7 @@ const UserLogin: React.FC = () => {
               </Link>
             </div>
           </form>
+          <br />
           <GoogleSignIn/>
           <br />
           

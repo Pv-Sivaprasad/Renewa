@@ -19,3 +19,13 @@ export interface GoogleDto{
     username:string
     email:string,
 }
+
+export interface ForgetPasswordDto{
+    email:string
+}
+
+export interface ResetDto{
+    otp:string,
+    email:string,
+    password:string
+}

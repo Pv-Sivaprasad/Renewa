@@ -13,6 +13,7 @@ const userRoute = () => {
     <Route path='/' element={<LandingPage/>} />
     <Route path='/login' element={<UserLogin/>} />
     <Route path='/register' element={<UserRegistration/>} />
+    <Route path='/forgot-password' element={<UserRegistration/>} />
     <Route path='/userhome' element={<ProtectedRoute><UserHome/></ProtectedRoute>} />
     <Route path='/dashboard' element={<Dashboard/>} />
 

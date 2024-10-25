@@ -3,32 +3,18 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from "../models/userModel";
 import Otp from "../models/otpModel";
-import { RegisterDto, LoginDto, OtpDto, GoogleDto } from "../dto/authDto";
+import { RegisterDto, LoginDto, OtpDto, GoogleDto, ForgetPasswordDto, ResetDto } from "../dto/authDto";
 import { OtpRepository } from "../repositories/implementations/otpRepository";
 import { generateAccessToken, generateRefreshToken } from '../utils/token.util'
 import { generateOtp } from "../utils/otp.util";
 import { MailService } from "../utils/email.util";
 import IOtp from "../interfaces/Iotp";
 import { hashPassword, randomPassword } from "../utils/password.util";
-
+import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult } from "../types/authTypes";
 
 const mailService = new MailService()
 
 
-
-type SignInResult = {
-    success: boolean;
-    message: string;
-    accessToken?: string;
-    refreshToken?: string;
-}
-
-type otpVerfiyResult = {
-    success: boolean;
-    message: string;
-    accessToken?: string;
-    refreshToken?: string;
-}
 
 export class AuthService {
 
@@ -39,6 +25,9 @@ export class AuthService {
         this.userRespository = new UserRepository()
         this.otpRepository = new OtpRepository()
     }
+
+
+
     async registerUser(registerData: RegisterDto): Promise<{ success: boolean; message: string }> {
         console.log('Reached register user in the authService');
 
@@ -98,8 +87,7 @@ export class AuthService {
     }
 
 
-
-    async verifyOtpUser(otpData: OtpDto): Promise<otpVerfiyResult | string> {
+    async verifyOtpUser(otpData: OtpDto): Promise<OtpVerfiyResult | string> {
 
         const email = otpData.email
 
@@ -164,48 +152,48 @@ export class AuthService {
     async SignInWithGoogle(googleDto: GoogleDto): Promise<SignInResult | string> {
 
         const email = googleDto.email
-        console.log(googleDto,'googleDto');
-        const username=googleDto.username
-        console.log(username,'username');
-        
+        console.log(googleDto, 'googleDto');
+        const username = googleDto.username
+        console.log(username, 'username');
+
 
         try {
             let userData = await this.userRespository.findUserByEmail(email)
-            console.log(userData,'userData in try');
-            
+            console.log(userData, 'userData in try');
+
             if (userData) {
                 const accessToken = generateAccessToken({ id: userData.id.toString() })
                 const refreshToken = generateRefreshToken({ id: userData.id.toString() })
                 console.log(accessToken, 'the token created for the user with google sign in');
                 console.log(refreshToken, 'the refresh token created for the user google sign in');
-                return { success: true, message: "successfully signed with google" ,accessToken,refreshToken}
+                return { success: true, message: "successfully signed with google", accessToken, refreshToken }
             }
 
-            const password=randomPassword
-            console.log('random password is ',password);
+            const password = randomPassword
+            console.log('random password is ', password);
 
-            const hashedPassword=await hashPassword(password)
-            console.log(hashedPassword,'hashedPassword');
-            
+            const hashedPassword = await hashPassword(password)
+            console.log(hashedPassword, 'hashedPassword');
 
-            let newUser=await this.userRespository.createUser({
-                username:username,
-                email:email,
-                password:hashedPassword,
-                isVerified:true
-            }as IUser)
 
-            console.log(newUser,'the new user that was created');
-            
+            let newUser = await this.userRespository.createUser({
+                username: username,
+                email: email,
+                password: hashedPassword,
+                isVerified: true
+            } as IUser)
+
+            console.log(newUser, 'the new user that was created');
+
             const accessToken = generateAccessToken({ id: newUser.id.toString() })
-                const refreshToken = generateRefreshToken({ id: newUser.id.toString() })
-                console.log(accessToken, 'the token created for the  newuser with google sign in');
-                console.log(refreshToken, 'the refresh token created for the newuser google sign in');
-                return { success: true, message: "successfully signed with google" ,accessToken,refreshToken}
+            const refreshToken = generateRefreshToken({ id: newUser.id.toString() })
+            console.log(accessToken, 'the token created for the  newuser with google sign in');
+            console.log(refreshToken, 'the refresh token created for the newuser google sign in');
+            return { success: true, message: "successfully signed with google", accessToken, refreshToken }
 
         } catch (error) {
-            console.log('error with sign in ',error);
-            
+            console.log('error with sign in ', error);
+
             return { success: false, message: "error while signing with google" }
         }
 
@@ -213,8 +201,63 @@ export class AuthService {
 
     }
 
+    async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | string> {
+
+        const email = forgetDto.email
+
+        const user = await this.userRespository.findUserByEmail(email)
+        if (!user) {
+            return { success: false, message: "Invalid Email Id" }
+        }
+
+        const otp = generateOtp()
+        console.log('the otp generated for forget password', otp);
+        await mailService.sendOtpEmail(email, otp)
+        await this.otpRepository.create({ email, otp } as IOtp);
 
 
+        return { success: true, message: "otp sent for changing password" }
+    }
+
+    async resetPassword(resetDto: ResetDto): Promise<ResetResult | string> {
+
+        console.log(resetDto, 'the reset dto');
+
+        const email = resetDto.email
+        const password = resetDto.password
+
+        const user = await this.userRespository.findUserByEmail(email)
+        console.log('the user from db in resetpassword', user);
+
+        if (!user) return { success: false, message: "Invalide User details" }
+
+        const getOtp = await this.otpRepository.findOtpByEmail(email)
+        console.log('the otp for the user from the db', getOtp);
+
+        if (!getOtp) return { success: false, message: "No valid otp found please try again later" }
+
+
+        const storedOtp = getOtp.otp.trim();
+        if (storedOtp !== resetDto.otp.trim()) {
+            return { success: false, message: "Invalid OTP. Please try again." };
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('the hashed password', hashedPassword);
+
+        const changedPassword = await this.userRespository.UpdatePassword(email, 'password', hashedPassword)
+        console.log('the changed password is ', changedPassword);
+
+
+        if (!changedPassword) {
+            return { success: false, message: "failed to update the password" }
+        }
+
+        return { success: true, message: "password successfully changed" }
+
+
+
+    }
 
 }
 
