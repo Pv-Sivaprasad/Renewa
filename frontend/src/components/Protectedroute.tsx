@@ -6,7 +6,8 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
   
   if (!accessToken) {
-   
+    console.log('no valid token for loading this page');
+    
     return <Navigate to="/login" replace={true} />;
   }
 

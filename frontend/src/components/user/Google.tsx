@@ -4,7 +4,10 @@ import { signInWithPopup } from 'firebase/auth';
 import {auth,googleProvider} from '../../config/firebase'
 import {googleSignIn} from '../../services/userApi'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router';
 const GoogleSignIn = () => {
+
+  const navigate=useNavigate()
 
     const handleGoogleSignIn=async()=>{
         try {
@@ -16,9 +19,20 @@ const GoogleSignIn = () => {
     
                 // Check if response contains data (meaning it's an Axios response)
                 const responseData = 'data' in response ? response.data : response;
+                console.log('the responseData',responseData);
                 
                 if (responseData.success) {
                     toast.success(responseData.message);
+                    if (responseData.accessToken) {
+                      localStorage.setItem('accessToken', responseData.accessToken);
+                      console.log('going to navigate to logged-in page');
+                      navigate('/userhome');
+                    }else{
+                      console.log('error in rooting to logged in page');
+                      
+                    }
+              
+                  
                 } else {
                     toast.error(responseData.message);
                 }

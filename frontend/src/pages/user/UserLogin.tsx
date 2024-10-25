@@ -45,7 +45,7 @@ const UserLogin: React.FC = () => {
         localStorage.setItem('accessToken', response.data.accessToken);
       }
 
-      if (response.data.message.includes('Login completed with refresh token')) {
+      if (response.data.message.includes('Login completed with refersh token')) {
         console.log('going to navigate to logged-in page');
         navigate('/userhome');
       } else {
