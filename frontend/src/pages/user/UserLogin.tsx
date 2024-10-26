@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInRequest } from '../../services/userApi';
 import banner from '../../assets/user/banner.jpeg';
-
+import {toast} from 'react-toastify'
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -40,19 +40,26 @@ const UserLogin: React.FC = () => {
       const { email, password } = data;
       const response = await signInRequest(email, password);
       console.log('response received from backend', response);
-
+      if(!response) {
+        toast.error('Invalid credentials')
+      }
       if (response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
+      }else{
+        toast.error('Invalid credentials')
       }
 
       if (response.data.message.includes('Login completed with refersh token')) {
         console.log('going to navigate to logged-in page');
         navigate('/userhome');
       } else {
-        setError(response.data.message);
+        
+        console.log('error in message');
+        
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+
     }
   };
 

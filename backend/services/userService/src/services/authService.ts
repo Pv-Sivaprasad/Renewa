@@ -128,7 +128,7 @@ export class AuthService {
         console.log(user, 'this is the user that found from database in user from authService');
 
         if (!user) {
-            throw new Error('Invalid Credentials')
+           return {success:false,message:'Invalid Credentials'}
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password)

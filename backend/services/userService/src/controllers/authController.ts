@@ -91,11 +91,13 @@ class AuthController {
         message: 'Login completed with refersh token',
         accessToken: result.accessToken
       })
+      
 
     } catch (error) {
       console.log('error in sign in auth controller');
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: 'the error got from auth controller signin' })
+      .json({success:false, message: 'the error got from auth controller signin' })
+    
     }
 
 

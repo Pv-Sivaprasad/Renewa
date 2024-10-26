@@ -10,7 +10,7 @@ export const signInRequest=async(email:string,password:string)=>{
     console.log(email,password);
     console.log('data forwarding to backend in signin');
     const response=await api.post('/signin',{email,password})
-    
+    if(!response) console.log('returning is not gettin correctly');
     return response
 }
 

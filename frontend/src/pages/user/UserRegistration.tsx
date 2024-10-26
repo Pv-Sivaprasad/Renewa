@@ -24,7 +24,7 @@ const UserRegistration: React.FC = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -87,7 +87,7 @@ const UserRegistration: React.FC = () => {
         <div>
             {loading ? (
                  <div className="flex justify-center items-center h-screen bg-cover bg-center" style={{ backgroundImage: `url(${banner})` }}>
-                 <div className="w-12 h-12 bg-red-900 rounded-full animate-heartbeat"></div>
+                 <div className="w-12 h-12 bg-blue-800   animate-spin"></div>
              </div>
             ) : (
                 <>
