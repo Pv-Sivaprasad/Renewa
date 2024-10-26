@@ -1,3 +1,7 @@
+import { useSelector, UseSelector } from "react-redux";
+import { Link } from 'react-router-dom'; 
+import { RootState } from "../../redux/store";
+import React from 'react'
 import {
   Navbar,
   NavbarBrand,
@@ -10,10 +14,17 @@ import {
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
-import { Link } from 'react-router-dom'; 
 
 export default function NavbarComponent() {
+
+  const userName=useSelector((state:RootState)=>state.user.userName)
+  const email=useSelector((state:RootState)=>state.user.email)
+  console.log(userName,'this is in the navbar component');
+  
   return (
+
+    
+
     <Navbar className="bg-purple-950">
       <NavbarBrand>
        
@@ -54,8 +65,8 @@ export default function NavbarComponent() {
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">Signed in as {userName || 'Guest'}</p>
+              <p className="font-semibold">{ email|| 'Email'}</p>
             </DropdownItem>
             <DropdownItem key="dashboard">
               <Link to="/dashboard" className="text-current">

@@ -89,7 +89,8 @@ class AuthController {
       }
       return res.status(HttpStatus.CREATED).json({
         message: 'Login completed with refersh token',
-        accessToken: result.accessToken
+        accessToken: result.accessToken,username:result.username
+        ,email:result.email
       })
       
 

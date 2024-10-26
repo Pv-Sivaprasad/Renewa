@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import UserHeader from '../../components/user/UserHeader';
 import UserFooter from '../../components/user/UserFooter';
-import login from '../../assets/user/login.jpg';
 import GoogleSignIn from '../../components/user/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -10,6 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signInRequest } from '../../services/userApi';
 import banner from '../../assets/user/banner.jpeg';
 import {toast} from 'react-toastify'
+import { loginRequest,loginSuccess,logout } from '../../redux/slices/authSlice';
+import { AppDispatch } from '../../redux/store';
+import { useDispatch } from 'react-redux';
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -22,8 +24,13 @@ const signInSchema = z.object({
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
 const UserLogin: React.FC = () => {
+  
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+
+  const dispatch=useDispatch<AppDispatch>()
+
+    dispatch(loginRequest())
 
   const {
     register,
@@ -45,6 +52,12 @@ const UserLogin: React.FC = () => {
       }
       if (response.data.accessToken) {
         localStorage.setItem('accessToken', response.data.accessToken);
+        toast.success('Login Successfull')
+        dispatch(loginSuccess({
+          token:response.data.accessToken,
+          userName:response.data.username,
+          email:response.data.email
+        }))
       }else{
         toast.error('Invalid credentials')
       }

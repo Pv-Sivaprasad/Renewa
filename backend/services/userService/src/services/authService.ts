@@ -146,8 +146,15 @@ export class AuthService {
         console.log(refreshToken, 'the refresh token created for the user');
 
 
-
-        return { success: true, message: "sign in successfully completed", accessToken, refreshToken }
+        return {
+            success: true,
+            message: "Sign in successfully completed",
+            accessToken,
+            refreshToken,
+            username: user.username,  
+            email: user.email          
+        };
+        // return { success: true, message: "sign in successfully completed", accessToken, refreshToken }
     }
 
 

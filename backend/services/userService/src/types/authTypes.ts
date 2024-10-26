@@ -1,9 +1,12 @@
 export type SignInResult = {
     success: boolean;
     message: string;
-    accessToken?: string;
-    refreshToken?: string;
-}
+    accessToken?: string;         
+    refreshToken?: string;         
+    username?: string;             
+    email?: string;                
+};
+
 
 export type OtpVerfiyResult = {
     success: boolean;
