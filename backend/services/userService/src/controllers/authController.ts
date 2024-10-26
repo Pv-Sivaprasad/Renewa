@@ -84,7 +84,7 @@ class AuthController {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'strict',
-          maxAge: 10 * 24 * 60 * 60 * 1000
+          maxAge: 7 * 24 * 60 * 60 * 1000
         })
       }
       return res.status(HttpStatus.CREATED).json({
@@ -119,7 +119,7 @@ class AuthController {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'strict',
-          maxAge: 10 * 24 * 60 * 60 * 1000
+          maxAge: 7 * 24 * 60 * 60 * 1000
 
         })
 
@@ -190,7 +190,17 @@ class AuthController {
       
   }
 
-  
+  async logout(req:Request,res:Response) {
+    try {
+      console.log('this is the logout in the auth controller');
+      res.clearCookie('refreshToken')
+      return res.json({message:"Logged out successfully"})
+      
+    } catch (error) {
+      console.log('error in logging out',error);
+      
+    }
+  }
 
 }
 

@@ -25,7 +25,7 @@ const userSlice=createSlice ({
             state.error=null
         },
         
-        loginSuccess: (state, action: PayloadAction<{ token: string; userName: string; email: string }>) => {  // Updated payload
+        loginSuccess: (state, action: PayloadAction<{ token: string; userName: string; email: string }>) => {  
             state.loading = false;
             state.token = action.payload.token;
             state.userName = action.payload.userName;
@@ -43,12 +43,20 @@ const userSlice=createSlice ({
         },
         setUserName:(state,action: PayloadAction<string>)=>{
             state.userName=action.payload
+        },
+        resetUser:(state)=>{
+            state.loading=false,
+            state.token=null,
+            state.error=null,
+            state.userName=null,
+            state.email=null
+            
         }
     }
 })
 
 
-export const {loginRequest,loginSuccess,loginFailure,logout,setUserName}=userSlice.actions;
+export const {loginRequest,loginSuccess,loginFailure,logout,setUserName,resetUser}=userSlice.actions;
 export default userSlice.reducer
 
 

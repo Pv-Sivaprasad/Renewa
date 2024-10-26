@@ -12,6 +12,7 @@ auth_route.post('/signin',authController.signin)
 auth_route.post('/google-signin',authController.googleSignin)
 auth_route.post('/forget',authController.forgetPassword)
 auth_route.post('/reset',authController.resetPassword)
+auth_route.get('/logout',authController.logout)
 
 
 

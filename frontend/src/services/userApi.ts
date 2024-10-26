@@ -71,3 +71,14 @@ export const resetPassword=async(email:string,otp:string,password:string)=>{
     }
     return response
 }
+
+export const logout=async()=>{
+
+    const response=await api.get('/logout')
+    console.log(response,'the response from the backend in the api');
+    
+    if(!response){
+        return {success:false,message:'error in logging out the userapi'}
+    }
+    return response
+}

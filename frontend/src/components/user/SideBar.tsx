@@ -20,7 +20,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; 
 
 const drawerWidth = 240;
 
@@ -135,9 +135,12 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Renewa Patient Dashboard
-          </Typography>
+       
+     <div className="w-full md:w-1/2 mx-auto">
+      <Typography variant="h6" noWrap component="div" className="text-center">
+        Renewa Patient Dashboard
+      </Typography>
+    </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

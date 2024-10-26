@@ -154,7 +154,7 @@ export class AuthService {
             username: user.username,  
             email: user.email          
         };
-        // return { success: true, message: "sign in successfully completed", accessToken, refreshToken }
+        
     }
 
 
@@ -210,34 +210,8 @@ export class AuthService {
 
     }
 
-    // async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | string> {
 
-    //     const email = forgetDto.email
-
-    //     const user = await this.userRespository.findUserByEmail(email)
-    //     if (!user) {
-    //         return { success: false, message: "Invalid Email Id" }
-    //     }
-
-    //     const otp = generateOtp()
-    //     console.log('the otp generated for forget password', otp);
-    //     // await mailService.sendOtpEmail(email, otp)
-    //     // await this.otpRepository.create({ email, otp } as IOtp);
-    //     const existingOtpRecord = await this.otpRepository.findOneByEmail(email);
-
-    // if (existingOtpRecord && !existingOtpRecord.isExpired) {
-    //     // If OTP exists and is still valid, update it with the new OTP
-    //     await this.otpRepository.updateOtpByEmail(email, otp);
-    // } else {
-    //     // If no existing OTP or it's expired, create a new record
-    //     await this.otpRepository.create({ email, otp } as IOtp);
-    // }
-
-
-    //     return { success: true, message: "otp sent for changing password" }
-    // }
-
-async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | string> {
+    async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | string> {
     const email = forgetDto.email;
 
     const user = await this.userRespository.findUserByEmail(email);
@@ -265,7 +239,7 @@ async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | strin
     await mailService.sendOtpEmail(email, otp);
 
     return { success: true, message: "OTP sent for changing password" };
-}
+    }
 
     async resetPassword(resetDto: ResetDto): Promise<ResetResult | string> {
 
@@ -306,6 +280,7 @@ async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | strin
 
 
     }
+
 
 }
 
