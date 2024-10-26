@@ -43,8 +43,8 @@ const GoogleSignIn = () => {
     }
 
   return (
-    <div className='bg-blue-500 rounded-2xl '>
-      <button onClick={handleGoogleSignIn} className="flex items-center justify-center w-full  text-white border-gray-300 p-2 rounded-xl transition duration-200">
+    <div className=' rounded-2xl '>
+      <button onClick={handleGoogleSignIn} className="flex items-center animate  justify-center w-full  text-white border-gray-300 p-2 rounded-xl transition duration-200">
             <img src={google} alt="Google" className="w-5 h-5 mr-2" />
             Sign In with Google
           </button>

@@ -15,8 +15,6 @@ const UserHeader = () => {
             <div className="flex items-center">
                 <img src={back} alt="Logo" className="h-20 w-auto" /> 
             </div>
-
-         
        <NavbarComponent/>
        
        

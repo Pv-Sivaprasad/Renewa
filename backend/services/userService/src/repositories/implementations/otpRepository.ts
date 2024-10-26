@@ -34,9 +34,13 @@ export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepositor
     }
 
     // In your OtpRepository
-async deleteOtpByEmail(email: string): Promise<void> {
+    async deleteOtpByEmail(email: string): Promise<void> {
     await Otp.deleteOne({ email });  // Correctly find and delete based on email
-}
+    }
+
+    async findOneByEmail(email: string): Promise<IOtp | null> {
+        return Otp.findOne({ email });
+    }
 
 
 }

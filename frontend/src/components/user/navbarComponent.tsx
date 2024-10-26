@@ -20,7 +20,7 @@ export default function NavbarComponent() {
       </NavbarBrand>  
 
       {/* Main navbar links */}
-      <NavbarContent className="hidden sm:flex text-white gap-4" justify="center">
+      <NavbarContent className="hidden sm:flex text-white space-x-6" justify="center">
         <NavbarItem>
           <Link to="/about" className="text-white">
             About

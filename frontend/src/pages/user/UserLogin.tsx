@@ -76,7 +76,7 @@ const UserLogin: React.FC = () => {
           
 
           <div className="w-full flex flex-col items-center justify-center p-6">
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Login</h1>
+            <h1 className="text-3xl font-bold mb-6  text-gray-800">Login</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm">
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -116,13 +116,13 @@ const UserLogin: React.FC = () => {
               </button>
 
               <div className="text-center mt-4">
-                <p onClick={() => navigate('/forgot-password')} className="cursor-pointer text-blue-600 hover:underline">
+                <p onClick={() => navigate('/forgot-password')} className=" hover:text-red-600  cursor-pointer text-blue-600 hover:underline">
                   Forgot Password?
                 </p>
               </div>
 
               <div className="text-center mt-6 flex items-center justify-center">
-                <p className="text-white mr-2">New here? Register now...</p>
+                <p className="text-white mr-2 animate-bounce">New here? Register now...</p>
                 <Link to="/register" className="text-blue-600 underline">Sign Up</Link>
               </div>
             </form>

@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/authService";
-import { json } from "stream/consumers";
-import jwt from 'jsonwebtoken'
 import { HttpStatus } from "../enums/http.status";
-import { userSignInSchema, userSignUpSchema } from "../utils/validation.util";
-import { auth } from "firebase-admin";
+import { forgetPassword, userSignInSchema, userSignUpSchema,resetPassword } from "../utils/validation.util";
+
 const authService = new AuthService()
 
 class AuthController {
@@ -57,7 +55,6 @@ class AuthController {
   }
 
 
- 
   async signin(req: Request, res: Response) {
     console.log('Entering user sign in authcontroller');
     try {
@@ -139,7 +136,16 @@ class AuthController {
 
   async forgetPassword(req: Request, res: Response) {
     console.log('entering the forget password in the auth controller');
+
     const { email } = req.body
+
+    const validationResult=forgetPassword.safeParse(req.body)
+    if(!validationResult.success){
+      return res.status(HttpStatus.BAD_REQUEST)
+      .json({success:false,message:validationResult.error.errors[0].message})
+    }
+
+
     const response = await authService.forgetPassword(req.body)
 
 
@@ -157,7 +163,13 @@ class AuthController {
   async resetPassword(req: Request, res: Response) {
     console.log('entering the reset password in the auth controller');
       console.log(req.body,'req.body fot the resetpassword');
-      
+
+      const validationResult=resetPassword.safeParse(req.body)
+      if(!validationResult.success){
+        return res.status(HttpStatus.BAD_REQUEST)
+        .json({success:false,message:validationResult.error.errors[0].message})
+      }
+
       const response=await authService.resetPassword(req.body)
       console.log(response,'response from authservice');
       
