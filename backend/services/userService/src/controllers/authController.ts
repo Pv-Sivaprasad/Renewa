@@ -3,20 +3,27 @@ import { AuthService } from "../services/authService";
 import { json } from "stream/consumers";
 import jwt from 'jsonwebtoken'
 import { HttpStatus } from "../enums/http.status";
+import { userSignInSchema, userSignUpSchema } from "../utils/validation.util";
 import { auth } from "firebase-admin";
 const authService = new AuthService()
 
 class AuthController {
 
 
-  // This is the sign up in the project 
+
   async signup(req: Request, res: Response) {
 
     console.log('entering user sign up in authcontroller');
     try {
-      const { username, email, password, confirmPassword } = req.body
-      console.log(username, 'name', email, 'email', 'password', password, 'cnfPwd', confirmPassword);
-      console.log(req.body, 'asdfkfhsd');
+      
+      console.log('the req.body is ',req.body);
+      
+      const validationResult= userSignUpSchema.safeParse(req.body)
+
+      if(!validationResult.success){
+        return res.status(HttpStatus.BAD_REQUEST)
+        .json({success:false,message:validationResult.error.errors[0].message})
+      }
 
       const response = await authService.registerUser(req.body)
       console.log('the response recived from authservice register user is', response);
@@ -25,7 +32,8 @@ class AuthController {
 
     } catch (error) {
       console.log('error in the signup auth controller', error);
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Internal server error' })
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: 'Internal server error' })
 
     }
 
@@ -49,10 +57,21 @@ class AuthController {
   }
 
 
-  // This is the sign in for the project with access and refresh token
+ 
   async signin(req: Request, res: Response) {
     console.log('Entering user sign in authcontroller');
     try {
+      console.log('the req.body is ',req.body);
+
+
+      const validationResult= userSignInSchema.safeParse(req.body)
+      if(!validationResult.success){
+        return res.status(HttpStatus.BAD_REQUEST)
+        .json({success:false,message:validationResult.error.errors[0].message})
+      }
+
+
+
       const { email, password } = req.body
       console.log(email, password, 'in the auth controller sign in before auth service ')
       const result = await authService.loginUser(req.body)
@@ -78,7 +97,8 @@ class AuthController {
 
     } catch (error) {
       console.log('error in sign in auth controller');
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'the error got from auth controller signin' })
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: 'the error got from auth controller signin' })
     }
 
 

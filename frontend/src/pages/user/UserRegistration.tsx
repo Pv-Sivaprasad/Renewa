@@ -29,7 +29,7 @@ const UserRegistration: React.FC = () => {
 
     const [formErrors, setFormErrors] = useState({
         username: '',
-        email: '',
+        email: '', 
         password: '',
         confirmPassword: '',
     });

@@ -19,26 +19,7 @@ export class MailService{
     }
 
 
-    // async sendOtpEmail(recipientEmail:string,otp:string) {
-    //     try {
-    //         const mailOptions={
-    //             from:process.env.NODEMAILER_EMAIL,
-    //             to:recipientEmail,
-    //             subject:'Your OTP for registration',
-    //             text:`Your OTP for registration is ${otp}`,
-    //             html: `<p>Your OTP for registration is: <strong>${otp}</strong></p>`
-    //         }
-
-
-    //         const info=await this.transporter.sendMail(mailOptions)
-    //         console.log('email sent successfully',info.response);
-            
-
-    //     } catch (error) {
-    //         console.log('Error in sending otp through email',error);
-    //         throw new Error('Failed to send OTP')
-    //     }
-    // }
+ 
     async sendOtpEmail(recipientEmail: string, otp: string) {
         try {
             const mailOptions = {
@@ -66,7 +47,7 @@ export class MailService{
                         <!-- Footer Section -->
                         <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #777;">
                             <p>© 2024 Renewa. All rights reserved.</p>
-                            <p>Renewa Inc, 1234 Street, Shornur, India</p>
+                            <p>Renewa Inc, Brototype Infotech, Calicut, India</p>
                         </div>
                     </div>
                 `,

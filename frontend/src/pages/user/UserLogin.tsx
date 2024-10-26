@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signInRequest } from '../../services/userApi';
 import banner from '../../assets/user/banner.jpeg';
 
-// Zod validation schema
+
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   password: z.string()
@@ -68,10 +68,10 @@ const UserLogin: React.FC = () => {
           backgroundPosition: 'center',
         }}
       >
-        {/* Overlay to darken the background image */}
+        
         <div className="absolute inset-0 bg-black opacity-60"></div>
 
-        {/* Centered Form Container */}
+    
         <div className="relative z-10 flex w-3/5 max-w-2xl mx-auto p-10 bg-white bg-opacity-10 rounded-lg shadow-lg backdrop-blur-md">
           
 
