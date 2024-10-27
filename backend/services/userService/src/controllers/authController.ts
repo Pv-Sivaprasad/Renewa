@@ -110,6 +110,8 @@ class AuthController {
     try {
       const { email, username } = req.body
       const result = await authService.SignInWithGoogle(req.body)
+      console.log(result,'the result in googlesign in');
+      
       if (typeof result === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: result });
       }
@@ -125,8 +127,11 @@ class AuthController {
 
       }
       return res.status(HttpStatus.CREATED).json({
-        success: true, message: 'Login Successfull ',
-        accessToken: result.accessToken
+        success: true, 
+        message: 'Login Successfull ',
+        accessToken: result.accessToken,
+        username,
+        email
       })
 
     } catch (error) {

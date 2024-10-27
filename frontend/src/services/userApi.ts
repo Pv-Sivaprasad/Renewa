@@ -49,6 +49,8 @@ export const googleSignIn=async(email:string,username:string)=>{
         console.log('error in sign in ');
         return {success:false,message:"otpsignup in google signin not working"}
     }
+    console.log('response in userapi is',response);
+    
     return response
     
 }

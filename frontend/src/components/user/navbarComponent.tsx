@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { RootState } from "../../redux/store";
-import UserLogout from "./UserLogout";
+import { logout } from "../../services/userApi";
 import React from 'react';
 import {
   Navbar,
@@ -14,12 +14,23 @@ import {
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
+import { toast } from "react-toastify";
 
 export default function NavbarComponent() {
+  const dispatch=useDispatch()
   const userName = useSelector((state: RootState) => state.user.userName);
   const email = useSelector((state: RootState) => state.user.email);
-
+  const navigate=useNavigate()
  
+const handleLogout=async()=>{
+  let result= await logout()
+  console.log('result in loggin out',result);
+  localStorage.removeItem('accessToken')
+  navigate('/login')
+  toast.success('Logged out successfully')
+  
+}
+
   return (
     <Navbar className="bg-purple-950">
       <NavbarBrand>
@@ -65,9 +76,9 @@ export default function NavbarComponent() {
             <DropdownItem key="analytics">
               <Link to="/analytics" className="text-current">Analytics</Link>
             </DropdownItem>
-           
-            <DropdownItem key="logout" color="danger" >
-              <UserLogout/>
+            
+            <DropdownItem  onClick={handleLogout} key="logout" color="danger" >
+              Logout
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

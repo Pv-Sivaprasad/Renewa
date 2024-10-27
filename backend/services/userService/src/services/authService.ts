@@ -11,7 +11,7 @@ import { MailService } from "../utils/email.util";
 import IOtp from "../interfaces/Iotp";
 import { hashPassword, randomPassword } from "../utils/password.util";
 import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult } from "../types/authTypes";
-import { addMinutes, isAfter } from 'date-fns'; 
+import { addMinutes, isAfter } from 'date-fns';
 
 
 const mailService = new MailService()
@@ -128,7 +128,7 @@ export class AuthService {
         console.log(user, 'this is the user that found from database in user from authService');
 
         if (!user) {
-           return {success:false,message:'Invalid Credentials'}
+            return { success: false, message: 'Invalid Credentials' }
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password)
@@ -151,10 +151,10 @@ export class AuthService {
             message: "Sign in successfully completed",
             accessToken,
             refreshToken,
-            username: user.username,  
-            email: user.email          
+            username: user.username,
+            email: user.email
         };
-        
+
     }
 
 
@@ -175,8 +175,16 @@ export class AuthService {
                 const refreshToken = generateRefreshToken({ id: userData.id.toString() })
                 console.log(accessToken, 'the token created for the user with google sign in');
                 console.log(refreshToken, 'the refresh token created for the user google sign in');
-                return { success: true, message: "successfully signed with google", accessToken, refreshToken }
+                console.log('the userData exist in authservice is ',userData);
+                return { success: true,
+                     message: "successfully signed with google",
+                      accessToken, 
+                      refreshToken, 
+                    username:userData.username,
+                    email:userData.email
+                }
             }
+            
 
             const password = randomPassword
             console.log('random password is ', password);
@@ -198,7 +206,15 @@ export class AuthService {
             const refreshToken = generateRefreshToken({ id: newUser.id.toString() })
             console.log(accessToken, 'the token created for the  newuser with google sign in');
             console.log(refreshToken, 'the refresh token created for the newuser google sign in');
-            return { success: true, message: "successfully signed with google", accessToken, refreshToken }
+
+            return {
+                success: true,
+                message: "successfully signed with google",
+                accessToken,
+                refreshToken,
+                username:newUser.username,
+                email:newUser.email 
+            }
 
         } catch (error) {
             console.log('error with sign in ', error);
@@ -212,33 +228,33 @@ export class AuthService {
 
 
     async forgetPassword(forgetDto: ForgetPasswordDto): Promise<ForgetResult | string> {
-    const email = forgetDto.email;
+        const email = forgetDto.email;
 
-    const user = await this.userRespository.findUserByEmail(email);
-    if (!user) {
-        return { success: false, message: "Invalid Email Id" };
-    }
+        const user = await this.userRespository.findUserByEmail(email);
+        if (!user) {
+            return { success: false, message: "Invalid Email Id" };
+        }
 
-    const otp = generateOtp();
-    console.log('The OTP generated for forget password:', otp);
+        const otp = generateOtp();
+        console.log('The OTP generated for forget password:', otp);
 
-    // Check if an OTP already exists for this email
-    const existingOtpRecord = await this.otpRepository.findOneByEmail(email);
+        // Check if an OTP already exists for this email
+        const existingOtpRecord = await this.otpRepository.findOneByEmail(email);
 
-    const isExpired = existingOtpRecord && isAfter(new Date(), addMinutes(existingOtpRecord.createdAt, 5));
+        const isExpired = existingOtpRecord && isAfter(new Date(), addMinutes(existingOtpRecord.createdAt, 5));
 
-    if (existingOtpRecord && !isExpired) {
-        // If OTP exists and is still valid, update it with the new OTP
-        await this.otpRepository.updateOtpByEmail(email, otp);
-    } else {
-        // If no existing OTP or it's expired, create a new record
-        await this.otpRepository.create({ email, otp } as IOtp);
-    }
+        if (existingOtpRecord && !isExpired) {
+            // If OTP exists and is still valid, update it with the new OTP
+            await this.otpRepository.updateOtpByEmail(email, otp);
+        } else {
+            // If no existing OTP or it's expired, create a new record
+            await this.otpRepository.create({ email, otp } as IOtp);
+        }
 
-    // Send OTP email
-    await mailService.sendOtpEmail(email, otp);
+        // Send OTP email
+        await mailService.sendOtpEmail(email, otp);
 
-    return { success: true, message: "OTP sent for changing password" };
+        return { success: true, message: "OTP sent for changing password" };
     }
 
     async resetPassword(resetDto: ResetDto): Promise<ResetResult | string> {

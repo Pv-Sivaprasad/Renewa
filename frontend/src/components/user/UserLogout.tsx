@@ -25,7 +25,7 @@ const UserLogout = () => {
         if(response){
             dispatch(resetUser())
             localStorage.removeItem('accessToken')
-            navigate('/')
+            navigate('/login')
         }
         } catch (error) {
          console.log('error in loggoing out frontend',error);
