@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import UserHeader from '../../components/user/UserHeader';
 import UserFooter from '../../components/user/UserFooter';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ReactLoading from 'react-loading';
 import banner from '../../assets/user/banner.jpeg';
 import { validateForm } from '../../utils/validations';
-import { signUpRequest, otpSignup } from '../../services/userApi';
+import { signUpRequest, otpSignup, resendOtp } from '../../services/userApi';
 import { toast } from 'react-toastify';
 import OtpModal from '../../components/user/otpModal';
 
@@ -19,6 +19,7 @@ interface UserFormData {
 
 const UserRegistration: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -80,8 +81,22 @@ const UserRegistration: React.FC = () => {
     const handleOtpSubmit = async (otp: string) => {
         const email = formData.email;
         setOtpModalOpen(false);
-        await otpSignup(otp, email);
+        const res=await otpSignup(otp, email);
+        if(res){
+            toast.success('sign up successfull')
+            navigate('/login')
+        }
     };
+
+    const onResendOtp=async()=>{
+        try {
+            const response=await resendOtp(formData.email)
+            console.log('response on the resend otp ');
+            
+        } catch (error) {
+            toast.error('something went wrong')
+        }
+    }
 
     return (
         <div>
@@ -190,6 +205,7 @@ const UserRegistration: React.FC = () => {
                                 onClose={() => setOtpModalOpen(false)}
                                 onSubmit={handleOtpSubmit}
                                 email={formData.email}
+                                onResendOtp={onResendOtp} 
                             />
                         </div>
                     </div>

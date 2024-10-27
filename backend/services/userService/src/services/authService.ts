@@ -3,14 +3,14 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from "../models/userModel";
 import Otp from "../models/otpModel";
-import { RegisterDto, LoginDto, OtpDto, GoogleDto, ForgetPasswordDto, ResetDto } from "../dto/authDto";
+import { RegisterDto, LoginDto, OtpDto, GoogleDto, ForgetPasswordDto, ResetDto, ResendOtpDto } from "../dto/authDto";
 import { OtpRepository } from "../repositories/implementations/otpRepository";
 import { generateAccessToken, generateRefreshToken } from '../utils/token.util'
 import { generateOtp } from "../utils/otp.util";
 import { MailService } from "../utils/email.util";
 import IOtp from "../interfaces/Iotp";
 import { hashPassword, randomPassword } from "../utils/password.util";
-import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult } from "../types/authTypes";
+import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult, ResendOtpResult } from "../types/authTypes";
 import { addMinutes, isAfter } from 'date-fns';
 
 
@@ -118,6 +118,35 @@ export class AuthService {
 
     }
 
+
+    async resendTheOtp (resendOtpData:ResendOtpDto) : Promise<ResendOtpResult|string> {
+        console.log('entering the resendotp service');
+        
+      try {
+        const email=resendOtpData.email
+
+        const otp=generateOtp()
+        const existingOtp=await this.otpRepository.findOneByEmail(email)
+
+        if(existingOtp){
+            await this.otpRepository.updateOtpByEmail(email,otp)
+            console.log('new otp updated ',otp,email);
+            
+        }else{
+            await this.otpRepository.create({email,otp} as IOtp)
+            console.log('new otp created ',otp);
+            
+        }
+
+        await mailService.sendOtpEmail(email,otp)
+
+        return { success: true, message: 'A new OTP has been sent to your email.' };
+      } catch (error) {
+        console.log('error in resend otp',error);
+        return {success:false,message:'error occured while resending otp'}
+        
+      }
+    }
 
     async loginUser(loginData: LoginDto): Promise<SignInResult | string> {
 
@@ -238,20 +267,20 @@ export class AuthService {
         const otp = generateOtp();
         console.log('The OTP generated for forget password:', otp);
 
-        // Check if an OTP already exists for this email
+        
         const existingOtpRecord = await this.otpRepository.findOneByEmail(email);
 
         const isExpired = existingOtpRecord && isAfter(new Date(), addMinutes(existingOtpRecord.createdAt, 5));
 
         if (existingOtpRecord && !isExpired) {
-            // If OTP exists and is still valid, update it with the new OTP
+          
             await this.otpRepository.updateOtpByEmail(email, otp);
         } else {
-            // If no existing OTP or it's expired, create a new record
+           
             await this.otpRepository.create({ email, otp } as IOtp);
         }
 
-        // Send OTP email
+       
         await mailService.sendOtpEmail(email, otp);
 
         return { success: true, message: "OTP sent for changing password" };

@@ -46,7 +46,14 @@ class AuthController {
       console.log(typeof data);
 
       const response = await authService.verifyOtpUser(data)
-
+      if (typeof response === 'string') {
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: response });
+      }
+      if (response?.success) {
+        return res.status(HttpStatus.CREATED).json({message:response})
+      }
+        
+        
     } catch (error) {
       console.log('error in otpverify of authcontroller ', error);
 
@@ -54,6 +61,26 @@ class AuthController {
 
   }
 
+
+  async resendOtp(req:Request,res:Response) {
+    console.log('entering the resend otp');
+    
+    try {
+        const email=req.body
+        const resposne=await authService.resendTheOtp(email)
+        console.log('response in authcontroller ',resposne);
+        if (typeof resposne === 'string') {
+          return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: resposne });
+        }
+        if (resposne?.success) {
+          return res.status(HttpStatus.CREATED).json({message:resposne})
+        }
+
+    } catch (error) {
+      
+    }
+
+  }
 
   async signin(req: Request, res: Response) {
     console.log('Entering user sign in authcontroller');

@@ -30,4 +30,8 @@ export interface ResetDto{
     password:string
 }
 
+export interface ResendOtpDto{
+    email:string
+}
+
 

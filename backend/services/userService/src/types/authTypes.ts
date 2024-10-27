@@ -25,3 +25,8 @@ export type ResetResult={
     success:boolean,
     message:string
 }
+
+export type ResendOtpResult={
+    success:boolean,
+    message:string
+}

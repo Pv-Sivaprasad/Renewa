@@ -1,3 +1,4 @@
+import { AssistWalker } from '@mui/icons-material';
 import axios from 'axios'
 
 
@@ -40,6 +41,18 @@ export const otpSignup=async(otp,email)=>{
     
 }
 
+
+export const resendOtp=async(email)=>{
+    console.log('the resend otp before forwarding to backend')
+    const response=await api.post('/resend-otp',{email})
+    console.log('the responser from backend in resend otp');
+    if(!response){
+        return{success:false,message:"resend otp not working"}
+    }
+    return response
+    
+    
+}
 
 export const googleSignIn=async(email:string,username:string)=>{
     console.log('the google sign in email and name before sending to backend',email,username);

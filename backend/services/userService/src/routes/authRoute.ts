@@ -8,6 +8,7 @@ const authController=new AuthController()
 
 auth_route.post('/signup',authController.signup)
 auth_route.post('/otpverify',authController.otpverify)
+auth_route.post('/resend-otp',authController.resendOtp)
 auth_route.post('/signin',authController.signin)
 auth_route.post('/google-signin',authController.googleSignin)
 auth_route.post('/forget',authController.forgetPassword)
