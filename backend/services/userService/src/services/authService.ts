@@ -12,7 +12,7 @@ import IOtp from "../interfaces/Iotp";
 import { hashPassword, randomPassword } from "../utils/password.util";
 import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult, ResendOtpResult } from "../types/authTypes";
 import { addMinutes, isAfter } from 'date-fns';
-
+import { sendUserData } from "../events/rabbitmq/userPublisher";
 
 const mailService = new MailService()
 
@@ -79,6 +79,8 @@ export class AuthService {
             email,
             password: hashedPassword,
         } as IUser);
+
+        await sendUserData(newUser)
 
 
         const otp = generateOtp();
