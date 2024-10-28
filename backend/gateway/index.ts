@@ -2,12 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import dotenv from 'dotenv';
+import cookieparser from 'cookie-parser'
+
 
 const app = express();
 dotenv.config();
+app.use(cookieparser())
 
-app.use(cors()); 
-
+app.use(cors({
+  origin:'http://localhost:5173',
+  credentials:true
+})); 
 
 const targets = {
   userService: process.env.USER_SERVICE_URL,

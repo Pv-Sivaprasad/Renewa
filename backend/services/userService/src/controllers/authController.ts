@@ -109,12 +109,17 @@ class AuthController {
       }
       if (result?.success) {
         console.log('the refreshtoken recieved is ', result.refreshToken);
+
         const refreshToken = result.refreshToken || ''
-        res.cookie('refreshToken', result.refreshToken, {
+      return  res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
+          secure: false,
           maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+        .json({
+          message: 'Login completed with refersh token',
+          accessToken: result.accessToken,username:result.username
+          ,email:result.email
         })
       }
       if(!result.success){
@@ -122,11 +127,7 @@ class AuthController {
         
         return res.status(HttpStatus.BAD_REQUEST).json({message:result.message})
       }
-      return res.status(HttpStatus.CREATED).json({
-        message: 'Login completed with refersh token',
-        accessToken: result.accessToken,username:result.username
-        ,email:result.email
-      })
+  
       
 
     } catch (error) {

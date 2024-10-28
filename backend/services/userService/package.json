@@ -11,11 +11,12 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": { 
+  "dependencies": {
     "@aws-sdk/client-s3": "^3.675.0",
     "@types/jsonwebtoken": "^9.0.7",
     "amqplib": "^0.10.4",
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/amqplib": "^0.10.5",
     "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/mongoose": "^5.11.96",
