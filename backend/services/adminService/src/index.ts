@@ -29,7 +29,6 @@ app.use('/',authRoute)
 connectMongoDb()
 
 
-
 app.use(cors())
 app.use(express.json())
 

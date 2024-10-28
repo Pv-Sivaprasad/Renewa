@@ -97,12 +97,12 @@ class AuthController {
         .json({success:false,message:"Invalid credentials"})
       }
 
-
-
       const { email, password } = req.body
       console.log(email, password, 'in the auth controller sign in before auth service ')
+
       const result = await authService.loginUser(req.body)
       console.log('token recieved back from authservice for controller is ', result);
+      
       console.log(typeof result);
       if (typeof result === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: result });

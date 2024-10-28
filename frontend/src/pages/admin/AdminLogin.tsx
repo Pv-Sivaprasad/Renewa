@@ -3,6 +3,7 @@ import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { AdminLoginSchema } from '../../utils/validations';
 import logo from '../../assets/user/back.png'; 
 import { adminSignIn } from '../../services/adminApi';
+import { toast } from 'react-toastify';
 
 interface LoginFormData {
   email: string;
@@ -55,17 +56,19 @@ const AdminLogin: React.FC = () => {
     try {
       AdminLoginSchema.parse(formData)
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+        console.log('the formData in the adminLogin before sending to api',formData);
+        
       const response = await adminSignIn(formData)
        
-
-      // if (response.success && response.token) {
-      //   console.log('Login successful', response.token);
-      // } else {
-      //   setError('Invalid credentials');
-      // }
+      if(response.data.success){
+        toast.success('login successfull')
+      }else{
+        toast.error('login issue')
+      }
+      
     } catch (err) {
       setError('An error occurred during login');
+      
     } finally {
       setIsLoading(false);
     }

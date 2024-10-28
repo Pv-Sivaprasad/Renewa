@@ -18,8 +18,10 @@ import { toast } from "react-toastify";
 
 export default function NavbarComponent() {
   const dispatch=useDispatch()
+
   const userName = useSelector((state: RootState) => state.user.userName);
   const email = useSelector((state: RootState) => state.user.email);
+  
   const navigate=useNavigate()
  
 const handleLogout=async()=>{
