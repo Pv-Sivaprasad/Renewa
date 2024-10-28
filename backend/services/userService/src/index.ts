@@ -22,7 +22,7 @@ app.use('/',authRoute)
 
 connectMongoDb()
 
-app.listen(PORT,()=>{console.log(`http://localhost:${PORT}`)})
+app.listen(PORT,()=>{console.log(` userService is running on the port http://localhost:${PORT}`)})
 
 
 
