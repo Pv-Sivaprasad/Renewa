@@ -44,8 +44,11 @@ const UserLogin: React.FC = () => {
     console.log('starting to attempt');
     try {
       console.log('Form data submitted:', data);
+
       const { email, password } = data;
+
       const response = await signInRequest(email, password);
+
       console.log('response received from backend', response);
       if(!response) {
         toast.error('Invalid credentials')
@@ -71,7 +74,8 @@ const UserLogin: React.FC = () => {
         
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+    console.error("Axios error response:", error.response?.data || error.message);
+      toast.error('Invalid Credentails')
 
     }
   };

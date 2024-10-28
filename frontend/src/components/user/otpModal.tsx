@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 interface OtpModalProps {
     isOpen: boolean;
@@ -65,6 +66,7 @@ const OtpModal: React.FC<OtpModalProps> = ({ isOpen, onClose, onSubmit, onResend
         onResendOtp();
         setCountdown(30);  
         setCanResend(false); 
+        toast.success('otp sent to email')
     };
 
     if (!isOpen) return null;

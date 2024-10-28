@@ -89,9 +89,12 @@ class AuthController {
 
 
       const validationResult= userSignInSchema.safeParse(req.body)
+      console.log(validationResult,'the validation result');
+      
       if(!validationResult.success){
+
         return res.status(HttpStatus.BAD_REQUEST)
-        .json({success:false,message:validationResult.error.errors[0].message})
+        .json({success:false,message:"Invalid credentials"})
       }
 
 
@@ -113,6 +116,11 @@ class AuthController {
           sameSite: 'strict',
           maxAge: 7 * 24 * 60 * 60 * 1000
         })
+      }
+      if(!result.success){
+        console.log(result.message,'sdhfkjhsdafksf');
+        
+        return res.status(HttpStatus.BAD_REQUEST).json({message:result.message})
       }
       return res.status(HttpStatus.CREATED).json({
         message: 'Login completed with refersh token',

@@ -34,7 +34,7 @@ export class MailService{
                         <!-- Heading Section -->
                         <div style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
                             <h1 style="color: #333333; text-align: center;">Welcome to Renewa</h1>
-                            <p style="color: #333333; font-size: 16px; text-align: center;">Thank you for registering with us! Please use the OTP below to complete your registration:</p>
+                            <p style="color: #333333; font-size: 16px; text-align: center;">Thank you for registering with us! Please use the OTP below to complete your registration: Otp will be valid for one minute</p>
                             
                             <!-- OTP Section -->
                             <div style="text-align: center; margin: 20px 0;">

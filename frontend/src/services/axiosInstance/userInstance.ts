@@ -14,14 +14,14 @@ export const userAxiosInstance = axios.create({
 const controllerMap = new Map();
 
 
-// Request interceptor
+
 userAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  // Create a new AbortController for each request if one doesn't exist
+ 
   if (!config.signal) {
     const controller = new AbortController();
     config.signal = controller.signal;
@@ -31,7 +31,7 @@ userAxiosInstance.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Response interceptor
+
 userAxiosInstance.interceptors.response.use(
   (response) => {
     controllerMap.delete(response.config.url);

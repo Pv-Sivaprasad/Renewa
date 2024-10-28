@@ -41,7 +41,7 @@ export class AuthService {
 
 
         if (existingUser && existingUser.isVerified) {
-            return { success: false, message: 'User already registered and verified. Please login.' };
+            return { success: false, message: 'User already registered with this email . Please login.' };
         }
 
 
@@ -164,7 +164,7 @@ export class AuthService {
         console.log(isValidPassword, 'the password');
 
         if (!isValidPassword) {
-            throw new Error('Invalid credentials');
+            return { success: false, message: 'Invalid Credentials' }
         }
 
 
