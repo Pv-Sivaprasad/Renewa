@@ -31,7 +31,7 @@ export class AuthService {
 
 
     async registerUser(registerData: RegisterDto): Promise<{ success: boolean; message: string }> {
-        console.log('Reached register user in the authService');
+       
 
         const { username, email, password } = registerData;
         console.log(registerData);
@@ -79,12 +79,22 @@ export class AuthService {
             email,
             password: hashedPassword,
         } as IUser);
-
-        await sendUserData(newUser)
+        console.log('the new user in the authservice is ',newUser);
+        
+        
+        const userData = {
+            userId: newUser.id.toString(),  
+            username: newUser.username,
+            email: newUser.email,
+        };
+        await sendUserData(userData).then(()=>{   
+        }).catch((err)=>{
+            console.log('not send',err);
+            
+        })
 
 
         const otp = generateOtp();
-        console.log('OTP generated in registerUser authService:', otp);
         await mailService.sendOtpEmail(email, otp);
         await this.otpRepository.create({ email, otp } as IOtp);
         return { success: true, message: 'Email with OTP has been sent.' };

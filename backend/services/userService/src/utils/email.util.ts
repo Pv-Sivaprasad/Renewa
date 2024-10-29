@@ -55,7 +55,6 @@ export class MailService{
             };
     
             const info = await this.transporter.sendMail(mailOptions);
-            console.log('Email sent successfully', info.response);
         } catch (error) {
             console.log('Error in sending OTP through email', error);
             throw new Error('Failed to send OTP');

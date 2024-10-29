@@ -13,11 +13,8 @@ class AuthController {
 
 
   async signup(req: Request, res: Response) {
-
-    console.log('entering user sign up in authcontroller');
+ 
     try {
-      
-      console.log('the req.body is ',req.body);
       
       const validationResult= userSignUpSchema.safeParse(req.body)
 
@@ -27,7 +24,7 @@ class AuthController {
       }
 
       const response = await authService.registerUser(req.body)
-      console.log('the response recived from authservice register user is', response);
+    
 
       return res.status(HttpStatus.OK).json(response)
 

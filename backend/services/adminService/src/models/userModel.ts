@@ -4,7 +4,6 @@ export interface IAdminUser extends Document {
     userId: string;
     username: string;
     email: string;
-    createdAt: Date;
     isBlocked: boolean;
 }
 
@@ -23,10 +22,6 @@ const AdminUserSchema: Schema = new Schema({
     {
         type: String,
         required: true
-    },
-    isVerified:
-    {
-        type:Boolean
     },
     isBlocked:
     {
