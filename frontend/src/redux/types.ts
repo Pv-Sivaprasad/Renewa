@@ -6,12 +6,18 @@ export interface LoginCredentials {
   }
   
 
-export interface AdminData {
-  email:string,
-  password:string
-}
-
-export interface AdminState {
-  isLoggedIn:boolean
-  adminData: AdminData | null
-}
+  interface AdminState {
+    loading: boolean;
+    token: string | null;
+    error: string | null;
+    userName: string | null;
+    email: string | null;
+  }
+  
+  const initialState: AdminState = {
+    loading: false,
+    token: null,
+    error: null,
+    userName: null,
+    email: null,
+  };

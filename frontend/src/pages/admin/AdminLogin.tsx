@@ -68,9 +68,15 @@ const AdminLogin: React.FC = () => {
         
       const response = await adminSignIn(formData)
        
-      if(response.data.success){
+      if(response.data.accessToken){
+        localStorage.setItem('accessToken',response.data.accessToken)
         toast.success('login successfull')
-        // dispatch(loginSuccess({a}))
+       
+        dispatch(loginSuccess({
+          token:response.data.accessToken
+        }))
+
+
         navigate('/admin/dashboard')
       }else{
         toast.error('login issue')
