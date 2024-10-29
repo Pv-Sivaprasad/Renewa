@@ -1,156 +1,101 @@
-import * as React from 'react';
-import { extendTheme, styled } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
-import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
-import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { PageContainer } from '@toolpad/core/PageContainer';
-import Grid from '@mui/material/Grid2';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import { Users, UserCog, Calendar, DollarSign, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; 
 
+const AdminSidebar = ({ activeRoute, setActiveRoute }) => {
+  const navigate = useNavigate(); 
 
+  const menuItems = [
+    { id: 'users', label: 'Users', icon: Users, route: '/admin/users' },
+    { id: 'doctors', label: 'Doctors', icon: UserCog, route: '/admin/doctors' },
+    { id: 'appointments', label: 'Appointments', icon: Calendar, route: '/admin/appointments' },
+    { id: 'revenue', label: 'Revenue', icon: DollarSign, route: '/admin/revenue' },
+  ];
 
-const NAVIGATION: Navigation = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
-    segment: 'dashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-  },
-  
-  {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Analytics',
-  },
-  {
-    segment: 'integrations',
-    title: 'Users',
-    icon: <PeopleAltIcon />,
-  },
-  {
-    segment: 'integrations',
-    title: 'Doctors',
-    icon: <LocalHospitalIcon />,
-  },
-  {
-    segment: 'reports',
-    title: 'Reports',
-    icon: <BarChartIcon />,
-    children: [
-      {
-        segment: 'sales',
-        title: 'Revenue',
-        icon: <DescriptionIcon />,
-      },
-    //   {
-    //     segment: 'traffic',
-    //     title: '',
-    //     icon: <DescriptionIcon />,
-    //   },
-    ],
-  },
-  
-];
-
-const demoTheme = extendTheme({
-  colorSchemes: { light: true, dark: true },
-  colorSchemeSelector: 'class',
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
-function useDemoRouter(initialPath: string): Router {
-  const [pathname, setPathname] = React.useState(initialPath);
-
-  const router = React.useMemo(() => {
-    return {
-      pathname,
-      searchParams: new URLSearchParams(),
-      navigate: (path: string | URL) => setPathname(String(path)),
-    };
-  }, [pathname]);
-
-  return router;
-}
-
-const Skeleton = styled('div')<{ height: number }>(({ theme, height }) => ({
-  backgroundColor: theme.palette.action.hover,
-  borderRadius: theme.shape.borderRadius,
-  height,
-  content: '" "',
-}));
-
-export default function DashboardLayoutBasic(props: any) {
-  const { window } = props;
-
-  const router = useDemoRouter('/dashboard');
-
-  
-  const demoWindow = window ? window() : undefined;
+  const handleRouteChange = (item) => {
+    setActiveRoute(item.id); 
+    navigate(item.route); 
+  };
 
   return (
-    <AppProvider
-      navigation={NAVIGATION}
-      router={router}
-      theme={demoTheme}
-      window={demoWindow}
-    >
-      <DashboardLayout>
-        <PageContainer>
-          <Grid container spacing={1}>
-            <Grid size={5} />
-            <Grid size={12}>
-              <Skeleton height={14} />
-            </Grid>
-            <Grid size={12}>
-              <Skeleton height={14} />
-            </Grid>
-            <Grid size={4}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={8}>
-              <Skeleton height={100} />
-            </Grid>
-
-            <Grid size={12}>
-              <Skeleton height={150} />
-            </Grid>
-            <Grid size={12}>
-              <Skeleton height={14} />
-            </Grid>
-
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-          </Grid>
-        </PageContainer>
-      </DashboardLayout>
-    </AppProvider>
+    <aside className="w-64 bg-blue-200 h-[calc(100vh-73px)] shadow-sm">
+      <nav className="p-4">
+        <ul className="space-y-2">
+          {menuItems.map((item) => (
+            <li key={item.id}>
+              <button
+                onClick={() => handleRouteChange(item)} 
+                className={`flex items-center space-x-3 w-full px-4 py-2 rounded-md transition-colors ${
+                  activeRoute === item.id
+                    ? 'bg-blue-500 text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <item.icon size={20} />
+                <span>{item.label}</span>
+              </button>
+            </li>
+          ))}
+          <li className="pt-4">
+            <button
+              className="flex items-center space-x-3 w-full px-4 py-2 rounded-md text-red-600 hover:bg-gray-100"
+            >
+              <LogOut size={20} />
+              <span>Logout</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </aside>
   );
-}
+};
+
+export default AdminSidebar;
+
+
+
+
+// import { Users, UserCog, Calendar, DollarSign, LogOut } from 'lucide-react';
+
+// const AdminSidebar = ({ activeRoute, setActiveRoute }) => {
+//   const menuItems = [
+//     { id: 'users', label: 'Users', icon: Users },
+//     { id: 'doctors', label: 'Doctors', icon: UserCog },
+//     { id: 'appointments', label: 'Appointments', icon: Calendar },
+//     { id: 'revenue', label: 'Revenue', icon: DollarSign },
+//   ];
+
+//   return (
+//     <aside className="w-64 bg-blue-200 h-[calc(100vh-73px)] shadow-sm">
+//       <nav className="p-4">
+//         <ul className="space-y-2">
+//           {menuItems.map((item) => (
+//             <li key={item.id}>
+//               <button
+//                 onClick={() => setActiveRoute(item.id)}
+//                 className={`flex items-center space-x-3 w-full px-4 py-2 rounded-md transition-colors ${
+//                   activeRoute === item.id
+//                     ? 'bg-blue-500 text-white'
+//                     : 'text-gray-600 hover:bg-gray-100'
+//                 }`}
+//               >
+//                 <item.icon size={20} />
+//                 <span>{item.label}</span>
+//               </button>
+//             </li>
+//           ))}
+//           <li className="pt-4">
+//             <button
+//               className="flex items-center space-x-3 w-full px-4 py-2 rounded-md text-red-600 hover:bg-gray-100"
+//             >
+//               <LogOut size={20} />
+//               <span>Logout</span>
+//             </button>
+//           </li>
+//         </ul>
+//       </nav>
+//     </aside>
+//   );
+// };
+
+
+// export default AdminSidebar
