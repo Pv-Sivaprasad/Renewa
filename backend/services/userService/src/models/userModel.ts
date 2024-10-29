@@ -6,6 +6,7 @@ export interface IUser extends Document {
   password: string;
   image: string;
   isVerified: boolean;
+  isBlocked:boolean;
 }
 
 const UserSchema: Schema = new Schema({
@@ -26,6 +27,10 @@ const UserSchema: Schema = new Schema({
     type: Boolean,
     default: false, 
   },
+  isBlocked:{
+    type:Boolean,
+    default:false
+  }
 });
 
 export default mongoose.model<IUser>('User', UserSchema);

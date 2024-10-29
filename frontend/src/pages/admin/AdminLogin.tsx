@@ -4,6 +4,11 @@ import { AdminLoginSchema } from '../../utils/validations';
 import logo from '../../assets/user/back.png'; 
 import { adminSignIn } from '../../services/adminApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
+import { useDispatch, UseDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
+import { loginSuccess } from '../../redux/slices/adminSlice';
+
 
 interface LoginFormData {
   email: string;
@@ -36,6 +41,9 @@ const AdminLogin: React.FC = () => {
     password: '',
     rememberMe: false
   });
+
+  const navigate=useNavigate()
+  const dispatch =useDispatch()
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,6 +70,8 @@ const AdminLogin: React.FC = () => {
        
       if(response.data.success){
         toast.success('login successfull')
+        // dispatch(loginSuccess({a}))
+        navigate('/admin/dashboard')
       }else{
         toast.error('login issue')
       }

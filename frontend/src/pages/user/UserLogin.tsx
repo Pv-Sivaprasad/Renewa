@@ -61,7 +61,7 @@ const UserLogin: React.FC = () => {
           userName:response.data.username,
           email:response.data.email
         }))
-      }else{
+      }else  {
         toast.error('Invalid credentials')
       }
 
@@ -75,7 +75,7 @@ const UserLogin: React.FC = () => {
       }
     } catch (error) {
     console.error("Axios error response:", error.response?.data || error.message);
-      toast.error('Invalid Credentails')
+      toast.error('Something went wrong please try again later')
 
     }
   };

@@ -94,7 +94,9 @@ export class AuthService {
     async verifyOtpUser(otpData: OtpDto): Promise<OtpVerfiyResult | string> {
 
         const email = otpData.email
-
+        const otp=otpData.otp
+        console.log(otp);
+        
         const validuser = await this.userRespository.findUserByEmail(email)
         console.log(validuser, 'the valid user in verifyOtpuser in authservice');
 
@@ -106,6 +108,8 @@ export class AuthService {
         if (!getOtp) return { success: false, message: "No otp for this email" }
 
         if (getOtp.otp === otpData.otp) {
+            console.log('reached here');
+            
             await this.userRespository.verifyUser(email, true)
             await this.otpRepository.deleteOtpByEmail(email)
 
@@ -167,6 +171,10 @@ export class AuthService {
 
         if (!isValidPassword) {
             return { success: false, message: 'Invalid Credentials' }
+        }
+
+        if(user.isBlocked){
+            return {success:false,message:"Account issues please contact admin team"}
         }
 
 

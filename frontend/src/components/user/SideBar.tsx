@@ -138,7 +138,7 @@ export default function MiniDrawer() {
        
      <div className="w-full md:w-1/2 mx-auto">
       <Typography variant="h6" noWrap component="div" className="text-center">
-        Renewa Patient Dashboard
+   
       </Typography>
     </div>
         </Toolbar>

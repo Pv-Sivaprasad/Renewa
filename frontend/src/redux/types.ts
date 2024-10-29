@@ -5,3 +5,13 @@ export interface LoginCredentials {
     userName:string
   }
   
+
+export interface AdminData {
+  email:string,
+  password:string
+}
+
+export interface AdminState {
+  isLoggedIn:boolean
+  adminData: AdminData | null
+}

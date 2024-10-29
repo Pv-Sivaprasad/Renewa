@@ -24,7 +24,10 @@ const AdminUserSchema: Schema = new Schema({
         type: String,
         required: true
     },
-
+    isVerified:
+    {
+        type:Boolean
+    },
     isBlocked:
     {
         type: Boolean,
