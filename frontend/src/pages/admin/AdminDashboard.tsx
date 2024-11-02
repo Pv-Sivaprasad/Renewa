@@ -1,32 +1,134 @@
 import React, { useState } from 'react';
-import AdminHeader from '../../components/admin/AdminHeader';
-import AdminSidebar from '../../components/admin/AdminSideBar';
+import { Users, UserCog, LogOut, Menu, X, Home, ChevronDown } from 'lucide-react';
 
 const AdminDashboard = () => {
-  const [activeRoute, setActiveRoute] = useState('users');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [activeMenu, setActiveMenu] = useState('Dashboard');
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const renderContent = () => {
-    switch (activeRoute) {
-      case 'users':
-        return <div className="p-6">Users Content</div>;
-      case 'doctors':
-        return <div className="p-6">Doctors Content</div>;
-      case 'appointments':
-        return <div className="p-6">Appointments Content</div>;
-      case 'revenue':
-        return <div className="p-6">Revenue Content</div>;
-      default:
-        return <div className="p-6">Select a route</div>;
-    }
+  const menuItems = [
+    { title: 'Dashboard', icon: Home },
+    { title: 'Doctors', icon: UserCog },
+    { title: 'Users', icon: Users },
+  ];
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <AdminHeader setActiveRoute={setActiveRoute} />
-      <div className="flex">
-        <AdminSidebar setActiveRoute={setActiveRoute} activeRoute={activeRoute} />
-        <main className="flex-1 bg-gray-50">
-          {renderContent()}
+    <div className="min-h-screen bg-blue-300">
+      {/* Sidebar */}
+      <div
+        className={`fixed left-0 top-0 h-full bg-white shadow-lg transition-all duration-300 ${
+          isSidebarOpen ? 'w-64' : 'w-20'
+        }`}
+      >
+        <div className="flex h-16 items-center justify-between px-4">
+          <h1 className={`font-bold text-blue-600 ${!isSidebarOpen && 'hidden'}`}>
+            Admin Panel
+          </h1>
+          <button
+            onClick={toggleSidebar}
+            className="rounded-lg p-2 hover:bg-gray-100"
+          >
+            {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        <nav className="mt-8">
+          {menuItems.map((item) => (
+            <button
+              key={item.title}
+              onClick={() => setActiveMenu(item.title)}
+              className={`flex w-full items-center px-4 py-3 transition-colors ${
+                activeMenu === item.title
+                  ? 'bg-blue-50 text-blue-600'
+                  : 'text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              <item.icon size={20} />
+              <span className={`ml-4 ${!isSidebarOpen && 'hidden'}`}>
+                {item.title}
+              </span>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div
+        className={`transition-all duration-300 ${
+          isSidebarOpen ? 'ml-64' : 'ml-20'
+        }`}
+      >
+        {/* Header */}
+        <header className="fixed right-0 top-0 z-10 flex h-16 items-center justify-between bg-white px-6 shadow-sm"
+          style={{ width: isSidebarOpen ? 'calc(100% - 16rem)' : 'calc(100% - 5rem)' }}
+        >
+          <h2 className="text-xl font-semibold text-gray-800">{activeMenu}</h2>
+          
+          <div className="relative">
+            <button
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              className="flex items-center rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <div className="h-8 w-8 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                A
+              </div>
+              <span className="ml-2">Admin</span>
+              <ChevronDown size={16} className="ml-2" />
+            </button>
+
+            {isProfileOpen && (
+              <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white py-2 shadow-lg">
+                <button
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    // Add logout logic here
+                  }}
+                  className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-50"
+                >
+                  <LogOut size={16} className="mr-2" />
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="p-6 pt-24">
+          <div className="rounded-lg bg-white p-6 shadow-sm">
+            {activeMenu === 'Dashboard' && (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="rounded-lg bg-blue-50 p-6">
+                  <h3 className="mb-2 font-semibold">Total Doctors</h3>
+                  <p className="text-2xl font-bold">24</p>
+                </div>
+                <div className="rounded-lg bg-green-50 p-6">
+                  <h3 className="mb-2 font-semibold">Total Users</h3>
+                  <p className="text-2xl font-bold">156</p>
+                </div>
+                <div className="rounded-lg bg-purple-50 p-6">
+                  <h3 className="mb-2 font-semibold">Active Sessions</h3>
+                  <p className="text-2xl font-bold">18</p>
+                </div>
+              </div>
+            )}
+            {activeMenu === 'Doctors' && (
+              <div>
+                <h3 className="mb-4 text-lg font-semibold">Doctors Management</h3>
+                {/* Add doctors management content here */}
+              </div>
+            )}
+            {activeMenu === 'Users' && (
+              <div>
+                <h3 className="mb-4 text-lg font-semibold">Users Management</h3>
+                {/* Add users management content here */}
+              </div>
+            )}
+          </div>
         </main>
       </div>
     </div>
@@ -34,45 +136,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-
-// // src/pages/admin/AdminDashboard.jsx or .tsx
-
-// import React from 'react';
-// import AdminHeader from '../../components/admin/AdminHeader'
-// import AdminSidebar from '../../components/admin/AdminSideBar';
-// import { useState } from 'react';
-
-
-// const AdminDashboard = () => {
-//   const [activeRoute, setActiveRoute] = useState('users');
-
-//   const renderContent = () => {
-//     switch (activeRoute) {
-//       case 'users':
-//         return <div className="p-6">Users Content</div>;
-//       case 'doctors':
-//         return <div className="p-6">Doctors Content</div>;
-//       case 'appointments':
-//         return <div className="p-6">Appointments Content</div>;
-//       case 'revenue':
-//         return <div className="p-6">Revenue Content</div>;
-//       default:
-//         return <div className="p-6">Select a route</div>;
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100">
-//       <AdminHeader setActiveRoute={setActiveRoute} />
-//       <div className="flex">
-//         <AdminHeader activeRoute={activeRoute} setActiveRoute={setActiveRoute} />
-//         <main className="flex-1 bg-gray-50">
-//           {renderContent()}
-//         </main>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdminDashboard;

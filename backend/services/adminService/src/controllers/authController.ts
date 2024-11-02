@@ -59,6 +59,18 @@ class AuthController {
     }
 
 
+    async logout(req:Request,res:Response){
+        console.log('entering the logout  controller admin');
+        
+        try {
+            
+            res.clearCookie('refreshToken').json({message:"Logged out successfully"})
+            return 
+        } catch (error) {
+            res.json({message:"Something went wrong"})
+            return
+        }
+    }
 
 
 }

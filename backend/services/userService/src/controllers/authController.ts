@@ -111,7 +111,9 @@ class AuthController {
         console.log('the refreshtoken recieved is ', result.refreshToken);
 
         const refreshToken = result.refreshToken || ''
-      return  res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
+    
+    
+        return  res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
           httpOnly: true,
           secure: false,
           maxAge: 7 * 24 * 60 * 60 * 1000

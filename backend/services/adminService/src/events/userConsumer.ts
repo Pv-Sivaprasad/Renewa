@@ -8,7 +8,7 @@ export const recieveUserData = async () => {
         console.error('Failed to get channel. RabbitMQ might not be connected.');
         return;
     }
-    console.log('Successfully retrieved channel in consumer:', channel);
+    
 
     
     const queueName = 'userToAdminQueue';
