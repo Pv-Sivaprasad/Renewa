@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectMongoDb from './config/dbConfig';
 import authRoute from './routes/authRoute';
+import adminRoute from './routes/adminRoute'
 import { recieveUserData } from './events/userConsumer';
 import { rabbitMqConnect } from './config/rabbitmq';
 
@@ -34,6 +35,7 @@ connectMongoDb();
 
 // Routes
 app.use('/', authRoute);
+app.use('/',adminRoute)
 
 // Start server
 app.listen(PORT, () => {

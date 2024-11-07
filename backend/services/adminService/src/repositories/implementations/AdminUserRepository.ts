@@ -21,4 +21,17 @@ export class AdminUserRepository implements IAdminUserRepository {
         await AdminUserModel.updateOne({ userId }, { isBlocked });
       }
 
+
+      async getAllUsers(): Promise<any[]> { 
+        console.log('entering the get all users in admin user repository');
+        try {
+            const users = await AdminUserModel.find(); 
+            return users; 
+        } catch (error) {
+            console.error('Error fetching all users from admin DB:', error);
+            throw new Error('Failed to fetch users');
+        }
+    }
+
+
 }

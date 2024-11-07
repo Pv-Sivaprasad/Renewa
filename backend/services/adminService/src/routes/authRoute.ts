@@ -10,6 +10,7 @@ auth_route.post('/signin',authController.signin)
 auth_route.get('/logout',authController.logout)
 
 
+
 export default auth_route
 
 

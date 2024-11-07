@@ -36,10 +36,10 @@ class AuthController {
             }
 
             if(response?.success){
-                res.status(HttpStatus.CREATED).cookie('refreshToken',response.refreshToken,{
+                res.status(HttpStatus.CREATED).cookie('refrToken',response.refreshToken,{
                     httpOnly:true,
                     secure:true,
-                    sameSite:'strict',
+                    sameSite:'none',
                     maxAge: 7 * 24 * 60 * 60 * 1000
                 }).json({success:true,message:"login successfull",accessToken:response.accessToken})
                 return

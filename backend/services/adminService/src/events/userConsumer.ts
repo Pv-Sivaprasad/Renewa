@@ -1,5 +1,8 @@
 import { getChannel } from "../config/rabbitmq"; 
-import { saveUserInAdminDb } from "../services/adminService"; 
+import { AdminService } from "../services/adminService";
+
+const adminService=new AdminService()
+
 
 export const recieveUserData = async () => {
    
@@ -27,7 +30,7 @@ export const recieveUserData = async () => {
             console.log(`Received message: UserId: ${userId}, Username: ${username}, Email: ${email}`);
 
             
-            await saveUserInAdminDb({ userId, username, email });
+            await adminService.saveUserInAdminDb({ userId, username, email });
             console.log(`User data saved in admin database: ${username}, ${email}`);
 
          

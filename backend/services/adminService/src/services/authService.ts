@@ -9,7 +9,7 @@ import { generateAccessToken,generateRefreshToken } from "../utils/tokenutil";
 const adminRepository=new AdminRespository()
 
 export class AuthService{
-
+ 
     private adminRepository:AdminRespository
 
 
