@@ -7,6 +7,7 @@ import PublicRoute from '../components/PublicRoute'
 import LandingPage from '../pages/user/LandingPage'
 import UserHome from '../pages/user/UserHome'
 import NewPassword from '../components/user/NewPassword'
+import UserProfile  from '../pages/user/UserProfile'
 
 const userRoute = () => {
   return (
@@ -18,6 +19,8 @@ const userRoute = () => {
     <Route path='/forgot-password' element={ <NewPassword/> } />
     <Route path='/userhome' element={<ProtectedRoute><UserHome/></ProtectedRoute>} />
     <Route path='/dashboard' element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+    <Route path='/profile' element={<ProtectedRoute><UserProfile/></ProtectedRoute>} />
+
 
     </Routes>
   )

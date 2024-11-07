@@ -82,7 +82,7 @@ const OtpModal: React.FC<OtpModalProps> = ({ isOpen, onClose, onSubmit, onResend
                         <input
                             key={index}
                             ref={(el) => (inputRefs.current[index] = el)}
-                            type="text"
+                            type="number"
                             maxLength={1}
                             value={digit}
                             onChange={(e) => handleOtpChange(e, index)}

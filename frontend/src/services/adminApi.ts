@@ -15,3 +15,12 @@ export const adminSignIn=async(formData: { email: string; password: string})=>{
     return response
     
 }
+
+export const logout=async()=>{
+    console.log('entering the api');
+    
+    const response=await api.get('/logout')
+    console.log('response from logout api',response);
+    
+    return response
+}

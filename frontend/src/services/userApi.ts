@@ -77,6 +77,10 @@ export const forgetPassword=async(email:string)=>{
     return response
 }
 
+export const editProfile=async()=>{
+    
+}
+
 
 export const resetPassword=async(email:string,otp:string,password:string)=>{
     const response=await api.post('/reset',{email,otp,password})

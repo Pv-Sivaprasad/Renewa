@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { AuthService } from "../services/authService";
 import { HttpStatus } from "../enums/http.status";
 import { forgetPassword, userSignInSchema, userSignUpSchema,resetPassword } from "../utils/validation.util";
-
+import jwt from 'jsonwebtoken'
 
 
 
@@ -232,6 +232,36 @@ class AuthController {
       }
       
   }
+
+
+  async setNewToken(req:Request,res:Response){
+    
+    console.log('entering the setnew token auth controller');
+      console.log('req.body');
+      
+    try {
+      const refreshToken=req.cookies.refreshToken
+      console.log('refreshtokke ',refreshToken);
+      
+      if(!refreshToken){
+        return res.status(HttpStatus.FORBIDDEN)
+        .json({message:"No refresh token is available"})
+      }
+
+      const SECRET=process.env.REFRESH_TOKEN_SECRET
+      
+      if(!SECRET) return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"internal server error"})
+
+        const decoded= jwt.verify(refreshToken,SECRET)
+        console.log(decoded,'][][][][][]');
+        
+      
+    } catch (error) {
+      console.log('error in the setnew token controller');
+      
+    }
+  }
+
 
   async logout(req:Request,res:Response) {
     try {
