@@ -11,7 +11,7 @@ const UserTable = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState('Users');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [users, setUsers] = useState<any[]>([]); // Define the type if necessary
+  const [users, setUsers] = useState<any[]>([]); 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState({
     username: '',
@@ -20,17 +20,17 @@ const UserTable = () => {
   });
 
   useEffect(() => {
-    // Fetch users from backend API
+  
     const fetchUsers = async () => {
       try {
         const response = await getAllUsers();
-        setUsers(response.data); // Assuming response.data contains the user list
+        setUsers(response.data); 
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
     fetchUsers();
-  }, []); // Empty dependency array ensures this runs once on component mount
+  }, []); 
 
   const menuItems = [
     { title: 'Dashboard', icon: Home, route: '/admin/dashboard' },

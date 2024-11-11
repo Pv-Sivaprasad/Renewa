@@ -1,14 +1,16 @@
 import axios from 'axios'
+import { adminAxiosInstance,publicAxiosInstance } from './axiosInstance/adminInstance';
 
-const api = axios.create({
-    baseURL: import.meta.env.VITE_ADMIN_API_URL
-})
+
+
+const api = adminAxiosInstance
+const publicApi=publicAxiosInstance
 
 export const adminSignIn = async (formData: { email: string; password: string }) => {
     console.log(formData);
     console.log('data before sending to backend', formData);
 
-    const response = await api.post('/signin', formData)
+    const response = await publicApi.post('/signin', formData)
     console.log('the response from backend in the adminapi is', response);
 
 
@@ -26,7 +28,8 @@ export const logout = async () => {
 }
 
 export const getAllUsers = async () => {
-
+    console.log('the get all users before sending to backend');
+    
     const response = await api.get('/users')
     console.log('response from get all users from backend is',response);
     
