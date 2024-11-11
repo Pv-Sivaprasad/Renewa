@@ -35,3 +35,14 @@ export const getAllUsers = async () => {
     
     return response
 }
+
+export const updateUserStatus=async(userId:string)=>{
+
+    console.log('the user Id ',userId);
+    
+    const response= await api.patch(`/users/${userId}`)
+    console.log('the  returned response is===== ',response);
+    
+    return response
+
+}

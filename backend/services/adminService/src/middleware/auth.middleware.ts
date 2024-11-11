@@ -10,13 +10,12 @@ interface CustomeRequest extends Request {
 
 
 const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunction) => {
-    console.log('reached here in the autheticate token');
-    console.log(req.headers,'in the BACKEND IS');
+ 
     
     
     try {
         const token = req.headers['authorization']
-        console.log(token,'token inside try');
+       
         
         if (!token) {
              res.status(HttpStatus.UNAUTHORIZED).json({ message: "Access denied . No token provided" })
@@ -29,7 +28,7 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
         console.log(secret,'secret in ');
         
         const decodedToken = jwt.decode(newToken, { complete: true });
-        console.log(decodedToken, 'decoded token ');
+        
 
         if (!secret) {
             throw new Error('Access token secret is not defined')

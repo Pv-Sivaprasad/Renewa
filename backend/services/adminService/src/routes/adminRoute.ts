@@ -9,6 +9,6 @@ const adminController=new AdminController()
 
 
 admin_route.get('/users',authenticateToken,adminController.getAllUser)
-
+admin_route.patch('/users/:id',authenticateToken,adminController.updateUserStatus)
 
 export default admin_route

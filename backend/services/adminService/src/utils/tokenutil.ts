@@ -12,7 +12,7 @@ export  const generateAccessToken=(admin:IAdmin)=>{
         throw new Error('generation of accessToken not working')
     }
 
-    return jwt.sign(admin,secret,{expiresIn:'3m'})
+    return jwt.sign(admin,secret,{expiresIn:'7d'})
 
 }
 
@@ -24,6 +24,6 @@ export const generateRefreshToken=(admin:IAdmin)=>{
         throw new Error('generation of accessToken not working')
     }
 
-    return jwt.sign(admin,secret,{expiresIn:'3m'})
+    return jwt.sign(admin,secret,{expiresIn:'30d'})
 
 }

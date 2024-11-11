@@ -34,6 +34,7 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "shadcn": "^2.1.2",
+    "sweetalert2": "^11.14.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

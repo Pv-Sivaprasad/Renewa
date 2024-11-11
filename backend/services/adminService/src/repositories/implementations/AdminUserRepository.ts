@@ -1,5 +1,7 @@
 import { IAdminUserRepository } from "../interfaces/IAdminUserRepository";
-import AdminUserModel from '../../models/userModel'
+import AdminUserModel, { IAdminUser } from '../../models/userModel'
+import { User } from "../../types/User";
+import { ObjectId } from "mongoose";
 
 
 
@@ -17,11 +19,30 @@ export class AdminUserRepository implements IAdminUserRepository {
           }
     }
 
-    async updateUserStatus(userId: string, isBlocked: boolean): Promise<void> {
-        await AdminUserModel.updateOne({ userId }, { isBlocked });
+   
+    async findUser(id:any) : Promise<IAdminUser | null > {
+      console.log('this is the find user ',id);
+      
+      return await AdminUserModel.findById(id)
+        }
+
+    async findByUserId(userId: string): Promise<IAdminUser | null> {
+      console.log('entering the findbyuserUdd',userId);
+      
+      return await AdminUserModel.findOne({ userId });
+  }
+
+ 
+
+      async save(userData:User) {
+       const updateUserStatus=await AdminUserModel.findOneAndUpdate(
+        {userId:userData.userId},
+        {$set:{isBlocked:userData.isBlocked}},
+        {new:true}
+       )
+       return updateUserStatus ? (updateUserStatus.toObject() as User) : null;
       }
-
-
+   
       async getAllUsers(): Promise<any[]> { 
         console.log('entering the get all users in admin user repository');
         try {

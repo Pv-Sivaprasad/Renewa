@@ -26,6 +26,31 @@ class AdminController {
         
     }
 
+    async updateUserStatus(req:Request,res:Response,next:NextFunction){
+        console.log('enterinf the updateUserStatus in admin controller');
+        const {id}=req.params
+        console.log('the id in params is ',id);
+
+        try {
+            
+            const response=await adminService.toggleBlockStatus(id)
+            
+            
+            if(response){
+              res.status(HttpStatus.CREATED).json({response})
+              return
+            }else{
+                res.status(HttpStatus.BAD_REQUEST).json({message:"User not found"})
+                return
+            }
+
+        } catch (error) {
+            console.log('error in the updateuser status',error);
+             res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"Internal server error"})
+             return
+        }
+        
+    }
 
 
 }
