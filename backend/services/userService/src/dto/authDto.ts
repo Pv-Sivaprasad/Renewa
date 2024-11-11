@@ -34,4 +34,9 @@ export interface ResendOtpDto{
     email:string
 }
 
+export interface UpdateUser {
+    userid:string,
+    isBlocked:boolean
+}
+
 

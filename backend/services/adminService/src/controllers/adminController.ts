@@ -1,6 +1,7 @@
 import { NextFunction, Request,Response } from "express";
 import { HttpStatus } from "../enums/HttpStatus";
 import {AdminService} from '../services/adminService'
+import publishUserStatusUpdate from "../events/publishers/userStatusPublisher";
 
 
 const adminService=new AdminService()
@@ -37,6 +38,15 @@ class AdminController {
             
             
             if(response){
+
+                const message={
+                    userId:response.userId,
+                    isBlocked:response.isBlocked
+                }
+                console.log('the message for the publisher',message);
+                
+                await publishUserStatusUpdate(message)
+
               res.status(HttpStatus.CREATED).json({response})
               return
             }else{

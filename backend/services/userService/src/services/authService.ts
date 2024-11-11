@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from "../models/userModel";
 import Otp from "../models/otpModel";
-import { RegisterDto, LoginDto, OtpDto, GoogleDto, ForgetPasswordDto, ResetDto, ResendOtpDto } from "../dto/authDto";
+import { RegisterDto, LoginDto, OtpDto, GoogleDto, ForgetPasswordDto, ResetDto, ResendOtpDto,UpdateUser } from "../dto/authDto";
 import { OtpRepository } from "../repositories/implementations/otpRepository";
 import { generateAccessToken, generateRefreshToken } from '../utils/token.util'
 import { generateOtp } from "../utils/otp.util";
@@ -346,6 +346,24 @@ export class AuthService {
 
     }
 
+    async updateUserStatus(userId:string,isBlocked:boolean) : Promise <boolean> {
+
+        console.log('this is the updateuserstatus in auth service of user');
+        console.log(userId,isBlocked,'this is from the userocnsumer in the service');
+    
+        try {
+            const isUpdated=await this.userRespository.updateUserStatus(userId,isBlocked)
+            if (!isUpdated) {
+                console.log(`User ${userId} not found or status update failed.`);
+            }
+
+            return isUpdated;
+        } catch (error) {
+            console.error(`Error in AuthService when updating user ${userId} status:`, error);
+            throw error;
+        }
+
+    }
 
 }
 

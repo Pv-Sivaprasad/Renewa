@@ -20,6 +20,8 @@ export const getChannel = (): Channel | null => {
   if (!channel) {
     console.error('Channel is not available. Ensure RabbitMQ is connected.');
   }
+  console.log('channel successfuly created  for consumer');
+  
   return channel;
 };
 

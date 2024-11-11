@@ -42,4 +42,28 @@ export class UserRepository  extends BaseRepository<IUser> {
         return await User.findOneAndUpdate({email},update,{new:true})
     }
     
+    async updateUserStatus(userId:string,isBlocked:boolean) : Promise< boolean>{
+        try {
+            console.log(userId,'userId to find in db');
+            console.log(isBlocked,'to change');
+            
+            const result = await User.findOneAndUpdate(
+                { _id:userId },               // Search for user by `userId`
+                { isBlocked },            // Update `isBlocked` field
+                { new: true }             // Return the updated document
+            );
+
+            if (result) {
+                console.log(`User ${userId} status updated to isBlocked: ${isBlocked}`);
+                return true;
+            } else {
+                console.log(`User with userId ${userId} not found.`);
+                return false;
+            }
+        } catch (error) {
+            console.error(`Error in updating user status for ${userId}:`, error);
+            throw new Error('Failed to update user status');
+        }
+    }
+
 }
