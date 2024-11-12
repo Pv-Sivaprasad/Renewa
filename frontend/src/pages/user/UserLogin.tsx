@@ -13,7 +13,7 @@ import { loginRequest,loginSuccess,logout } from '../../redux/slices/authSlice';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 
-const signInSchema = z.object({
+const signInSchema = z.object({ 
   email: z.string().email({ message: 'Invalid email address' }),
   password: z.string()
     .min(8, { message: 'Password should contain at least 8 characters' })

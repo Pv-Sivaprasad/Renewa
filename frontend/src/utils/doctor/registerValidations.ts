@@ -1,5 +1,3 @@
-import {z} from 'zod'
-
 
 interface UserFormData{
     username:string,
@@ -45,7 +43,11 @@ export const validateForm=(formData : UserFormData) : {isValid:boolean; errors:F
         errors.password = 'Password must be at least 8 characters long.';
         isValid = false;
     }
-
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+        errors.password = 'Password not in desired format';
+        isValid = false;
+    }
    
     if (formData.password !== formData.confirmPassword) {
         errors.confirmPassword = 'Passwords do not match.';
@@ -54,11 +56,3 @@ export const validateForm=(formData : UserFormData) : {isValid:boolean; errors:F
 
     return { isValid, errors };
 };
-
-
-export const AdminLoginSchema=z.object({
-    email: z.string().email({ message: 'Invalid email address' }),
-    password: z.string().min(8, { message: 'Password must be at least 8 characters long' }),
-   
-})
-

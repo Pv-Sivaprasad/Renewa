@@ -13,11 +13,13 @@ class AuthController {
         try {
             console.log(req.body,'the data in the body ')
             const validationResult=doctorSignInSchema.safeParse(req.body)
-            if(!validationResult){
-                res.status(HttpStatus.BAD_REQUEST)
-                .json({success:false,message:"invalid Credentials"})
-            }
 
+            if(!validationResult.success){
+                res.status(HttpStatus.BAD_REQUEST)
+                .json({message:"Invalid Credentials"})
+            }
+            
+           
         } catch (error) {
             console.log('error in signin controller of doctor side',error);
             
@@ -26,3 +28,7 @@ class AuthController {
 
 
 }
+
+
+
+export default AuthController
