@@ -6,7 +6,7 @@ const doctor_route=express.Router()
 const authController=new AuthController()
 
 
-doctor_route.post('/signin',authController.signIn)
+doctor_route.post('/signin',authController.signUp)
 
 
 

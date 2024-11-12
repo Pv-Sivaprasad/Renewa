@@ -9,6 +9,7 @@ export interface IDoctor extends Document {
     speciality:string,
     isVerified:boolean,
     isBlocked:boolean,
+    isCompleted:boolean
 }
 
 const DoctorSchema : Schema= new Schema({
@@ -33,12 +34,18 @@ const DoctorSchema : Schema= new Schema({
         type:Boolean,
         default:false
     },
+    isCompleted :{
+        type:Boolean,
+        default:false
+    },
     experience:{
         type:Number,
+       
         
     },
     speciality:{
-        type:String
+        type:String,
+        
     }
 
 })
