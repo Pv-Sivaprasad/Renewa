@@ -113,9 +113,10 @@ class AuthController {
         const refreshToken = result.refreshToken || ''
     
     
-        return  res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
+          res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
           httpOnly: true,
           secure: false,
+          sameSite:'none',
           maxAge: 7 * 24 * 60 * 60 * 1000
         })
         .json({
@@ -123,6 +124,7 @@ class AuthController {
           accessToken: result.accessToken,username:result.username
           ,email:result.email
         })
+        return
       }
       if(!result.success){
         console.log(result.message,'sdhfkjhsdafksf');

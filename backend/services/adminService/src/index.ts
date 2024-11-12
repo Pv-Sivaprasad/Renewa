@@ -10,7 +10,7 @@ import { rabbitMqConnect } from './config/rabbitmq';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4002; // Default port to 4002 if not defined in .env
+const PORT = process.env.PORT ;
 
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -18,26 +18,26 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Initialize MongoDB connection
+
 connectMongoDb();
 
-// Initialize RabbitMQ and consumer setup
+
 (async () => {
     const channel = await rabbitMqConnect();
     if (channel) {
         console.log('RabbitMQ connected in admin service');
-        await recieveUserData(); // Start consuming messages
+        await recieveUserData(); 
         console.log('Admin consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');
     }
 })();
 
-// Routes
+
 app.use('/', authRoute);
 app.use('/',adminRoute)
 
-// Start server
+
 app.listen(PORT, () => {
     console.log(`adminService is running on the port http://localhost:${PORT}`);
 });

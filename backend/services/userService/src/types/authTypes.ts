@@ -11,8 +11,7 @@ export type SignInResult = {
 export type OtpVerfiyResult = {
     success: boolean;
     message: string;
-    accessToken?: string;
-    refreshToken?: string;
+  
 }
 
 export type ForgetResult={

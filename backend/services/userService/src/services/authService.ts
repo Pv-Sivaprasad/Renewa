@@ -123,11 +123,9 @@ export class AuthService {
             await this.userRespository.verifyUser(email, true)
             await this.otpRepository.deleteOtpByEmail(email)
 
-            const accessToken = generateAccessToken({ id: validuser.id.toString() })
-            const refreshToken = generateRefreshToken({ id: validuser.id.toString() })
-            console.log(accessToken, 'the token created for the user');
-            console.log(refreshToken, 'the refresh token created for the user');
-            return { success: true, message: "Verification complete", accessToken, refreshToken }
+           
+         
+            return { success: true, message: "Verification complete" }
         } else {
             return { success: false, message: "the otp verfication failed" }
         }
