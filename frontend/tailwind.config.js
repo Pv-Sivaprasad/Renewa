@@ -21,6 +21,8 @@ module.exports = {
       },
       colors: {
         'footer-color': 'rgba(28,12,60,255)', 
+        'custom-teal': '#0f766e',
+        'custom-log':'#5eead4',
       },
     },
   },

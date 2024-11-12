@@ -5,6 +5,7 @@ import AdminRoute from "./routes/AdminRoute";
 import './index.css';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import DoctorRoute from "./routes/DoctorRoute";
 
 const App = () => {
   return (
@@ -12,6 +13,8 @@ const App = () => {
       <Routes>
         <Route path="/*" element={<UserRoute />} />
         <Route path="/admin/*" element={<AdminRoute />} />
+        <Route path="/doctor/*" element={<DoctorRoute />} />
+
       </Routes>
       <ToastContainer />
     </div>
