@@ -1,6 +1,7 @@
-import { SignUpDto } from "../dto/authDto";
-import { SignupResult } from "../types/authTypes";
+import { signInDto, SignUpDto } from "../dto/authDto";
+import { SignupResult ,SignInResult} from "../types/authTypes";
 import { DoctorRepository } from "../repositories/implementations/DoctorRepository";
+import { comparePassword, hashPassword } from "../utils/passwordUtil";
 
 
 
@@ -15,30 +16,58 @@ export class AuthService{
         this.doctorRepository= new DoctorRepository()
     }
 
-
-    async docSignUp (sigupDto:SignUpDto) : Promise<SignupResult> {
-
-        console.log('entering the docsignup ');
-        
-
-        console.log(sigupDto,'signupDto');
-        
-        const {username,email,password}=sigupDto
-
-        const existingDoc=await  this.doctorRepository.findUserByEmail(email)
-        console.log(existingDoc,'existing');
-        
-        if(existingDoc && !existingDoc.isVerified  ){
-            return {success:false,message:"Doctor already exist"}
+    async docSignUp(signupDto: SignUpDto): Promise<SignupResult> {
+        try {
+            console.log('Entering the docSignUp');
+            console.log(signupDto, 'signupDto');
+            
+            const { username, email, password } = signupDto;
+    
+           
+            const existingDoc = await this.doctorRepository.findUserByEmail(email);
+            console.log(existingDoc, 'existingDoc');
+    
+       
+            if (existingDoc && !existingDoc.isCompleted) {
+                return { success: false, message: "Certification not completed" };
+            }
+            if (existingDoc && existingDoc.isCompleted) {
+                return { success: false, message: "Doctor already exists" };
+            }
+    
+            const hashedPassword=await hashPassword(password)
+            const savedDoc = await this.doctorRepository.createUser({
+                ...signupDto,
+                password:hashedPassword
+            });
+    
+            return { success: true, message: 'Registration complete' };
+        } catch (error) {
+            console.error('Error during doctor signup:', error);
+            return { success: false, message: 'An error occurred during signup' };
         }
-        if(!existingDoc?.isCompleted){
-            return {success:false,message:"Certification not completed"}
+    }
+    
+
+    async docSignIn(signInDto:signInDto) : Promise <SignInResult>{
+        console.log('entering the docsign in in authservice');
+        
+        const {email,password}=signInDto
+        console.log('the email and password',email,password);
+
+        const doc= await this.doctorRepository.findUserByEmail(email)
+        console.log('the doc in the authservice',doc);
+        
+        if(!doc) {
+            return {success:false,message:"invalid doctor Credentials"}
         }
 
-        const saveDoc=await this.doctorRepository.createUser(sigupDto)
+        const isValidPassword=await comparePassword(password,doc.password)
+        if (!isValidPassword) {
+            return { success: false, message: "Invalid password" };
+        }
 
-        return {success:true,message:'Registeration complete'}
-
+        return {success:true,message:"Successfully signed in"}
     }
 
 }

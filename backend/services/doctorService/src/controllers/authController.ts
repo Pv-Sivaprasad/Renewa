@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { HttpStatus } from "../enums/HttpStatus";
-import { doctorSignInSchema } from "../utils/validationUtil";
+import { docSignIn, doctorSignInSchema } from "../utils/validationUtil";
 import { AuthService } from "../services/authService";
 
 
@@ -35,8 +35,37 @@ class AuthController {
 
         } catch (error) {
             console.log('error in signin controller of doctor side',error);
-            
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"Internal server error"})
         }
+    }
+
+
+    async signIn(req:Request,res:Response){
+        console.log('entering the signin authcontroller doc side');
+        console.log(req.body,'signin authcontroller doc side');
+        
+        try {
+            
+            const validationResult=docSignIn.safeParse(req.body)
+            if(!validationResult.success){
+               return res.status(HttpStatus.BAD_REQUEST)
+                .json({message:"Invalid Credentials"})
+            }
+
+            const response= await authService.docSignIn(req.body)
+
+            if(!response.success){
+              return  res.status(HttpStatus.NOT_FOUND).json(response.message)
+            }
+
+            return res.status(HttpStatus.CREATED).json(response.message)
+
+
+        } catch (error) {
+           console.log('error int signin authcontroller doc side');
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"Internal server error"})
+        }
+        
     }
 
 
