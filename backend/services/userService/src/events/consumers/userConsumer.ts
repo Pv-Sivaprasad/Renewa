@@ -6,7 +6,7 @@ const userService = new AuthService();
 export const listenForUserStatusUpdate = async () => {
     try {
         const channel = await getChannel();
-        console.log('Channel successfully created for consumer');
+        console.log('Channel successfully created for user consumer');
 
         const queueName = 'AdminToUserQueue';
 

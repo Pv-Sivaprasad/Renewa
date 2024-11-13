@@ -78,9 +78,9 @@ export class AuthService{
         }
 
         
-        // if (doc && !doc.isVerified) {
-        //     return { success: false, message: "Certification not completed" };
-        // }
+        if (doc && doc.isBlocked) {
+            return { success: false, message: "Account has been blocked" };
+        }
 
         const isValidPassword=await comparePassword(password,doc.password)
         if (!isValidPassword) {
@@ -102,6 +102,23 @@ export class AuthService{
             email:doc.email
         }
 
+    }
+
+    async updateDoctorStatus(docId:string,isBlocked:boolean) : Promise<boolean>{
+        console.log('entered the doctor status update in doctor auth service');
+        console.log(docId,isBlocked,'data from the doctor consumer');
+
+        try {
+            const isUpdated=await this.doctorRepository.updateDocStatus(docId,isBlocked)
+            if (!isUpdated) {
+                console.log(`User ${docId} not found or status update failed.`);
+            }
+            return isUpdated
+        } catch (error) {
+            console.error(`Error in AuthService when updating user ${docId} status:`, error);
+            throw error;
+        }
+        
     }
 
 }

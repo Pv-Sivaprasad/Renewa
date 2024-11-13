@@ -2,6 +2,7 @@ import { NextFunction, Request,Response } from "express";
 import { HttpStatus } from "../enums/HttpStatus";
 import {AdminService} from '../services/adminService'
 import publishUserStatusUpdate from "../events/publishers/userStatusPublisher";
+import PublishDoctorStatusUpdate from "../events/publishers/doctorStatusPublisher";
 
 
 const adminService=new AdminService()
@@ -85,7 +86,18 @@ class AdminController {
         console.log('the id in params is ',id);
         try {
             const response=await adminService.toggleDoctorStatus(id)
-            res.status(HttpStatus.CREATED).json({response}) 
+            if(response){
+                const message={
+                    docId:response.docId,
+                    isBlocked:response.isBlocked
+                }
+                console.log(message,'the message in the adminsevice');
+                
+                await PublishDoctorStatusUpdate(message)
+
+                res.status(HttpStatus.CREATED).json({response}) 
+                return
+            }
         } catch (error) {
              console.log('error in the admincontroller get all users',error);
               res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)

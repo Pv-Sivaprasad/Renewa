@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import connectMongoDb from './config/dbConfig'
 import authRoute from './routes/authRoute'
 import { rabbitMqConnect } from './config/rabbitmq'
-
+import {listenForAdminStatusUpdate} from './events/consumers/doctorConsumer'
 dotenv.config()
 
 const app=express()
@@ -27,6 +27,11 @@ connectMongoDb();
     const channel=await rabbitMqConnect()
     if(channel){
         console.log('rabbit mq connected in doctor side');
+        await listenForAdminStatusUpdate()
+        console.log('doctor consumer setup initiatted');
+        
+    }else{
+        console.log('failed to connect to rabbit mq doc side');
         
     }
 })();
