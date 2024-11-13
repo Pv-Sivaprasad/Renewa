@@ -5,7 +5,7 @@ import Doctor, { IDoctor } from "../../models/doctorModel";
 
 export class DoctorRepository implements IDoctorRepository{
 
-    async createUser(data: Partial<{ username: string; email: string; password: string }>) : Promise  <IDoctor | null> {
+    async createUser(data: any) : Promise  <IDoctor | null> {
         
         return await Doctor.create(data)
     }

@@ -29,8 +29,9 @@ class AuthController {
             if(!response.success){
                 res.status(HttpStatus.BAD_REQUEST).json(response)
             }else{
-
-                return res.status(HttpStatus.CREATED).json({message:"Doctor registered successfully"})
+                console.log('sending the repsonse',response);
+                
+                return res.status(HttpStatus.CREATED).json({success:true,message:"Doctor registered successfully"})
             }
 
         } catch (error) {
@@ -56,7 +57,7 @@ class AuthController {
             console.log(response,'res in the authController');
             
             if(!response.success){
-              return  res.status(HttpStatus.NOT_FOUND).json({message:response.message})
+              return  res.status(HttpStatus.BAD_REQUEST).json({response})
             }
 
             return res.status(HttpStatus.CREATED)

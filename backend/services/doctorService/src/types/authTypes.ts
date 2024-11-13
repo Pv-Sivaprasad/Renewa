@@ -1,6 +1,7 @@
 export type SignupResult={
     success:boolean,
-    message:string
+    message:string,
+    
 }
 
 export type SignInResult={

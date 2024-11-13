@@ -27,22 +27,23 @@ export class AuthService{
            
             const existingDoc = await this.doctorRepository.findUserByEmail(email);
             console.log(existingDoc, 'existingDoc');
-    
-       
-            if (existingDoc && !existingDoc.isCompleted) {
-                return { success: false, message: "Certification not completed" };
-            }
-            if (existingDoc && existingDoc.isCompleted) {
+           
+            if (existingDoc ) {
                 return { success: false, message: "Doctor already exists" };
             }
     
+
             const hashedPassword=await hashPassword(password)
+            console.log('hashedpassword',hashedPassword);
+            
             const savedDoc = await this.doctorRepository.createUser({
                 ...signupDto,
                 password:hashedPassword
             });
+            console.log(savedDoc,'the saved doc is');
+            
     
-            return { success: true, message: 'Registration complete' };
+            return { success: true, message: 'Registration complete' ,};
         } catch (error) {
             console.error('Error during doctor signup:', error);
             return { success: false, message: 'An error occurred during signup' };
@@ -62,6 +63,11 @@ export class AuthService{
         if(!doc) {
             return {success:false,message:"invalid doctor Credentials"}
         }
+
+        
+        // if (doc && !doc.isVerified) {
+        //     return { success: false, message: "Certification not completed" };
+        // }
 
         const isValidPassword=await comparePassword(password,doc.password)
         if (!isValidPassword) {

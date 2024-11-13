@@ -40,11 +40,13 @@ const DoctorSchema : Schema= new Schema({
     },
     experience:{
         type:Number,
+        required:true
        
         
     },
     speciality:{
         type:String,
+        required:true
         
     }
 

@@ -27,6 +27,7 @@ const DoctorLoginForm = () => {
   });
   const [errors, setErrors] = useState<Partial<{ email: string; password: string }>>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigte=useNavigate()
   const dispatch=useDispatch()
 
@@ -52,7 +53,7 @@ const DoctorLoginForm = () => {
           try {
             console.log('Form submitted:', formData);
               const response = await docSignIn(formData);
-              console.log(response,'in doctor login');
+              console.log('the response in doctor login is ',response);
               
               if (response && response.data) {
                   toast.success("Login successful!");
@@ -71,10 +72,15 @@ const DoctorLoginForm = () => {
               } else {
                   toast.error("Unexpected response from the server.");
               }
-          } catch (error) {
-              const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
+        } catch (error) {
+          console.log(error, 'the error is');
+          
+          const errorMessage = error.response.data.response.message || "Login failed. Please try again.";
+          console.log(errorMessage, 'the error message is');
               toast.error(errorMessage);
-          }
+         
+      }
+      
       }
   };
   
@@ -95,18 +101,18 @@ const DoctorLoginForm = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
-          <div className="relative">
+          <div className="relative  ">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email Address
             </label>
-            <div className="relative">
+            <div className="relative ">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-xl  focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="doctor@example.com"
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -125,7 +131,7 @@ const DoctorLoginForm = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-12 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                className={`w-full pl-10 pr-12 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="Enter your password"
               />
               <button
@@ -142,14 +148,14 @@ const DoctorLoginForm = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
           >
             Login
           </button>
           
           {/* Link to Registration Page */}
           <div className="text-center mt-4">
-            <p className="text-sm animate-pulse text-gray-600">
+            <p className="text-sm animate-pulse text-black underline">
               Did not register yet?{' '}
               <Link to="/doctor/register" className="text-blue-600  hover:text-blue-800">
                  Register here
