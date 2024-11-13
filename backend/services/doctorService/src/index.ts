@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import connectMongoDb from './config/dbConfig'
 import authRoute from './routes/authRoute'
+import { rabbitMqConnect } from './config/rabbitmq'
 
 dotenv.config()
 
@@ -16,11 +17,22 @@ app.use(cors({
 }))
 
 app.use(express.json())
-connectMongoDb()
-
-
 
 app.use('/',authRoute)
+connectMongoDb();
+
+
+
+(async ()=>{
+    const channel=await rabbitMqConnect()
+    if(channel){
+        console.log('rabbit mq connected in doctor side');
+        
+    }
+})();
+
+
+
 
 app.listen(PORT,()=>{
     console.log(`doctor service running on port http://localhost:${PORT}`)

@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 import connectMongoDb from './config/dbConfig';
 import authRoute from './routes/authRoute';
 import adminRoute from './routes/adminRoute'
-import { recieveUserData } from './events/userConsumer';
+import { recieveUserData } from './events/consumers/userConsumer';
 import { rabbitMqConnect } from './config/rabbitmq';
+import { recieveDoctorData } from './events/consumers/doctorConsumer';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ connectMongoDb();
     if (channel) {
         console.log('RabbitMQ connected in admin service');
         await recieveUserData(); 
+        await recieveDoctorData()
         console.log('Admin consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');

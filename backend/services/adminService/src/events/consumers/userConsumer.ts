@@ -1,5 +1,5 @@
-import { getChannel } from "../config/rabbitmq"; 
-import { AdminService } from "../services/adminService";
+import { getChannel } from "../../config/rabbitmq"; 
+import { AdminService } from "../../services/adminService";
 
 const adminService=new AdminService()
 
@@ -18,7 +18,7 @@ export const recieveUserData = async () => {
 
    
     await channel.assertQueue(queueName, { durable: true });
-    console.log(`Consumer is ready, waiting for messages on queue: ${queueName}`);
+    console.log(`userConsumer is ready, waiting for messages on queue: ${queueName}`);
 
     
     channel.consume(queueName, async (message) => {

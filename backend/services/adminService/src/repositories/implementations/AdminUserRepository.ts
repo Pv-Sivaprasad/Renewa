@@ -1,7 +1,6 @@
 import { IAdminUserRepository } from "../interfaces/IAdminUserRepository";
 import AdminUserModel, { IAdminUser } from '../../models/userModel'
 import { User } from "../../types/User";
-import { ObjectId } from "mongoose";
 
 
 
@@ -20,12 +19,15 @@ export class AdminUserRepository implements IAdminUserRepository {
     }
 
    
+
+    
     async findUser(id:any) : Promise<IAdminUser | null > {
       console.log('this is the find user ',id);
       
       return await AdminUserModel.findById(id)
         }
 
+        
     async findByUserId(userId: string): Promise<IAdminUser | null> {
       console.log('entering the findbyuserUdd',userId);
       
@@ -43,6 +45,8 @@ export class AdminUserRepository implements IAdminUserRepository {
        return updateUserStatus ? (updateUserStatus.toObject() as User) : null;
       }
    
+
+
       async getAllUsers(): Promise<any[]> { 
         console.log('entering the get all users in admin user repository');
         try {

@@ -1,8 +1,10 @@
 import { AdminUserRepository } from "../repositories/implementations/AdminUserRepository";
 import { User } from "../types/User";
+import { AdminDoctorRepository } from "../repositories/implementations/AdminDoctorRepository";
+
 
 const adminUserRepository = new AdminUserRepository()
-
+const adminDoctorRepository = new AdminDoctorRepository()
 
 export class AdminService {
 
@@ -17,6 +19,15 @@ export class AdminService {
     
     }
     
+    saveDoctorInAdminDb=async(userData:{docId:string;docname:string;email:string,speciality:string})=>{
+        try {
+            await adminDoctorRepository.saveDoctor(userData)
+        } catch (error) {
+            console.error('Failed to save doctor data in admin  DB:', error);
+            console.log('error from adminservice');
+        }
+    }
+
      getAllUsers = async () => {
         try {
             console.log('entering the get all users in admin servie');

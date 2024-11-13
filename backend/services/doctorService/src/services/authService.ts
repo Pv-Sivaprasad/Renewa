@@ -3,7 +3,7 @@ import { SignupResult ,SignInResult} from "../types/authTypes";
 import { DoctorRepository } from "../repositories/implementations/DoctorRepository";
 import { comparePassword, hashPassword } from "../utils/passwordUtil";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtil";
-
+import {sendDoctorData} from '../events/publishers/doctorPublisher'
 
 
 
@@ -42,7 +42,20 @@ export class AuthService{
             });
             console.log(savedDoc,'the saved doc is');
             
-    
+            const userData={
+                docId:savedDoc?.id.toString(),
+                docname:savedDoc?.username,
+                email:savedDoc?.email,
+                speciality:savedDoc?.speciality
+            }
+            await sendDoctorData(userData).then(()=>{
+                console.log('successully send the data to admin ');  
+            }).catch((err:any)=>{
+                console.log('error while sending',err);
+                
+            })
+
+
             return { success: true, message: 'Registration complete' ,};
         } catch (error) {
             console.error('Error during doctor signup:', error);
