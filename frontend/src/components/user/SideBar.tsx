@@ -22,6 +22,9 @@ import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone';
 import { Link } from 'react-router-dom';
 import UserLogout from './UserLogout';
+import { useSelector, UseSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+
 
 const drawerWidth = 240;
 
@@ -112,6 +115,9 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+
+  const username=useSelector((state:RootState)=>state.user.userName)
+
   const routes = {
     Profile: '/profile',
     Appointments: '/appointments',
@@ -139,7 +145,7 @@ export default function MiniDrawer() {
        
           <div className="w-full md:w-1/2 mx-auto">
             <Typography variant="h6" noWrap component="div" className="text-center">
-              Welcome 
+              Welcome  {username}
             </Typography>
           </div>
         </Toolbar>

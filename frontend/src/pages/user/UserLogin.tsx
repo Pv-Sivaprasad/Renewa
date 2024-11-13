@@ -74,8 +74,11 @@ const UserLogin: React.FC = () => {
         
       }
     } catch (error) {
-    console.error("Axios error response:", error.response?.data || error.message);
-      toast.error('Something went wrong please try again later')
+      console.log(error.response.data.message,'asdfhkashfkjh');
+      
+    console.error("Axios error that u response:", error.response?.data || error.message);
+
+    toast.error(error.response.data.message)
 
     }
   };

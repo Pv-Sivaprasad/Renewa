@@ -78,6 +78,8 @@ export const forgetPassword=async(email:string)=>{
 }
 
 export const editProfile=async()=>{
+    const response=await api.get('/profile')
+    return response
     
 }
 
