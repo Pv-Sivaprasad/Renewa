@@ -4,7 +4,8 @@ import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { docSignIn } from '../../services/doctor/doctorApi';
-
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../redux/slices/doctorSlice';
 
 // Zod schema for form validation
 const signInSchema = z.object({ 
@@ -27,6 +28,7 @@ const DoctorLoginForm = () => {
   const [errors, setErrors] = useState<Partial<{ email: string; password: string }>>({});
   const [showPassword, setShowPassword] = useState(false);
   const navigte=useNavigate()
+  const dispatch=useDispatch()
 
 
 
@@ -50,9 +52,19 @@ const DoctorLoginForm = () => {
           try {
             console.log('Form submitted:', formData);
               const response = await docSignIn(formData);
+              console.log(response,'in doctor login');
+              
               if (response && response.data) {
                   toast.success("Login successful!");
                   if(response.data.accessToken){
+                    dispatch(loginSuccess({
+                      token:response.data.accessToken,
+                      
+                      userName:response.data.username,
+                     
+                      
+                      email:response.data.email
+                    }))
                     localStorage.setItem('accessToken',response.data.accessToken)
                     navigte('/doctor/dashboard')
                   }

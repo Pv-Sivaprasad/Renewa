@@ -6,6 +6,8 @@ export type SignupResult={
 export type SignInResult={
     success:boolean,
     message:string,
+    username?: string;             
+    email?: string; 
     accessToken?:string,
     refreshToken?:string
 }

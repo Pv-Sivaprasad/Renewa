@@ -66,8 +66,13 @@ class AuthController {
                 sameSite:'none',
                 maxAge: 7 * 24 * 60 * 60 * 1000
             })
-            .json({message:response.message,accessToken:response.accessToken})
-
+            .json({
+                message:response.message,
+                accessToken:response.accessToken,
+                username:response.username,
+                email:response.email,
+            })
+            
 
         } catch (error) {
            console.log('error int signin authcontroller doc side');

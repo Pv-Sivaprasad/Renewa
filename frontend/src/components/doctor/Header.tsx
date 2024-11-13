@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UseSelector,useDispatch, useSelector } from 'react-redux';
 import {
   Menu,
   X,
@@ -8,10 +9,16 @@ import {
   ChevronDown,
   LogOut
 } from 'lucide-react';
+import { RootState } from '../../redux/store';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  
+
+  const username=useSelector((state:RootState)=>state.doctor.userName)
+  console.log(username,'in the header');
+  
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -50,7 +57,7 @@ const Layout = () => {
               onClick={toggleProfileDropdown}
               className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100"
             >
-              <span>Dr. John Doe</span>
+              <span>Hii {username} </span>
               <ChevronDown className="w-4 h-4" />
             </button>
             
@@ -98,7 +105,7 @@ const Layout = () => {
       >
         <div className="p-6">
           {/* Your page content will go here */}
-          <h1 className="text-2xl font-semibold">Welcome, Dr. John Doe</h1>
+          <h1 className="text-2xl font-semibold">Welcome, {username}</h1>
         </div>
       </main>
     </div>
