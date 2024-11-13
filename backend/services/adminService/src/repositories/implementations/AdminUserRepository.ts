@@ -28,6 +28,7 @@ export class AdminUserRepository implements IAdminUserRepository {
         }
 
         
+        
     async findByUserId(userId: string): Promise<IAdminUser | null> {
       console.log('entering the findbyuserUdd',userId);
       

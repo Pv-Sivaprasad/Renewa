@@ -40,6 +40,19 @@ export class AdminService {
         }
     }
 
+    getAllDoctors=async()=>{
+        try {
+            console.log('enteing th get all doctor in admin service');
+            const doctors=await adminDoctorRepository.getAllDoctors()
+            return doctors
+            
+        } catch (error) {
+            
+        }
+    }
+
+
+
     toggleBlockStatus=async(userid:string)=>{
         console.log('the id is in toggle',userid);
         
@@ -62,6 +75,7 @@ export class AdminService {
             if(userData){
                 userData.isBlocked = !userData.isBlocked
               }
+              
               console.log('the userdata after',userData);
               const response =await adminUserRepository.save(userData)
               console.log('the updated user is ',response);
@@ -74,6 +88,36 @@ export class AdminService {
         }
     }
     
+    toggleDoctorStatus=async(docid:string)=>{
+        console.log('the id in the toggel doctor is ',docid);
+
+        try {
+            
+            const doc=await adminDoctorRepository.findDoctor(docid)
+            console.log('the doc in the adminservice',doc);
+
+            if(doc){
+                let doctorId=doc.docId
+                const docData=await adminDoctorRepository.findDoctorById(doctorId)
+                console.log('the docData is',docData);
+                if(!docData){
+                    console.log(`Doc with ${doctorId} not found`);
+                    return null
+                }
+                if(docData){
+                    docData.isBlocked = !docData.isBlocked
+                }
+                const response=await adminDoctorRepository.save(docData)
+                console.log('the updated doctor is ',response);
+                return response
+                 
+            }
+            
+        } catch (error) {
+            console.log('error in the toggle Doctor status in adminService',error);
+        }
+        
+    }
     
 
 }

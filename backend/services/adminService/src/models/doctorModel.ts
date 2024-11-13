@@ -18,7 +18,7 @@ const AdminDoctorSchema : Schema = new Schema({
     },
     docname:{
         type:String,
-        required:true
+            
     },
     email:{
         type:String,
@@ -27,9 +27,10 @@ const AdminDoctorSchema : Schema = new Schema({
     speciality:{
         type:String,
         required:true
+       
     },
     isBlocked:{
-        type:String,
+        type:Boolean,
         default:false
     }
 })

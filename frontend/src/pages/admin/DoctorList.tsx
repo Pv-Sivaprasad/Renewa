@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Check, X, Users, UserCog, LogOut, Menu, Home, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { logout, getAllUsers, updateUserStatus } from '../../services/admin/adminApi'; 
+import { logout, updateDoctorStatus,getAllDoctors } from '../../services/admin/adminApi'; 
 import { resetAdmin } from '../../redux/slices/adminSlice';
 import { useDispatch } from 'react-redux';
 
-const UserTable = () => {
+const DoctorList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState('Users');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [users, setUsers] = useState<any[]>([]); // Define the type if necessary
+  const [users, setUsers] = useState<any[]>([]); 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState({
     username: '',
@@ -20,15 +20,15 @@ const UserTable = () => {
   });
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchDoctors = async () => {
       try {
-        const response = await getAllUsers();
+        const response = await getAllDoctors()
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
-    fetchUsers();
+    fetchDoctors();
   }, []);
 
   const menuItems = [
@@ -87,7 +87,7 @@ const UserTable = () => {
 
   const toggleBlockStatus = async (userId: string) => {
     try {
-      const response = await updateUserStatus(userId);
+      const response = await updateDoctorStatus(userId);
       console.log('the response in the toggle',response);
       
       if (response) {
@@ -170,6 +170,7 @@ const UserTable = () => {
                   <tr className="border-b bg-gray-50">
                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Username</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Speciality</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
                   </tr>
@@ -186,7 +187,7 @@ const UserTable = () => {
                             className="w-full rounded border p-1"
                           />
                         ) : (
-                          user.username
+                          user.docname
                         )}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900">
@@ -201,6 +202,18 @@ const UserTable = () => {
                           user.email
                         )}
                       </td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                      {editingId === user._id ? (
+                        <input
+                        type="email"
+                        value={editForm.email}
+                        onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                        className="w-full rounded border p-1"
+                        />
+                      ) : (
+                        user.speciality
+                      )}
+                    </td>
                       <td className="px-6 py-4 text-sm">
                         {editingId === user._id ? (
                           <select
@@ -257,5 +270,5 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default DoctorList;
 

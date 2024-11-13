@@ -8,7 +8,8 @@ export interface User {
   
 export interface Doctor {
   docId:string;
-  docnmae:string;
+  docname:string;
   email:string;
+  speciality:string
   isBlocked:boolean
 }

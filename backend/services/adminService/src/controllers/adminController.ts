@@ -63,6 +63,38 @@ class AdminController {
     }
 
 
+    async getAllDoctor(req:Request,res:Response,next:NextFunction) {
+        console.log('entering the get all doctor in admin controller');
+        
+        try {
+            const doctors=await adminService.getAllDoctors()
+            console.log('the doctors in admin controller',doctors);
+            res.status(HttpStatus.CREATED).json(doctors)
+            return
+            
+        } catch (error) {
+            console.log('error in the admincontroller get all users',error);
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
+            return 
+        }
+    }
+
+    async updateDoctorStatus(req:Request,res:Response,next:NextFunction) {
+        console.log('entering the update doctor in admin controller');
+        const {id}=req.params
+        console.log('the id in params is ',id);
+        try {
+            const response=await adminService.toggleDoctorStatus(id)
+            res.status(HttpStatus.CREATED).json({response}) 
+        } catch (error) {
+             console.log('error in the admincontroller get all users',error);
+              res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
+              return
+        }
+        
+    }
+
+
 }
 
 export default AdminController
