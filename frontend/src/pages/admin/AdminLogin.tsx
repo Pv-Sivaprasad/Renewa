@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { AdminLoginSchema } from '../../utils/validations';
 import logo from '../../assets/user/back.png'; 
-import { adminSignIn } from '../../services/adminApi';
+import { adminSignIn } from '../../services/admin/adminApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useDispatch, UseDispatch } from 'react-redux';

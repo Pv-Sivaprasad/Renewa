@@ -161,7 +161,7 @@ const DoctorRegistrationForm = () => {
           <div className="text-center mt-4">
             <p className="text-sm text-white">
               Already have an account?{' '}
-              <Link to="/doctor" className="text-black hover:text-blue-800">
+              <Link to="/doctor" className="text-black  hover:text-blue-800">
                 Login here
               </Link>
             </p>

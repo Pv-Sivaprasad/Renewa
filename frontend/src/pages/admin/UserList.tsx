@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Check, X, Users, UserCog, LogOut, Menu, Home, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { logout, getAllUsers, updateUserStatus } from '../../services/adminApi'; // Assuming getAllUsers fetches the user data
+import { logout, getAllUsers, updateUserStatus } from '../../services/admin/adminApi'; // Assuming getAllUsers fetches the user data
 import { resetAdmin } from '../../redux/slices/adminSlice';
 import { useDispatch } from 'react-redux';
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Users, UserCog, LogOut, Menu, X, Home, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'; // Updated import
-import {logout} from '../../services/adminApi'
+import {logout} from '../../services/admin/adminApi'
 import { resetAdmin } from '../../redux/slices/adminSlice';
 import { useDispatch, UseDispatch } from 'react-redux';
 const AdminDashboard = () => {

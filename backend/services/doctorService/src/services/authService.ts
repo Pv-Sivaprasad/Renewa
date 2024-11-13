@@ -2,6 +2,7 @@ import { signInDto, SignUpDto } from "../dto/authDto";
 import { SignupResult ,SignInResult} from "../types/authTypes";
 import { DoctorRepository } from "../repositories/implementations/DoctorRepository";
 import { comparePassword, hashPassword } from "../utils/passwordUtil";
+import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtil";
 
 
 
@@ -67,7 +68,13 @@ export class AuthService{
             return { success: false, message: "Invalid password" };
         }
 
-        return {success:true,message:"Successfully signed in"}
+
+        const accessToken=generateAccessToken({id:doc.id})
+        console.log('the accesstoken is',accessToken);
+        const refreshToken=generateRefreshToken({id:doc.id})
+        console.log('the accesstoken is',refreshToken);
+
+        return {success:true,message:"Successfully signed in",accessToken,refreshToken}
     }
 
 }

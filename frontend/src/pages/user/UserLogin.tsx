@@ -6,7 +6,7 @@ import GoogleSignIn from '../../components/user/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInRequest } from '../../services/userApi';
+import { signInRequest } from '../../services/user/userApi';
 import banner from '../../assets/user/banner.jpeg';
 import {toast} from 'react-toastify'
 import { loginRequest,loginSuccess,logout } from '../../redux/slices/authSlice';

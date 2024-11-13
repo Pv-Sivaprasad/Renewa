@@ -4,7 +4,7 @@ import DoctorLoginForm from "../pages/doctor/DoctorLogin";
 import ProtectedRoute from '../components/Protectedroute';
 import PublicRoute from '../components/PublicRoute';
 import DoctorRegistration from '../pages/doctor/DoctorRegistration'
-
+import DoctorDashboard from '../pages/doctor/DoctorDashboard';
 
 const DoctorRoute = () => {
   return (
@@ -14,6 +14,8 @@ const DoctorRoute = () => {
 
         <Route path='/' element={<PublicRoute><DoctorLoginForm/></PublicRoute>}  />    
         <Route path='/register' element={<PublicRoute><DoctorRegistration/></PublicRoute> } />
+        <Route path='/dashboard' element={<DoctorDashboard/> } />
+
       </Routes>
     
     </div>

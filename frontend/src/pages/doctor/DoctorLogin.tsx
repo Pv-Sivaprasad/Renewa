@@ -1,7 +1,10 @@
+import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { docSignIn } from '../../services/doctor/doctorApi';
+
 
 // Zod schema for form validation
 const signInSchema = z.object({ 
@@ -22,32 +25,47 @@ const DoctorLoginForm = () => {
     password: '',
   });
   const [errors, setErrors] = useState<Partial<{ email: string; password: string }>>({});
-
   const [showPassword, setShowPassword] = useState(false);
+  const navigte=useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
 
-    // Validation with Zod
-    const validationResult = signInSchema.safeParse(formData);
-    if (!validationResult.success) {
-      // Map Zod errors to the errors state
-      const newErrors: Record<string, string> = {};
-      validationResult.error.errors.forEach(error => {
-        newErrors[error.path[0]] = error.message;
-      });
-      setErrors(newErrors);
-      
-    } else {
-      // Clear errors if validation passes
-      setErrors({
-        email: '',
-        password: '',
-      });
-      console.log('Form submitted:', formData);
-    }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+  
+     
+      const validationResult = signInSchema.safeParse(formData);
+      if (!validationResult.success) {
+          const newErrors: Record<string, string> = {};
+          validationResult.error.errors.forEach(error => {
+              newErrors[error.path[0]] = error.message;
+          });
+          setErrors(newErrors);
+          toast.error("Please fix the form errors and try again.");
+      } else {
+          setErrors({
+              email: '',
+              password: '',
+          });
+          try {
+            console.log('Form submitted:', formData);
+              const response = await docSignIn(formData);
+              if (response && response.data) {
+                  toast.success("Login successful!");
+                  if(response.data.accessToken){
+                    localStorage.setItem('accessToken',response.data.accessToken)
+                    navigte('/doctor/dashboard')
+                  }
+              } else {
+                  toast.error("Unexpected response from the server.");
+              }
+          } catch (error) {
+              const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
+              toast.error(errorMessage);
+          }
+      }
   };
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -119,10 +137,10 @@ const DoctorLoginForm = () => {
           
           {/* Link to Registration Page */}
           <div className="text-center mt-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm animate-pulse text-gray-600">
               Did not register yet?{' '}
-              <Link to="/doctor/register" className="text-blue-600 hover:text-blue-800">
-                Register here
+              <Link to="/doctor/register" className="text-blue-600  hover:text-blue-800">
+                 Register here
               </Link>
             </p>
           </div>

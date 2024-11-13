@@ -5,5 +5,7 @@ export type SignupResult={
 
 export type SignInResult={
     success:boolean,
-    message:string
+    message:string,
+    accessToken?:string,
+    refreshToken?:string
 }

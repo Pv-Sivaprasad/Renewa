@@ -53,12 +53,20 @@ class AuthController {
             }
 
             const response= await authService.docSignIn(req.body)
-
+            console.log(response,'res in the authController');
+            
             if(!response.success){
-              return  res.status(HttpStatus.NOT_FOUND).json(response.message)
+              return  res.status(HttpStatus.NOT_FOUND).json({message:response.message})
             }
 
-            return res.status(HttpStatus.CREATED).json(response.message)
+            return res.status(HttpStatus.CREATED)
+            .cookie('refrToken',response.refreshToken,{
+                httpOnly:true,
+                secure:true,
+                sameSite:'none',
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            })
+            .json({message:response.message,accessToken:response.accessToken})
 
 
         } catch (error) {

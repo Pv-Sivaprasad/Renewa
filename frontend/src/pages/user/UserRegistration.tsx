@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import banner from '../../assets/user/banner.jpeg';
 import { validateForm } from '../../utils/validations';
-import { signUpRequest, otpSignup, resendOtp } from '../../services/userApi';
+import { signUpRequest, otpSignup, resendOtp } from '../../services/user/userApi';
 import { toast } from 'react-toastify';
 import OtpModal from '../../components/user/otpModal';
 import { Icon } from 'react-icons-kit';

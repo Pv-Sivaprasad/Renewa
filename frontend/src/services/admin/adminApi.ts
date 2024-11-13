@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { adminAxiosInstance,publicAxiosInstance } from './axiosInstance/adminInstance';
+import { adminAxiosInstance,publicAxiosInstance } from '../axiosInstance/adminInstance';
 
 
 
