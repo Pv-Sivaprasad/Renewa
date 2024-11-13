@@ -33,6 +33,7 @@
     "react-toastify": "^10.0.6",
     "react-ui-cards": "^3.1.0",
     "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
     "shadcn": "^2.1.2",
     "sweetalert2": "^11.14.5",

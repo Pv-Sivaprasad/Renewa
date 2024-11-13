@@ -72,7 +72,7 @@ class AuthController {
                 username:response.username,
                 email:response.email,
             })
-            
+
 
         } catch (error) {
            console.log('error int signin authcontroller doc side');
@@ -81,6 +81,13 @@ class AuthController {
         
     }
 
+    async logout(req:Request,res:Response){
+        try {
+           return res.clearCookie('refrToken').json({message:"Logout Successfull"})
+        } catch (error) {
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"something went wrong"})
+        }
+    }
 
 }
 

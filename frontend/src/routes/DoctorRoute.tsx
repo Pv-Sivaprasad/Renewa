@@ -14,7 +14,8 @@ const DoctorRoute = () => {
 
         <Route path='/' element={<PublicRoute><DoctorLoginForm/></PublicRoute>}  />    
         <Route path='/register' element={<PublicRoute><DoctorRegistration/></PublicRoute> } />
-        <Route path='/dashboard' element={<DoctorDashboard/> } />
+        <Route path='/dashboard' element={<ProtectedRoute><DoctorDashboard/></ProtectedRoute> } />
+        
 
       </Routes>
     

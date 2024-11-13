@@ -17,3 +17,11 @@ export const docSignIn = async (data) => {
         throw error; 
     }
 };
+
+
+export const docLogout=async()=>{
+    console.log('enterinf the api in doclogout');
+    
+    const response=await publicApi.post('/logout')
+    return response
+}
