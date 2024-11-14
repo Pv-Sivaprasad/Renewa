@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import connectMongoDb from './config/dbConfig'
 import authRoute from './routes/authRoute'
+import userRoute from './routes/userRoute'
 import cookieparser from 'cookie-parser'
 import { rabbitMqConnect } from './config/rabbitMq'
 import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
@@ -22,6 +23,7 @@ app.use(cors({
 app.use(express.json())
 
 app.use('/',authRoute)
+app.use('/',userRoute)
 
 connectMongoDb();
 

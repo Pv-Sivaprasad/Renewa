@@ -1,5 +1,6 @@
 import { IDoctorRepository } from "../interfaces/IDoctorRepoository";
 import Doctor, { IDoctor } from "../../models/doctorModel";
+import { UpdateprofileDto } from "../../dto/docDto";
 
 
 
@@ -39,4 +40,11 @@ export class DoctorRepository implements IDoctorRepository{
         }
     }
 
+    async updateProfile(userId:string,updateprofileDto:UpdateprofileDto) : Promise<IDoctor | null> {
+        return await Doctor.findByIdAndUpdate(
+            userId,
+            {$set:updateprofileDto},
+            {new:true}
+        )
+    }
 }

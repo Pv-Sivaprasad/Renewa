@@ -39,65 +39,24 @@ const UserSchema: Schema = new Schema({
     default: false,
   },
   address: {
-    city: {
-      type: String,
-      required: false,
-    },
     state: {
-      type: String,
-      required: false,
+        type: String,
+        required: false,
     },
     pincode: {
-      type: String,
-      required: false,
+        type: String,
+        required: false,
     },
-    address: {
-      type: String,
-      required: false,
+    city: {
+        type: String,
+        required: false,
     },
-    nationality: {
-      type: String,
-      required: false,
+    landmark: {
+        type: String,
+        required: false,
     },
-  },
+},
 });
 
 export default mongoose.model<IUser>('User', UserSchema);
 
-
-// import mongoose, { Document, Schema } from 'mongoose';
-
-// export interface IUser extends Document {
-//   username: string;
-//   email: string;
-//   password: string;
-//   image: string;
-//   isVerified: boolean;
-//   isBlocked:boolean;
-// }
-
-// const UserSchema: Schema = new Schema({
-//   username: {
-//     type: String,
-//     required: true,
-//   },
-//   email: {
-//     type: String,
-//     unique: true,
-//     required: true,
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//   },
-//   isVerified: {
-//     type: Boolean,
-//     default: false, 
-//   },
-//   isBlocked:{
-//     type:Boolean,
-//     default:false
-//   }
-// });
-
-// export default mongoose.model<IUser>('User', UserSchema);

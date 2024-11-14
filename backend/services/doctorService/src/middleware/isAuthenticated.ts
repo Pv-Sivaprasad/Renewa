@@ -4,8 +4,9 @@ import { HttpStatus } from '../enums/HttpStatus'
 import dotenv from 'dotenv'
 dotenv.config()
 
-interface CustomeRequest extends Request {
-    user?: string | JwtPayload
+export interface CustomeRequest extends Request {
+    user?:  JwtPayload
+    userId?: string;
 }
 
 
@@ -22,7 +23,7 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
              return
             }
         const newToken = token?.split(' ')[1]
-        console.log(newToken, 'token in admin auth middleware ');
+        console.log(newToken, 'token in doctor auth middleware ');
 
         const secret = process.env.ACCESS_TOKEN_SECRET
         console.log(secret,'secret in ');
@@ -39,7 +40,12 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
             if (err) {
                 return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid token' });
             }
-            req.user = user as JwtPayload
+            req.user = decodedToken?.payload as JwtPayload;
+            console.log(req.user);
+            
+            // req.userId = (decodedToken as JwtPayload).id; 
+            // console.log(req.userId);
+            
             console.log(req.user,'the user before next');
             
             next()
