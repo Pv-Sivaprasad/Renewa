@@ -11,6 +11,33 @@ const   doctorService= new DoctorService()
 
 class DoctorController {
 
+async getProfile(req:CustomeRequest,res:Response){
+    console.log('entering the get profile in doctor controller');
+
+    try {
+        const doc=req.user as JwtPayload
+        console.log(doc,'the doc  from the middleware is');
+        const docId=doc.id
+        console.log(docId,'the doc id from the middleware is');
+
+        const data=await doctorService.getProfileData(docId)
+        console.log('data from the controller is',data);
+        
+        const response={
+            username:data?.username,
+            email:data?.email,
+            speciality:data?.speciality,
+            address:data?.address,
+            experience:data?.experience
+        }
+        return res.status(HttpStatus.CREATED).json(response)
+    } catch (error) {
+        
+    }
+    
+}
+
+
 async updateProfile(req:CustomeRequest,res:Response){
     console.log('entering the profile in the doctor controller');
 
@@ -44,6 +71,7 @@ async updateProfile(req:CustomeRequest,res:Response){
     }
 
 }
+
 
 
 

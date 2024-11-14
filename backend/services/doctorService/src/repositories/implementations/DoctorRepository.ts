@@ -11,6 +11,10 @@ export class DoctorRepository implements IDoctorRepository{
         return await Doctor.create(data)
     }
 
+    async findUserById(docId:string) : Promise<IDoctor | null>{
+        return await Doctor.findById(docId)
+    }
+
     async findUserByEmail (email:string) : Promise<IDoctor | null> {
         return await Doctor.findOne({email})
 

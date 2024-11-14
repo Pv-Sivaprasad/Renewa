@@ -17,5 +17,9 @@ export class DoctorService{
     }    
 
 
+    async getProfileData(userId:string){
+        return await this.doctorRespository.findUserById(userId)
+    }
+
 
 }

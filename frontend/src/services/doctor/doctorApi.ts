@@ -32,10 +32,15 @@ export const docSignUp = async (data) => {
     }
 };
 
-
 export const docLogout=async()=>{
     console.log('enterinf the api in doclogout');
     
     const response=await publicApi.post('/logout')
+    return response
+}
+
+export const getProfile=async()=>{
+    const response=await api.get('/profiledata')
+    console.log('resposne in the api',response);
     return response
 }

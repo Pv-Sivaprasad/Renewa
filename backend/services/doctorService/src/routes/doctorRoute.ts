@@ -6,7 +6,7 @@ import authenticateToken from '../middleware/isAuthenticated'
 const doctor_route=express.Router()
 const doctorController=new DoctorController()
 
-
+doctor_route.get('/profiledata',authenticateToken,doctorController.getProfile)
 doctor_route.patch('/profile',authenticateToken,doctorController.updateProfile)
 
 

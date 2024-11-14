@@ -47,7 +47,7 @@ const Layout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-blue-100">
+    <div className="min-h-screen bg-black">
       {/* Navbar */}
       <nav className="bg-custom-teal shadow-md fixed w-full z-10">
         <div className="px-4 h-16 flex justify-between items-center">
@@ -117,10 +117,8 @@ const Layout = () => {
           isSidebarOpen ? 'ml-64' : 'ml-20'
         }`}
       >
-        <div className="p-6">
-          {/* Your page content will go here */}
-          <h1 className="text-2xl font-semibold">Welcome, {username}</h1>
-        </div>
+        
+       
       </main>
     </div>
   );

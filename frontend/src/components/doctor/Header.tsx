@@ -14,7 +14,7 @@ import { RootState } from '../../redux/store';
 import { docLogout } from '../../services/doctor/doctorApi';
 import { resetDoc } from '../../redux/slices/doctorSlice';
 
-const Layout = () => {
+const Layout = ({Children}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const navigate=useNavigate()
@@ -125,6 +125,7 @@ const Layout = () => {
         <div className="p-6">
           {/* Your page content will go here */}
           <h1 className="text-2xl font-semibold">Welcome, {username}</h1>
+      <Children/>
         </div>
       </main>
     </div>
