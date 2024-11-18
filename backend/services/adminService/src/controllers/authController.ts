@@ -43,7 +43,9 @@ class AuthController {
             }
             
             if(!response?.success){
-                res.status(HttpStatus.NOT_FOUND).json({success:false,message:"Credentials issue"})
+                console.log('forwading from here');
+                
+                res.status(HttpStatus.BAD_REQUEST).json({message:response.message})
             }
             
             

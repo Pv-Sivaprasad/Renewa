@@ -6,6 +6,9 @@ interface doctorState{
     error:String | null,
     userName:String | null,
     email:String | null,
+    isAuthenticated:boolean
+    role:string | null,
+    setDoctor:string | null
 }
 
 
@@ -14,7 +17,10 @@ const initialState : doctorState={
     token:null,
     error:null,
     userName:null,
-    email:null
+    email:null,
+    isAuthenticated:false,
+    role:null,
+    setDoctor: null
 }
 
 
@@ -27,12 +33,16 @@ const doctorSlice=createSlice({
             state.token = action.payload.token;
             state.userName = action.payload.userName;
             state.email = action.payload.email;
+            state.isAuthenticated=true;
+            state.role='doctor'
           },
           logout:(state)=>{
             state.loading=false,
             state.token=null,
             state.error=null,
-            state.userName=null
+            state.userName=null,
+            state.isAuthenticated=false
+            state.role=null
         },
         setDocName:(state,action: PayloadAction<string>)=>{
             state.userName=action.payload
@@ -42,13 +52,19 @@ const doctorSlice=createSlice({
             state.token=null,
             state.error=null,
             state.userName=null,
-            state.email=null
+            state.email=null,
+            state.isAuthenticated=false,
+            state.role=null
             
+        },
+        setDoctor:(state,action: PayloadAction<string>)=>{
+            state.userName=action.payload
         }
+        
     }
 })
 
 
-export const {loginSuccess,resetDoc,logout,setDocName}=doctorSlice.actions
+export const {loginSuccess,resetDoc,logout,setDocName,setDoctor}=doctorSlice.actions
 export default doctorSlice.reducer
 

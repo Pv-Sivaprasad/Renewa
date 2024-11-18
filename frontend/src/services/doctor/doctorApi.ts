@@ -44,3 +44,12 @@ export const getProfile=async()=>{
     console.log('resposne in the api',response);
     return response
 }
+
+export const editProfile=async(data)=>{
+
+    const response=await api.patch('/profile',data)
+    console.log(response);
+    return response
+    
+
+}

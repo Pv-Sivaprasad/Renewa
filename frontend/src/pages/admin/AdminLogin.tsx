@@ -67,6 +67,7 @@ const AdminLogin: React.FC = () => {
         console.log('the formData in the adminLogin before sending to api',formData);
         
       const response = await adminSignIn(formData)
+       console.log('response in adminLogin',response);
        
       if(response.data.accessToken){
         localStorage.setItem('accessToken',response.data.accessToken)
@@ -83,8 +84,8 @@ const AdminLogin: React.FC = () => {
       }
       
     } catch (err) {
-      setError('An error occurred during login');
-      
+      toast.error(err.response.data.message)
+
     } finally {
       setIsLoading(false);
     }

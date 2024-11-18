@@ -37,6 +37,8 @@ const AdminDashboard = () => {
         navigate('/admin')
       }
     } catch (error) {
+      console.log('error in logging out',error);
+      
       
     }
   }

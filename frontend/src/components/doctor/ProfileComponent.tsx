@@ -1,12 +1,19 @@
 
 import React, { useEffect, useState } from 'react';
 import { Home, User, Settings, LogOut, Pencil, Save, X } from 'lucide-react';
-import {getProfile} from '../../services/doctor/doctorApi'
+import {getProfile,editProfile} from '../../services/doctor/doctorApi'
+import { useDispatch } from 'react-redux';
+import { setDoctor } from '../../redux/slices/doctorSlice';
 
 
 // Main Profile Component
 const DoctorProfilePage = () => {
+
+  const dispatch=useDispatch()
+
+
   const [isEditing, setIsEditing] = useState(false);
+
   const [profile, setProfile] = useState({
     username: "",
     email: "",
@@ -22,7 +29,18 @@ const DoctorProfilePage = () => {
     setTempProfile(profile);
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
+
+    try {
+      const response=await editProfile(tempProfile)
+      console.log('edit profile',response);
+      dispatch(setDoctor(response.data.username))
+      
+    } catch (error) {
+      console.log('error in saving the db');
+      
+    }
+
     setProfile(tempProfile);
     setIsEditing(false);
   };
@@ -37,7 +55,7 @@ const DoctorProfilePage = () => {
     setTempProfile(prev => ({
       ...prev,
       [name]: value
-    }));
+    })); 
   };
 
   useEffect(()=>{
@@ -45,7 +63,7 @@ const DoctorProfilePage = () => {
         try {
             const response=await getProfile()
             console.log(response.data,'responsedata');
-            setProfile(response.data); // Set the state with the fetched data
+            setProfile(response.data); 
         setTempProfile(response.data)
             
         } catch (error) {
