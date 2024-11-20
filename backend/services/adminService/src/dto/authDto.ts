@@ -3,3 +3,6 @@ export interface LoginDto{
     password:string
 }
 
+export interface RefreshDto{
+    token:string
+}

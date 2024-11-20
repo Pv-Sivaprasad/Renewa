@@ -5,3 +5,10 @@ export type SignInResult={
     refreshToken?:string
 }
 
+export type RefreshType={
+    success:boolean,
+    message:string,
+    accessToken?:string,
+    refreshToken?:string
+
+}

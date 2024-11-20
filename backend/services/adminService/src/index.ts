@@ -7,6 +7,7 @@ import adminRoute from './routes/adminRoute'
 import { recieveUserData } from './events/consumers/userConsumer';
 import { rabbitMqConnect } from './config/rabbitmq';
 import { recieveDoctorData } from './events/consumers/doctorConsumer';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -17,8 +18,9 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }));
-app.use(express.json());
 
+app.use(cookieParser())
+app.use(express.json());
 
 connectMongoDb();
 

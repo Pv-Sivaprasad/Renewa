@@ -62,3 +62,17 @@ export const AdminLoginSchema=z.object({
    
 })
 
+
+export const validateDocUsername = (username: string): string => {
+    if(username.length < 3) return 'Username should be 3 character long'
+    if (!username.trim()) return 'Username cannot be empty.';
+    if (/\s{2,}/.test(username)) return 'Username cannot contain consecutive spaces.';
+    return '';
+  };
+  
+  export const validateDocExperience = (experience: string): string => {
+    const exp = Number(experience);
+    if (isNaN(exp) || exp < 0 || exp > 25) return 'Experience must be a number between 0 and 25.';
+    return '';
+  };
+  
