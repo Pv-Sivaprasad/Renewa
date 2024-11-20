@@ -36,9 +36,13 @@ const DoctorSchema: Schema = new Schema({
         type: Boolean,
         default: false,
     },
+    image:{
+        type:String,
+        default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3URjWpcZfPfzAHxrU_Xms2GzfUJmvWXGjuw&s'
+    },
     isBlocked: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     isCompleted: {
         type: Boolean,

@@ -46,6 +46,7 @@ export const getProfile=async()=>{
 }
 
 export const editProfile=async(data)=>{
+console.log('the data of editprofile before to backen',data);
 
     const response=await api.patch('/profile',data)
     console.log(response);

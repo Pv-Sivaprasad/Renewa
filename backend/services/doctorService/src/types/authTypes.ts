@@ -12,3 +12,9 @@ export type SignInResult={
     accessToken?:string,
     refreshToken?:string
 }
+
+export type UploadType={
+    fileContent:Buffer,
+    fullFileName:string,
+    fileType:string
+}
