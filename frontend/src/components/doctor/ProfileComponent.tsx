@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Pencil, Save, X } from 'lucide-react';
 import { getProfile, editProfile } from '../../services/doctor/doctorApi';
 import { useDispatch } from 'react-redux';
-import { setDoctor } from '../../redux/slices/doctorSlice';
+import { setDoctor,resetDoc } from '../../redux/slices/doctorSlice';
 import { validateDocExperience,validateDocUsername } from '../../utils/validations';
+import { toast } from 'react-toastify';
+import {  useNavigate } from 'react-router';
+
+
 
 const DoctorProfilePage = () => {
   const dispatch = useDispatch();
-
+  const navigate=useNavigate()
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     username: '',
@@ -96,6 +100,10 @@ const DoctorProfilePage = () => {
         setTempProfile(response.data);
       } catch (error) {
         console.error('Error fetching profile data:', error);
+        dispatch(resetDoc())
+        localStorage.removeItem('accessToken')
+        navigate('/doctor')
+
       }
     };
     fetchDocData();
