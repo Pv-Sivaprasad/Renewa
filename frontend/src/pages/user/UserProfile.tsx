@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { User, Phone, Mail, MapPin, Edit2, Save, Sidebar, Image as ImageIcon } from 'lucide-react';
+import { User, Phone, Mail, MapPin, Edit2, Save, Image as ImageIcon } from 'lucide-react';
 import UserHeader from '../../components/user/UserHeader';
 import { getProfile } from '../../services/user/userApi';
-
-
+import { toast } from 'react-toastify';
+import Sidebar from '../../components/user/SideBar'
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,25 +13,29 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
-        // const data=await getProfile()
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
+        const data = await getProfile();
+        console.log(data, 'the data is');
+
         const response = {
-          username: "johndoe",
-          email: "john.doe@example.com",
-          mobile: "+1 234 567 8900",
+          username: data.data.username ,
+          email: data.data.email ,
+          mobile: data.data.mobile ,
+          profilePic: data.data.profilePic || null,
           address: {
-            city: "City",
-            state: "State",
-            pincode: "123456",
-            address: "123 Main St",
-            nationality: "Country"
+            address: data.data.address?.address,
+            city: data.data.address?.city ,
+            state: data.data.address?.state ,
+            pincode: data.data.address?.pincode,
+            nationality: data.data.address?.nationality,
+            landmark: data.data.address?.landmark ,
           },
-          profilePic: null
         };
         setUserData(response);
         setEditedData(response);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error('Error fetching user data:', error);
+        toast.error('Error fetching user data');
       } finally {
         setLoading(false);
       }
@@ -47,30 +51,32 @@ const UserProfile = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate save delay
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate save delay
       setUserData(editedData);
       setIsEditing(false);
+      toast.success('Profile updated successfully');
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error('Error updating profile:', error);
+      toast.error('Error updating profile');
     } finally {
       setLoading(false);
     }
   };
 
   const handleChange = (field, value) => {
-    setEditedData(prev => ({
+    setEditedData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleAddressChange = (field, value) => {
-    setEditedData(prev => ({
+    setEditedData((prev) => ({
       ...prev,
       address: {
         ...prev.address,
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -79,9 +85,9 @@ const UserProfile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setEditedData(prev => ({
+        setEditedData((prev) => ({
           ...prev,
-          profilePic: reader.result
+          profilePic: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -97,12 +103,10 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-blue-200 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
-      <UserHeader/>
-      {/* <Sidebar /> */}
-      <div className="max-w-5xl mx-auto bg-blue-100 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-        
-        {/* Header Section */}
+    <div className="min-h-screen bg-custom-teal py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
+      {/* <UserHeader /> */}
+      <Sidebar/>
+      <div className="max-w-5xl mx-auto bg-blue-300 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="flex flex-col items-center space-y-4 p-6 border-b border-gray-100">
           <div className="relative">
             <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg overflow-hidden">
@@ -139,12 +143,9 @@ const UserProfile = () => {
             <h2 className="text-2xl font-bold text-gray-900">{userData.username}</h2>
           )}
         </div>
-        
-        {/* Content Section */}
+
         <div className="p-6 space-y-6">
           <div className="grid grid-cols-2 gap-4">
-            
-            {/* Email Field - Non-editable */}
             <div className="flex items-center p-3 rounded-2xl bg-gray-50 transition-colors duration-200">
               <Mail className="h-5 w-5 text-blue-500 mr-3" />
               <div className="flex-grow">
@@ -153,8 +154,25 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {/* Address Fields */}
-            {["city", "state", "pincode", "address", "nationality"].map((field) => (
+            <div className="flex items-center p-3 rounded-2xl hover:bg-sky-50 transition-colors duration-200">
+              <Phone className="h-5 w-5 text-blue-500 mr-3" />
+              <div className="flex-grow">
+                <p className="text-sm font-medium text-gray-500">Mobile</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    placeholder='Enter your mobile number'
+                    value={editedData.mobile}
+                    onChange={(e) => handleChange('mobile', e.target.value)}
+                    className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-base text-gray-900">{userData.mobile}</p>
+                )}
+              </div>
+            </div>
+
+            {['address', 'city', 'state', 'pincode', 'nationality', 'landmark'].map((field) => (
               <div key={field} className="flex items-center p-3 rounded-2xl hover:bg-sky-50 transition-colors duration-200">
                 <MapPin className="h-5 w-5 text-blue-500 mr-3" />
                 <div className="flex-grow">
@@ -162,6 +180,7 @@ const UserProfile = () => {
                   {isEditing ? (
                     <input
                       type="text"
+                      placeholder='Enter your Address'
                       value={editedData.address[field]}
                       onChange={(e) => handleAddressChange(field, e.target.value)}
                       className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -174,7 +193,6 @@ const UserProfile = () => {
             ))}
           </div>
 
-          {/* Action Button */}
           <div className="flex justify-center pt-6">
             {isEditing ? (
               <button
@@ -203,9 +221,12 @@ const UserProfile = () => {
 export default UserProfile;
 
 
-
 // import React, { useState, useEffect } from 'react';
 // import { User, Phone, Mail, MapPin, Edit2, Save, Sidebar, Image as ImageIcon } from 'lucide-react';
+// import UserHeader from '../../components/user/UserHeader';
+// import { getProfile } from '../../services/user/userApi';
+// import { toast } from 'react-toastify';
+
 
 // const UserProfile = () => {
 //   const [userData, setUserData] = useState(null);
@@ -216,18 +237,30 @@ export default UserProfile;
 //   useEffect(() => {
 //     const fetchUserData = async () => {
 //       try {
-//         await new Promise(resolve => setTimeout(resolve, 1000));
+//         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
+//         const data=await getProfile()
+//         console.log(data,'the data is');
+        
 //         const response = {
-//           username: "johndoe",
-//           email: "john.doe@example.com",
-//           mobile: "+1 234 567 8900",
-//           address: "123 Main St, City, Country",
-//           profilePic: null
+//           username: data.data.username || 'enter your username' ,
+//           email:data.data.email || "Enter your email" ,
+//           mobile: data.data.mobile|| "Enter your mobile number",
+//           address: {
+//             city: data.data.address.city || "Enter your city" ,
+//             state: data.data.address.state  || "Enter your state",
+//             pincode:data.data.address.pincode || "Enter your pincode",
+//             address: data.data.address?.address || "Enter your street address",
+//             nationality: data.data.address?.nationality || "Enter your nationality",
+
+//           },
+//           profilePic:  data.data.profilePic || null
 //         };
 //         setUserData(response);
 //         setEditedData(response);
 //       } catch (error) {
 //         console.error("Error fetching user data:", error);
+//         // localStorage.removeItem('accessToken')
+//         // toast.error(error.response.data.message)
 //       } finally {
 //         setLoading(false);
 //       }
@@ -236,16 +269,6 @@ export default UserProfile;
 //     fetchUserData();
 //   }, []);
 
-//   const defaultData = {
-//     username: "User",
-//     email: "Not provided",
-//     mobile: "Not provided",
-//     address: "Not provided",
-//     profilePic: null
-//   };
-
-//   const data = userData || defaultData;
-
 //   const handleEdit = () => {
 //     setIsEditing(true);
 //   };
@@ -253,12 +276,7 @@ export default UserProfile;
 //   const handleSubmit = async () => {
 //     setLoading(true);
 //     try {
-
-//         const response=await 
-
-//       await new Promise(resolve => setTimeout(resolve, 1000));
-//       console.log('the form edited data is ',editedData);
-      
+//       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate save delay
 //       setUserData(editedData);
 //       setIsEditing(false);
 //     } catch (error) {
@@ -272,6 +290,16 @@ export default UserProfile;
 //     setEditedData(prev => ({
 //       ...prev,
 //       [field]: value
+//     }));
+//   };
+
+//   const handleAddressChange = (field, value) => {
+//     setEditedData(prev => ({
+//       ...prev,
+//       address: {
+//         ...prev.address,
+//         [field]: value
+//       }
 //     }));
 //   };
 
@@ -298,9 +326,10 @@ export default UserProfile;
 //   }
 
 //   return (
-//     <div className="min-h-screen bg-sky-50 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
-//       <Sidebar />
-//       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+//     <div className="min-h-screen bg-blue-200 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
+//       <UserHeader/>
+//       {/* <Sidebar /> */}
+//       <div className="max-w-5xl mx-auto bg-blue-100 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
         
 //         {/* Header Section */}
 //         <div className="flex flex-col items-center space-y-4 p-6 border-b border-gray-100">
@@ -336,58 +365,42 @@ export default UserProfile;
 //               className="text-xl font-semibold text-center max-w-[200px] border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
 //             />
 //           ) : (
-//             <h2 className="text-2xl font-bold text-gray-900">{data.username}</h2>
+//             <h2 className="text-2xl font-bold text-gray-900">{userData.username}</h2>
 //           )}
 //         </div>
         
 //         {/* Content Section */}
 //         <div className="p-6 space-y-6">
-//           <div className="space-y-4">
+//           <div className="grid grid-cols-2 gap-4">
             
 //             {/* Email Field - Non-editable */}
-//             <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 p-3 rounded-lg bg-gray-50 transition-colors duration-200">
-//               <Mail className="h-5 w-5 text-blue-500" />
+//             <div className="flex items-center p-3 rounded-2xl bg-gray-50 transition-colors duration-200">
+//               <Mail className="h-5 w-5 text-blue-500 mr-3" />
 //               <div className="flex-grow">
 //                 <p className="text-sm font-medium text-gray-500">Email</p>
-//                 <p className="text-base text-gray-900">{data.email}</p>
+//                 <p className="text-base text-gray-900">{userData.email}</p>
 //               </div>
 //             </div>
 
-//             {/* Mobile Field */}
-//             <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 p-3 rounded-lg hover:bg-sky-50 transition-colors duration-200">
-//               <Phone className="h-5 w-5 text-blue-500" />
-//               <div className="flex-grow">
-//                 <p className="text-sm font-medium text-gray-500">Mobile</p>
-//                 {isEditing ? (
-//                   <input
-//                     type="tel"
-//                     value={editedData.mobile}
-//                     onChange={(e) => handleChange('mobile', e.target.value)}
-//                     className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   />
-//                 ) : (
-//                   <p className="text-base text-gray-900">{data.mobile}</p>
-//                 )}
+//             {/* Address Fields */}
+//             {["city", "state", "pincode", "address", "nationality"].map((field) => (
+//               <div key={field} className="flex items-center p-3 rounded-2xl hover:bg-sky-50 transition-colors duration-200">
+//                 <MapPin className="h-5 w-5 text-blue-500 mr-3" />
+//                 <div className="flex-grow">
+//                   <p className="text-sm font-medium text-gray-500">{field.charAt(0).toUpperCase() + field.slice(1)}</p>
+//                   {isEditing ? (
+//                     <input
+//                       type="text"
+//                       value={editedData.address[field]}
+//                       onChange={(e) => handleAddressChange(field, e.target.value)}
+//                       className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     />
+//                   ) : (
+//                     <p className="text-base text-gray-900">{userData.address[field]}</p>
+//                   )}
+//                 </div>
 //               </div>
-//             </div>
-
-//             {/* Address Field */}
-//             <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 p-3 rounded-lg hover:bg-sky-50 transition-colors duration-200">
-//               <MapPin className="h-5 w-5 text-blue-500" />
-//               <div className="flex-grow">
-//                 <p className="text-sm font-medium text-gray-500">Address</p>
-//                 {isEditing ? (
-//                   <input
-//                     type="text"
-//                     value={editedData.address}
-//                     onChange={(e) => handleChange('address', e.target.value)}
-//                     className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                   />
-//                 ) : (
-//                   <p className="text-base text-gray-900">{data.address}</p>
-//                 )}
-//               </div>
-//             </div>
+//             ))}
 //           </div>
 
 //           {/* Action Button */}
@@ -395,7 +408,7 @@ export default UserProfile;
 //             {isEditing ? (
 //               <button
 //                 onClick={handleSubmit}
-//                 className="flex items-center space-x-2 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+//                 className="flex items-center space-x-2 px-6 py-2 bg-blue-500 text-white rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
 //               >
 //                 <Save className="h-4 w-4" />
 //                 <span>Save Changes</span>
@@ -403,7 +416,7 @@ export default UserProfile;
 //             ) : (
 //               <button
 //                 onClick={handleEdit}
-//                 className="flex items-center space-x-2 px-6 py-2 bg-sky-100 text-blue-600 rounded-lg hover:bg-sky-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+//                 className="flex items-center space-x-2 px-6 py-2 bg-sky-100 text-blue-600 rounded-2xl hover:bg-sky-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
 //               >
 //                 <Edit2 className="h-4 w-4" />
 //                 <span>Edit Profile</span>

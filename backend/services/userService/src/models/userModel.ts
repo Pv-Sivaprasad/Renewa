@@ -26,6 +26,10 @@ const UserSchema: Schema = new Schema({
     unique: true,
     required: true,
   },
+  mobile:{
+    type:String,
+    required:false
+  },
   password: {
     type: String,
   },
@@ -50,10 +54,14 @@ const UserSchema: Schema = new Schema({
         type: String,
         required: false,
     },
-    landmark: {
+    address: {
         type: String,
         required: false,
     },
+    nationality: {
+      type: String,
+      required: false,
+  },
 },
 });
 

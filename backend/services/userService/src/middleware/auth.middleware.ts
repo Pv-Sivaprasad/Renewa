@@ -12,17 +12,20 @@ export interface IncomingReques extends Request {
 
 export const authenticateToken = (req: IncomingReques, res: Response, next: NextFunction) => {
  
-    console.log('reached herreeeee');
+ 
+    
     
     
     try {
         const token = req.headers['authorization']
+
        
         
         if (!token) {
              res.status(HttpStatus.UNAUTHORIZED).json({ message: "Access denied . No token provided" })
              return
             }
+        
         const newToken = token?.split(' ')[1]
         console.log(newToken, 'token in user auth middleware ');
 
