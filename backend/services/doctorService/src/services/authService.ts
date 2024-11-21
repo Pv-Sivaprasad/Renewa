@@ -1,12 +1,14 @@
-import { signInDto, SignUpDto } from "../dto/authDto";
+import { signInDto, SignUpDto,RefreshDto } from "../dto/authDto";
 import { SignupResult ,SignInResult} from "../types/authTypes";
 import { DoctorRepository } from "../repositories/implementations/DoctorRepository";
 import { comparePassword, hashPassword } from "../utils/passwordUtil";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtil";
 import {sendDoctorData} from '../events/publishers/doctorPublisher'
+import { MailService } from "../utils/emailUtil";
+import jwt from 'jsonwebtoken'
 
 
-
+const mailService=new MailService()
 
 
 export class AuthService{
@@ -79,7 +81,7 @@ export class AuthService{
 
         
         if (doc && doc.isBlocked) {
-            return { success: false, message: "Account has been blocked" };
+            return { success: false, message: "No authorization to login " };
         }
 
         const isValidPassword=await comparePassword(password,doc.password)
@@ -104,7 +106,7 @@ export class AuthService{
 
     }
 
-    async updateDoctorStatus(docId:string,isBlocked:boolean) : Promise<boolean>{
+    async updateDoctorStatus(docId:string,isBlocked:boolean,email:string) : Promise<boolean>{
         console.log('entered the doctor status update in doctor auth service');
         console.log(docId,isBlocked,'data from the doctor consumer');
 
@@ -113,6 +115,12 @@ export class AuthService{
             if (!isUpdated) {
                 console.log(`User ${docId} not found or status update failed.`);
             }
+            console.log(isUpdated,'the updated in the updateStatus');
+            
+            await mailService.sendConfirmMail(email)
+            console.log('mail has been sent to the doctor ');
+            
+
             return isUpdated
         } catch (error) {
             console.error(`Error in AuthService when updating user ${docId} status:`, error);
@@ -120,5 +128,39 @@ export class AuthService{
         }
         
     }
+
+    async checkToken(refreshDto:RefreshDto) {
+       
+        
+       
+        
+        try {
+
+            const token = refreshDto.token;
+           
+            
+            const secret=process.env.REFRESH_TOKEN_SECRET
+         
+            
+            if(!secret){
+                return {success:false,message:'nternal Server Error'}
+            }
+            const decoded=jwt.verify(token,secret)
+           
+
+            if(typeof decoded === 'object' && decoded !== null && 'id' in decoded){
+                const newAccessToken=generateAccessToken({id:decoded.id})
+                return {success:true,message:"new token created",accessToken:newAccessToken}
+                
+            }
+        } catch (error) {
+            if (error instanceof jwt.TokenExpiredError) {
+               return {success:false,message:"Refresh token expired, please log in again"}
+                
+            }
+            console.error("Error verifying refresh token:", error);
+        }
+    }
+
 
 }

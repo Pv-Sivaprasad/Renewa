@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'; // React Router for naviga
 import { validateForm } from '../../utils/doctor/registerValidations';
 import { docSignUp } from '../../services/doctor/doctorApi';
 import { toast } from 'react-toastify';
+import swal from 'sweetalert'
 
 interface FormData {
   username: string;
@@ -30,21 +31,52 @@ const DoctorRegistrationForm = () => {
   const navigate=useNavigate()
 
 
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  // const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const { isValid, errors: validationErrors } = validateForm(formData);
+  //   if (isValid) {
+  //     console.log('Form submitted:', formData);
+  //     const response=await docSignUp(formData)
+  //     console.log('the response from bakcend is in docregister',response);
+  //     if(response.data.success){
+  //       toast.success(response.data.message)
+  //       navigate('/doctor')
+  //     }
+  //   } else {
+  //     setErrors(validationErrors);
+  //   }
+  // };
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { isValid, errors: validationErrors } = validateForm(formData);
+  
     if (isValid) {
-      console.log('Form submitted:', formData);
-      const response=await docSignUp(formData)
-      console.log('the response from bakcend is in docregister',response);
-      if(response.data.success){
-        toast.success(response.data.message)
-        navigate('/doctor')
+      try {
+        console.log('Form submitted:', formData);
+        const response = await docSignUp(formData);
+        console.log('The response from backend is in docregister', response);
+  
+        if (response.data.success) {
+          swal({
+            title: "Registration Successful!",
+            text: "You will be notified with further updates.",
+            icon: "success",
+            buttons: ["Cancel", "Proceed"], // Fixed the property name
+          }).then(() => {
+            // Navigate to /doctor route after alert confirmation
+            navigate('/doctor');
+          });
+        }
+      } catch (error) {
+        console.error('Error during signup:', error);
+        toast.error(error.response.data.message);
       }
     } else {
       setErrors(validationErrors);
     }
   };
+  
+  
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

@@ -36,6 +36,7 @@ class AdminController {
         try {
             
             const response=await adminService.toggleBlockStatus(id)
+           
             
             
             if(response){
@@ -86,10 +87,13 @@ class AdminController {
         console.log('the id in params is ',id);
         try {
             const response=await adminService.toggleDoctorStatus(id)
+            console.log(response,'thi is in adm|Con update ');
             if(response){
                 const message={
                     docId:response.docId,
-                    isBlocked:response.isBlocked
+                    isBlocked:response.isBlocked,
+                    email:response.email
+                    
                 }
                 console.log(message,'the message in the adminsevice');
                 

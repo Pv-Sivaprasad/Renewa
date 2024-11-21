@@ -90,6 +90,35 @@ class AuthController {
         }
     }
 
+    async setNewToken(req:Request,res:Response){
+      
+        
+        const token=req.cookies?.refrToken;
+       
+        if(!token){
+            res.status(HttpStatus.FORBIDDEN).json({message:'Internal Server Error'})
+        }
+        try {
+          
+          const response=await authService.checkToken({token})
+          
+
+          if(response?.success){
+            res.json({accessToken:response.accessToken})
+            return
+          }else{
+            res.clearCookie('refrToken')
+            res.status(HttpStatus.FORBIDDEN).json({message:response?.message})
+          }
+          
+
+        } catch (error) {
+            console.log('error in the setnew token',error);
+            
+        }
+    }
+
+
 }
 
 

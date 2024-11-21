@@ -11,3 +11,7 @@ export interface signInDto{
     email:string,
     password:string,
 }
+
+export interface RefreshDto{
+    token:string
+}

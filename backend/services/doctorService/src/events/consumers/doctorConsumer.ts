@@ -21,11 +21,11 @@ export const listenForAdminStatusUpdate = async () =>{
             channel.consume(queueName,async (msg)=>{
                 console.log('checking message in doctor consumer');
                 if(msg){
-                    const{docId,isBlocked}=JSON.parse(msg.content.toString())
+                    const{docId,isBlocked,email}=JSON.parse(msg.content.toString())
                     console.log(`Received user status update: ${docId}, isBlocked: ${isBlocked}`);
 
                     try {
-                        await authService.updateDoctorStatus(docId,isBlocked)
+                        await authService.updateDoctorStatus(docId,isBlocked,email)
                         console.log(`Successfully updated user ${docId} status to isBlocked: ${isBlocked}`);
                         channel.ack(msg);
                     } catch (error) {

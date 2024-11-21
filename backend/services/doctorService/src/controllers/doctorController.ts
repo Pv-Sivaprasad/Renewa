@@ -6,6 +6,7 @@ import { UpdateprofileDto } from "../dto/docDto";
 import { JwtPayload } from "jsonwebtoken";
 import { uploadFile } from "../utils/uploadUtil";
 
+
 const   doctorService= new DoctorService()
 
 

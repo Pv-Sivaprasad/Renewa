@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import store from '../../redux/store';
-import { resetAdmin } from "../../redux/slices/adminSlice";
+import { resetDoc } from "../../redux/slices/doctorSlice";
 
 const API_URL = import.meta.env.VITE_DCOTOR_API_URL
 
@@ -62,7 +62,7 @@ doctorAxiosInstance.interceptors.response.use(
           return doctorAxiosInstance(originalRequest);
         } catch (err) {
           toast.error("Session expired");
-          store.dispatch(resetAdmin())
+          store.dispatch(resetDoc())
           return Promise.reject(err);
         }
       }
@@ -89,5 +89,5 @@ async function getNewAccessToken() {
   const response = await axios.get(`${API_URL}/refresh-token`, {
     withCredentials: true,
   });
-  return response.data.data.accessToken;
+  return response.data.accessToken;
 }

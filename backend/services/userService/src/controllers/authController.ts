@@ -113,7 +113,7 @@ class AuthController {
         const refreshToken = result.refreshToken || ''
     
     
-          res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
+          res.status(HttpStatus.CREATED).cookie('refrToken', result.refreshToken, {
           httpOnly: true,
           secure: false,
           sameSite:'none',
