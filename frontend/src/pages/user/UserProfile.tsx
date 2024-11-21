@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Phone, Mail, MapPin, Edit2, Save, Sidebar, Image as ImageIcon } from 'lucide-react';
 import UserHeader from '../../components/user/UserHeader';
-import { editProfile } from '../../services/user/userApi';
+import { getProfile } from '../../services/user/userApi';
 
 
 const UserProfile = () => {
@@ -14,7 +14,7 @@ const UserProfile = () => {
     const fetchUserData = async () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
-        const data=await editProfile()
+        // const data=await getProfile()
         const response = {
           username: "johndoe",
           email: "john.doe@example.com",

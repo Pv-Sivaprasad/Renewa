@@ -77,10 +77,10 @@ export const forgetPassword=async(email:string)=>{
     return response
 }
 
-export const editProfile=async()=>{
-    const response=await api.get('/profile')
+export const getProfile=async()=>{
+    const response=await api.get('/profiledata')
+    console.log('resposne in the api',response);
     return response
-    
 }
 
 

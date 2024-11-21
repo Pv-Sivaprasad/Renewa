@@ -10,8 +10,9 @@ export interface IncomingReques extends Request {
 }
 
 
-const authenticateToken = (req: IncomingReques, res: Response, next: NextFunction) => {
+export const authenticateToken = (req: IncomingReques, res: Response, next: NextFunction) => {
  
+    console.log('reached herreeeee');
     
     
     try {
@@ -35,19 +36,16 @@ const authenticateToken = (req: IncomingReques, res: Response, next: NextFunctio
             throw new Error('Access token secret is not defined')
         }
         jwt.verify(newToken, secret, (err, user) => {
-            console.log('verify done');
+            console.log('verify done in herre');
 
             if (err) {
                 return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid token' });
             }
 
             req.user = decodedToken?.payload as JwtPayload;
-            console.log(req.user);
+            console.log(req.user,'inthe midle');
             
-            // req.userId = (decodedToken as JwtPayload).id; 
-            // console.log(req.userId);
-            
-            ;
+        
             
             next()
         })
@@ -57,7 +55,7 @@ const authenticateToken = (req: IncomingReques, res: Response, next: NextFunctio
     }
 }
 
-export default authenticateToken
+// export default authenticateToken
 
 
 

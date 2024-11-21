@@ -34,6 +34,7 @@ async getProfile(req:CustomeRequest,res:Response){
         }
         return res.status(HttpStatus.CREATED).json(response)
     } catch (error) {
+        console.log('falied in fetching the user details',error);
         
     }
     

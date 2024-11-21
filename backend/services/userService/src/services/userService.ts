@@ -11,6 +11,10 @@ export class UserService {
     }
 
 
+    async getProfileData(id:string){
+        return await this.userRepository.findUserById(id)
+    }
+
     async updateUserProfile(userId:string,updateProfileDto:UpdateProfileDto){
         return await this.userRepository.updateProfile(userId,updateProfileDto)
     }

@@ -8,10 +8,7 @@ import { validateForm } from '../../utils/validations';
 import { signUpRequest, otpSignup, resendOtp } from '../../services/user/userApi';
 import { toast } from 'react-toastify';
 import OtpModal from '../../components/user/otpModal';
-import { Icon } from 'react-icons-kit';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye';
-
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface UserFormData {
     username: string;
@@ -25,6 +22,7 @@ const UserRegistration: React.FC = () => {
     const navigate=useNavigate()
     const [loading, setLoading] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -53,6 +51,14 @@ const UserRegistration: React.FC = () => {
             ...formData,
             [e.target.id]: e.target.value,
         });
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+      };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
     };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -129,7 +135,7 @@ const UserRegistration: React.FC = () => {
                                     <input
                                         type="text"
                                         id="username"
-                                        placeholder="Enter your name"
+                                        placeholder="username"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded-xl"
                                         value={formData.username}
                                         onChange={handleChange}
@@ -146,7 +152,7 @@ const UserRegistration: React.FC = () => {
                                     <input
                                         type="email"
                                         id="email"
-                                        placeholder="Enter your email"
+                                        placeholder="user@gmail.com"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded-xl"
                                         value={formData.email}
                                         onChange={handleChange}
@@ -156,7 +162,7 @@ const UserRegistration: React.FC = () => {
                                     {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
                                 </div>
 
-                                <div className="mb-6">
+                                {/* <div className="mb-6">
                                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                         Password
                                     </label>
@@ -172,9 +178,32 @@ const UserRegistration: React.FC = () => {
                                         autoComplete="new-password"
                                     />
                                     {formErrors.password && <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>}
+                                </div> */}
+                                <div className="mb-6 relative">
+                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                        Password
+                                    </label>
+                                    <input
+                                        id="password"
+                                        placeholder="User132@"
+                                        type={showPassword ? 'text' : 'password'}
+                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-xl"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                        autoComplete="new-password"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={togglePasswordVisibility}
+                                        className="absolute inset-y-0 right-2 flex items-center text-gray-600"
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                    {formErrors.password && <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>}
                                 </div>
 
-                                <div className="mb-6">
+                                {/* <div className="mb-6">
                                     <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                                         Confirm Password
                                     </label>
@@ -188,6 +217,31 @@ const UserRegistration: React.FC = () => {
                                         required
                                         autoComplete="new-password"
                                     />
+                                    {formErrors.confirmPassword && (
+                                        <p className="text-red-500 text-xs mt-1">{formErrors.confirmPassword}</p>
+                                    )}
+                                </div> */}
+                                 <div className="mb-6 relative">
+                                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                                        Confirm Password
+                                    </label>
+                                    <input
+                                        type={showConfirmPassword ? 'text' : 'password'}
+                                        id="confirmPassword"
+                                        placeholder="User132@"
+                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-xl"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        required
+                                        autoComplete="new-password"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={toggleConfirmPasswordVisibility}
+                                        className="absolute inset-y-0 right-2 flex items-center text-gray-600"
+                                    >
+                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
                                     {formErrors.confirmPassword && (
                                         <p className="text-red-500 text-xs mt-1">{formErrors.confirmPassword}</p>
                                     )}

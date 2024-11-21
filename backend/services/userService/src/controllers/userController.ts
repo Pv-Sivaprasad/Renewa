@@ -12,6 +12,34 @@ const userService=new UserService()
 
 class UserController {
 
+
+    async getProfile(req:IncomingReques,res:Response){
+        console.log('entering the get profile in userController');
+         try {
+            const user=req.user as JwtPayload
+        console.log(user,'the user  from the middleware is');
+        const userId=user.id
+        console.log(userId,'the user id from the middleware is');
+
+            const data=await userService.getProfileData(userId)
+            console.log('data from the controller is',data);
+            
+        const response={
+            username:data?.username,
+            email:data?.email,
+            address:data?.address,
+            image:data?.image
+        }
+        return res.status(HttpStatus.CREATED).json(response)
+
+         } catch (error) {
+            console.log('error in getprofile in userCon',error);
+            
+         }
+        
+    }
+
+    
     async updateProfile(req:IncomingReques,res:Response){
         console.log('entering the profile in the user controller');
 
@@ -43,6 +71,7 @@ class UserController {
         }
         
     }
+
 
 
 }
