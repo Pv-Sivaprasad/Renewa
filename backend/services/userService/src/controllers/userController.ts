@@ -28,7 +28,14 @@ class UserController {
             username:data?.username,
             email:data?.email,
             address:data?.address,
-            image:data?.image
+            image:data?.image,
+            mobile:data?.mobile,
+            city:data?.address?.city,
+            state:data?.address?.state,
+            pincode:data?.address?.pincode,
+            nationality:data?.address?.nationality,
+            landmark:data?.address?.landmark
+            
         }
         return res.status(HttpStatus.CREATED).json(response)
 
@@ -60,7 +67,14 @@ class UserController {
             const data={
                 username:updateData.username,
                 address:updateData.address,
-                image:updateData.image
+                image:updateData.image,
+                mobile:updateData.mobile,
+                city:updateData.address?.city,
+                state:updateData.address?.state,
+                pincode:updateData.address?.pincode,
+                nationality:updateData.address?.nationality,
+                landmark:updateData.address?.landmark,
+                
             }
             
             return res.status(HttpStatus.CREATED).json(data)

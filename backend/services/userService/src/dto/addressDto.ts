@@ -3,4 +3,5 @@ export interface AddressDto {
     city?: string;
     landmark?: string;
     pincode?: string;
+    nationality?:string
 }

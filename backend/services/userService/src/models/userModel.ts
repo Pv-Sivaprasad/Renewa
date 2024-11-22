@@ -5,14 +5,15 @@ export interface IUser extends Document {
   email: string;
   password: string;
   image: string;
+  mobile:string
   isVerified: boolean;
   isBlocked: boolean;
   address?: {
     city?: string;
     state?: string;
     pincode?: string;
-    address?: string;
     nationality?: string;
+    landmark?:string
   };
 }
 
@@ -54,14 +55,14 @@ const UserSchema: Schema = new Schema({
         type: String,
         required: false,
     },
-    address: {
-        type: String,
-        required: false,
-    },
     nationality: {
       type: String,
       required: false,
   },
+  landmark:{
+    type:String,
+    required:false
+  }
 },
 });
 

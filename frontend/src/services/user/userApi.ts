@@ -96,6 +96,13 @@ export const getProfile=async()=>{
     return response
 }
 
+export const updateProfile=async(data)=>{
+    console.log('the data before sending to api',data);
+    let response=await api.patch('/profile',data)
+    console.log('the data  from api',data);
+    return response
+    
+}
 
 export const logout=async()=>{
 
