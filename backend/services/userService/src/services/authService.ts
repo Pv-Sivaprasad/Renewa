@@ -231,13 +231,6 @@ export class AuthService {
                     email:userDat.email
                 }
             }
-            
-
-            // const password = randomPassword
-            // console.log('random password is ', password);
-
-            // const hashedPassword = await hashPassword(password)
-            // console.log(hashedPassword, 'hashedPassword');
 
 
             let newUser = await this.userRespository.createUser({

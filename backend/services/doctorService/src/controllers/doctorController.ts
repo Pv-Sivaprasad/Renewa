@@ -5,6 +5,7 @@ import {CustomeRequest} from '../middleware/isAuthenticated'
 import { UpdateprofileDto } from "../dto/docDto";
 import { JwtPayload } from "jsonwebtoken";
 import { uploadFile } from "../utils/uploadUtil";
+import { sendDocDataToUser } from "../events/publishers/doctToUserPublisher";
 
 
 const   doctorService= new DoctorService()
@@ -89,6 +90,18 @@ async updateProfile(req:CustomeRequest,res:Response){
         }
         console.log('the data is',data);
         
+        const docData={
+            docId:docId,
+            docname:updateData.username,
+            speciality:updateData.speciality,
+            experience:updateData.experience,
+            image:updateData.image
+        }
+
+        await sendDocDataToUser(docData)
+        console.log('sending doc data to userSide');
+        
+
 
         return res.status(HttpStatus.CREATED).json(data)
     } catch (error) {

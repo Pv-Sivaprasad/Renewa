@@ -70,6 +70,7 @@ const DoctorRegistrationForm = () => {
       } catch (error) {
         console.error('Error during signup:', error);
         toast.error(error.response.data.message);
+        navigate('/doctor')
       }
     } else {
       setErrors(validationErrors);
