@@ -7,33 +7,121 @@ import Sidebar from '../../components/user/SideBar'
 import { useFormik } from 'formik';
 import { profileValidationSchema } from '../../utils/validations';
 
+interface Address {
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  nationality: string;
+  landmark: string;
+}
+
+interface UserData {
+  username: string;
+  email: string;
+  mobile: string;
+  profilePic: string | null;
+  address: Address;
+}
+
+
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
+  //       const data = await getProfile();
+  //       console.log('data is',data);
+  //       const parsedAddress = data.data?.address ? JSON.parse(data.data?.address) : {};
+        
+  //       // const response = {
+  //       //   username: data.data.username ,
+  //       //   email: data.data.email ,
+  //       //   mobile: data.data.mobile ,
+  //       //   profilePic: data.data.profilePic || null,
+  //       //   address: {
+  //       //     address: data.data.address?.address,
+  //       //     city: data.data.address?.city ,
+  //       //     state: data.data.address?.state ,
+  //       //     pincode: data.data.address?.pincode,
+  //       //     nationality: data.data.address?.nationality,
+  //       //     landmark: data.data.address?.landmark ,
+  //       //   },
+  //       // };
+  //       const response = {
+  //         username: data.data.username || " " ,
+  //         email: data.data.email || " ",
+  //         mobile: data.data.mobile || " ",
+  //         profilePic: data.data.image || null,
+  //         address: {
+  //           address: parsedAddress?.address || " ",
+  //           city: parsedAddress?.city || " ",
+  //           state: parsedAddress?.state || " ",
+  //           pincode: parsedAddress?.pincode || " ",
+  //           nationality: parsedAddress?.nationality || " ",
+  //           landmark: parsedAddress?.landmark || " ",
+  //         },
+  //       }
+  //       setUserData(response);
+  //       setEditedData(response);
+  //     } catch (error) {
+  //       console.error('Error fetching user data:', error);
+  //       toast.error('Error fetching user data');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
         const data = await getProfile();
-        console.log(data, 'the data is');
-
-        const response = {
-          username: data.data.username ,
-          email: data.data.email ,
-          mobile: data.data.mobile ,
-          profilePic: data.data.profilePic || null,
+        console.log('data is', data);
+  
+        // Define the parsedAddress type
+        let parsedAddress: Address = {
+          address: "",
+          city: "",
+          state: "",
+          pincode: "",
+          nationality: "",
+          landmark: "",
+        };
+  
+        if (typeof data.data?.address === "string") {
+          try {
+            parsedAddress = JSON.parse(data.data?.address);
+            console.log(parsedAddress, 'parsed');
+          } catch (error) {
+            console.error("Error parsing address:", error);
+          }
+        } else {
+          parsedAddress = data.data?.address || parsedAddress;
+        }
+  
+        const response: UserData = {
+          username: data.data.username || " ",
+          email: data.data.email || " ",
+          mobile: data.data.mobile || " ",
+          profilePic: data.data.image || null,
           address: {
-            address: data.data.address?.address,
-            city: data.data.address?.city ,
-            state: data.data.address?.state ,
-            pincode: data.data.address?.pincode,
-            nationality: data.data.address?.nationality,
-            landmark: data.data.address?.landmark ,
+            address: parsedAddress.address || " ",
+            city: parsedAddress.city || " ",
+            state: parsedAddress.state || " ",
+            pincode: parsedAddress.pincode || " ",
+            nationality: parsedAddress.nationality || " ",
+            landmark: parsedAddress.landmark || " ",
           },
         };
+  
         setUserData(response);
         setEditedData(response);
       } catch (error) {
@@ -43,29 +131,78 @@ const UserProfile = () => {
         setLoading(false);
       }
     };
-
+  
     fetchUserData();
   }, []);
+  
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSubmit = async () => {
-    setLoading(true);
+  // const handleSubmit = async () => {
+  //   setLoading(true);
    
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate save delay
-      setUserData(editedData);
-      console.log('editied data',editedData);
+  //   try {
+  //     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate save delay
+  //     setUserData(editedData);
+  //     console.log('editied data',editedData);
      
-      let response=await updateProfile(editedData)
+  //     let response=await updateProfile(editedData)
+  //     setIsEditing(false);
+  //     toast.success('Profile updated successfully');
+  //   } catch (error) {
+  //     console.error('Error updating profile:', error);
+  //     toast.error(error.response.message || 'Error in updatin profile');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const handleSubmit = async () => {
+    setLoading(true);
+  
+    try {
+    
+      const formData = new FormData();
+  
+     
+      formData.append('username', editedData.username);
+      formData.append('email', editedData.email);
+      formData.append('mobile', editedData.mobile);
+  
+     
+      formData.append('address', JSON.stringify({
+        city: editedData.address.city,
+        state: editedData.address.state,
+        pincode: editedData.address.pincode,
+        nationality: editedData.address.nationality,
+        landmark: editedData.address.landmark,
+      }));
+  
+      // Append profile picture file, if it exists
+      if (editedData.profilePicFile) {
+        console.log('Image:', editedData.image); // Ensure this is a File object
+
+        formData.append('image', editedData.profilePicFile);
+      }
+  
+      console.log('FormData before submission:', formData);
+  
+      // Call the API to update the profile
+      const response = await updateProfile(formData);
+  
+      // Simulate save delay for UX purposes
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+  
+      // On success, update user data state
+      setUserData(editedData);
       setIsEditing(false);
       toast.success('Profile updated successfully');
     } catch (error) {
       console.error('Error updating profile:', error);
-      toast.error(error.response.message || 'Error in updatin profile');
+      const errorMessage = error.response?.data?.message || 'Error updating profile';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -89,6 +226,19 @@ const UserProfile = () => {
     }));
   };
 
+  // const handleProfilePicChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setEditedData((prev) => ({
+  //         ...prev,
+  //         profilePic: reader.result,
+  //       }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -96,13 +246,14 @@ const UserProfile = () => {
       reader.onload = () => {
         setEditedData((prev) => ({
           ...prev,
-          profilePic: reader.result,
+          profilePic: reader.result, // Base64 for preview
+          profilePicFile: file, // Actual file to be sent
         }));
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // For preview purpose
     }
   };
-
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sky-50">

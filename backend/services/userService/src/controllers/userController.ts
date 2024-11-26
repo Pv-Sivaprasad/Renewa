@@ -4,7 +4,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { IncomingReques } from "../middleware/auth.middleware";
 import { UpdateProfileDto } from "../dto/userDto";
 import { UserService } from "../services/userService";
-
+import { uploadFile } from "../utils/upload.util";
 
 
 const userService=new UserService()
@@ -48,15 +48,46 @@ class UserController {
 
     
     async updateProfile(req:IncomingReques,res:Response){
-        console.log('entering the profile in the user controller');
-
+        console.log('entering the updateprofile in the user controller');
+        console.log(req.body);
+        console.log('req.file',req.file);
+        
+        
         try {
             const user=req.user as JwtPayload
             console.log('the userid from the middleware is ',user);
             const userId=user.id
             console.log('the user id ',userId);
 
-            const updateData:UpdateProfileDto=req.body
+            let imageUrl :string | undefined
+
+            if (req.file) {
+                const file = req.file;
+                console.log(file,'file in the ');
+                
+                const fullFileName = file.originalname;
+                const fileNameWithoutExtension = fullFileName.split('.').slice(0, -1).join('.');
+                const fileType = file.mimetype;
+            
+                const fileContent = file.buffer;
+    
+                const dataForUpload={
+                    fileContent:fileContent,
+                    fullFileName:fullFileName,
+                    fileType:fileType
+                }
+    
+                const imageUpload = await uploadFile(dataForUpload);
+                imageUrl=imageUpload.signedUrl
+            }
+
+            const updateData: UpdateProfileDto = {
+                ...req.body,
+                image: imageUrl,
+                // Parse address string into an object, if necessary
+                address: typeof req.body.address === 'string' ? JSON.parse(req.body.address) : req.body.address,
+              };
+              
             console.log('the data to be updated is ',updateData);
             
 

@@ -29,3 +29,9 @@ export type ResendOtpResult={
     success:boolean,
     message:string
 }
+
+export type UploadType={
+    fileContent:Buffer,
+    fullFileName:string,
+    fileType:string
+}

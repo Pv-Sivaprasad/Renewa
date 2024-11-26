@@ -42,6 +42,10 @@ const UserSchema: Schema = new Schema({
     type: Boolean,
     default: false,
   },
+  image:{
+    type:String,
+    required:false
+  },
   address: {
     state: {
         type: String,
