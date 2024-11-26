@@ -1,49 +1,91 @@
-import React from 'react';
-import { Camera } from 'lucide-react';
+import React, { useState } from 'react';
+import { UserCircle, Stethoscope, CalendarPlus } from 'lucide-react';
 
-const DoctorsList = ({ doctors }) => {
+// Define Doctor interface
+interface Doctor {
+  id: number;
+  name: string;
+  specialty: string;
+  experience: number;
+  imageUrl?: string;
+}
+
+// Sample doctors data
+const doctorsData: Doctor[] = [
+  {
+    id: 1,
+    name: "Dr. Emily Rodriguez",
+    specialty: "Cardiology",
+    experience: 15,
+    imageUrl: "/api/placeholder/150/150"
+  },
+  {
+    id: 2,
+    name: "Dr. Michael Chen",
+    specialty: "Neurology",
+    experience: 12,
+    imageUrl: "/api/placeholder/150/150"
+  },
+  {
+    id: 3,
+    name: "Dr. Sarah Thompson",
+    specialty: "Pediatrics",
+    experience: 10,
+    imageUrl: "/api/placeholder/150/150"
+  }
+];
+
+const DoctorList: React.FC = () => {
+  const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
+
+  const handleBookAppointment = (doctorId: number) => {
+    setSelectedDoctor(doctorId);
+    // In a real app, this would open a booking modal or navigate to a booking page
+    alert(`Booking appointment with Doctor ID: ${doctorId}`);
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Our Doctors</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {doctors.map((doctor) => (
+    <div className="container mx-auto p-6 bg-gray-50">
+      <h2 className="text-3xl font-bold text-center mb-8 text-blue-600">
+        Our Medical Experts
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {doctorsData.map((doctor) => (
           <div 
             key={doctor.id} 
-            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl"
+            className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
           >
-            <div className="relative h-48 w-full">
-              {doctor.image ? (
-                <img 
-                  src={doctor.image} 
-                  alt={doctor.name} 
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-                  <Camera className="text-gray-500" size={48} />
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                {doctor.imageUrl ? (
+                  <img 
+                    src={doctor.imageUrl} 
+                    alt={doctor.name} 
+                    className="w-24 h-24 rounded-full object-cover mr-4"
+                  />
+                ) : (
+                  <UserCircle className="w-24 h-24 text-gray-300 mr-4" />
+                )}
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-800">{doctor.name}</h3>
+                  <div className="flex items-center text-gray-600">
+                    <Stethoscope className="w-5 h-5 mr-2" />
+                    <span>{doctor.specialty}</span>
+                  </div>
                 </div>
-              )}
-            </div>
-            <div className="p-5">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{doctor.name}</h3>
-              <div className="mb-2">
-                <span className="text-sm font-medium text-gray-600">Speciality:</span>
-                <span className="ml-2 text-gray-800">{doctor.speciality}</span>
               </div>
-              <div className="mb-2">
-                <span className="text-sm font-medium text-gray-600">Experience:</span>
-                <span className="ml-2 text-gray-800">{doctor.experience} years</span>
+              <div className="flex justify-between items-center mt-4">
+                <div className="text-sm text-gray-500">
+                  Experience: {doctor.experience} years
+                </div>
+                <button 
+                  onClick={() => handleBookAppointment(doctor.id)}
+                  className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+                >
+                  <CalendarPlus className="w-5 h-5 mr-2" />
+                  Book Appointment
+                </button>
               </div>
-              <div className="mb-4">
-                <span className="text-sm font-medium text-gray-600">Rate:</span>
-                <span className="ml-2 text-green-600 font-bold">${doctor.rate}/hr</span>
-              </div>
-              <button 
-                className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
-                onClick={() => {/* Implement booking logic */}}
-              >
-                Book Appointment
-              </button>
             </div>
           </div>
         ))}
@@ -52,25 +94,4 @@ const DoctorsList = ({ doctors }) => {
   );
 };
 
-export default DoctorsList;
-
-// Example usage:
-const exampleDoctors = [
-  {
-    id: 1,
-    name: "Dr. John Smith",
-    speciality: "Cardiology",
-    experience: 15,
-    rate: 250,
-    image: "/path/to/doctor-image.jpg"
-  },
-  {
-    id: 2,
-    name: "Dr. Emily Johnson",
-    speciality: "Pediatrics",
-    experience: 10,
-    rate: 200,
-    image: null // Will show camera icon
-  }
-  // Add more doctors as needed
-];
+export default DoctorList;

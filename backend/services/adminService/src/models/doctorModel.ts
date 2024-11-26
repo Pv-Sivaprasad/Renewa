@@ -31,7 +31,7 @@ const AdminDoctorSchema : Schema = new Schema({
     },
     isBlocked:{
         type:Boolean,
-        default:false
+        default:true
     }
 })
 

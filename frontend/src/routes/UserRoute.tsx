@@ -8,6 +8,7 @@ import LandingPage from '../pages/user/LandingPage'
 import UserHome from '../pages/user/UserHome'
 import NewPassword from '../components/user/NewPassword'
 import UserProfile  from '../pages/user/UserProfile'
+import DoctorPage from '../pages/user/DoctorPage'
 
 const userRoute = () => {
   return (
@@ -20,6 +21,7 @@ const userRoute = () => {
     <Route path='/userhome' element={<PrivateRoute><UserHome/></PrivateRoute>} />
     <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>} />
     <Route path='/profile' element={<PrivateRoute><UserProfile/></PrivateRoute>} />
+    <Route path='/doctors' element={<PrivateRoute><DoctorPage/></PrivateRoute>} />
 
 
     </Routes>

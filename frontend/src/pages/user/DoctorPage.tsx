@@ -1,11 +1,12 @@
 import React from 'react'
-import DoctorsList from '../../components/user/DoctorList'
-import Sidebar from '../../components/user/DoctorList'
-
+import Sidebar from '../../components/user/SideBar'
+import DoctorList from '../../components/user/DoctorList'
 
 const DoctorPage = () => {
   return (
     <div>
+      <Sidebar  />
+      <DoctorList/>
       
     </div>
   )
