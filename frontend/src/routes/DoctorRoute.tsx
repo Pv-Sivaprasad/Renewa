@@ -6,7 +6,7 @@ import DoctorLoginForm from "../pages/doctor/DoctorLogin";
 import DoctorRegistration from '../pages/doctor/DoctorRegistration'
 import DoctorDashboard from '../pages/doctor/DoctorDashboard';
 import DoctorProfile from '../pages/doctor/DoctorProfile';
-
+import DoctorSlots from '../pages/doctor/DoctorSlots';
 
 const DoctorRoute = () => {
   return (
@@ -18,6 +18,7 @@ const DoctorRoute = () => {
         <Route path='/register' element={<PublicRoute><DoctorRegistration/></PublicRoute> } />
         <Route path='/dashboard' element={<PrivateRoute ><DoctorDashboard/></ PrivateRoute> } />
         <Route path='/profile' element={<PrivateRoute ><DoctorProfile/></PrivateRoute > } />
+        <Route path='/slots' element={<PrivateRoute ><DoctorSlots/></PrivateRoute > } />
         
 
       </Routes>

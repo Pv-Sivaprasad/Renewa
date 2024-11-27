@@ -50,7 +50,10 @@ console.log('the data of editprofile before to backen',data);
 
     const response=await api.patch('/profile',data)
     console.log(response);
-    return response
-    
+    return response    
+}
 
+export const slotSelecting=async(selectedSlots:any)=>{
+    console.log('before going to backned slots');
+    const response=await api.post('/slots',selectedSlots)
 }

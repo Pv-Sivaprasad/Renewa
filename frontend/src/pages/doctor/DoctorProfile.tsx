@@ -4,7 +4,8 @@ import DoctorProfilePage from '../../components/doctor/ProfileComponent'
 const DoctorProfile = () => {
   return (
     <div>
-      <Header Children={DoctorProfilePage}/>
+     <Header Children={DoctorProfilePage}/>
+       
     </div>
   )
 }
