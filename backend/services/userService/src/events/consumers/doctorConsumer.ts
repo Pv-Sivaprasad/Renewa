@@ -15,7 +15,7 @@ export const listenForDocDetails=async()=>{
             await channel.assertQueue(queueName,{durable:true})
 
             const doctorRepository = new DoctorRepository();
-            const doctorService = new DoctorService(doctorRepository);
+            const doctorService = new DoctorService();
 
             channel.consume(queueName,async (msg)=>{
                 console.log('checking message in doctor consumer');
@@ -34,8 +34,19 @@ export const listenForDocDetails=async()=>{
 
                     try {
 
-                        await doctorService.saveDoctorDetails(docData)
-                        console.log(`Doc details saved for the doc with name ${docname} and id ${docId} `);
+                        const existingDoc=await doctorService.getDoctorByDocId(docId)
+                        if(existingDoc){
+                            console.log('doc is exisitng ',existingDoc);
+
+                            await doctorService.updateDoctorDetails(docId,docData)
+                            console.log(`updaed the doc with `);
+                            
+                        }else{
+
+                            await doctorService.saveDoctorDetails(docData)
+                            console.log(`Doc details saved for the doc with name ${docname} and id ${docId} `);
+                        }
+
                         channel.ack(msg)
                     } catch (error) { 
                         console.log(`Error updating user ${docId} status:`, error);

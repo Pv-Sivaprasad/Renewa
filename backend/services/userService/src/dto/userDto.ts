@@ -7,3 +7,11 @@ export interface UpdateProfileDto{
     address?:AddressDto,
     mobile?:string
 }
+
+export interface UpdateDocData{
+    docId?:string,
+    docName?:string,
+    experience?:string,
+    speciality?:string,
+    image?:string
+}

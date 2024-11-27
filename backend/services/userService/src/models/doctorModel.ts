@@ -1,7 +1,7 @@
 import mongoose,{Document,Schema} from "mongoose";
 
 export interface IUserDoctor extends Document{
-    docId:string,
+    docId:string ,
     docName:string,
     speciality:string,
     experience:number,
@@ -14,7 +14,7 @@ const UserDoctorSchema : Schema = new Schema({
 
     docId:{
         type:String,
-       
+        
     },
     docName:{
         type:String,

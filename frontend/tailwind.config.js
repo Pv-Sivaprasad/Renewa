@@ -24,6 +24,7 @@ module.exports = {
         'custom-teal': '#0f766e',
         'custom-log':'#5eead4',
         'custom-reg':"#1e293b",
+        'custom-doc':'#334155',
       },
     },
   },

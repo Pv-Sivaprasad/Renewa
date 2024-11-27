@@ -104,6 +104,13 @@ export const updateProfile=async(data)=>{
     
 }
 
+export const allDoctors=async()=>{
+    console.log('going to fetch the doctorlist');
+    const response=await api.get('/doctorlist')
+    return  response
+    
+}
+
 export const logout=async()=>{
 
     const response=await publicApi.get('/logout')
