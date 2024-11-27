@@ -8,3 +8,4 @@ export interface UpdateprofileDto{
     speciality?:string,
     address?:AddressDto
 }
+

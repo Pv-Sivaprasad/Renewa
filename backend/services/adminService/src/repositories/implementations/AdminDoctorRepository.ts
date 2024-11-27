@@ -1,10 +1,17 @@
 import { IAdminDoctorRepository } from "../interfaces/IAdminDoctorRepository";
 import AdminDoctorModel, { IAdminDoctor } from '../../models/doctorModel'
 import { Doctor } from "../../types/User";
-
+import  { updatedDocDto } from '../../dto/authDto'
 
 
 export class AdminDoctorRepository implements IAdminDoctorRepository {
+
+    async updateDoctor(docId:string,data:updatedDocDto){
+        await AdminDoctorModel.findOneAndUpdate({
+           docId},
+           {$set:data},{new:true}
+        )
+    }
 
     async saveDoctor(data: { docId:string;docname:string;email:string;speciality:string }): Promise<void> {
         try {
@@ -29,10 +36,12 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
         }
     }
    
-    async findDoctor(id:any) : Promise <IAdminDoctor | null>{
-        console.log('this is in findoctor',id);
-        return await AdminDoctorModel.findById(id)
+    async findDoctor(docId:any) : Promise <IAdminDoctor | null>{
+        console.log('this is in findoctor',docId);
+        let result = await AdminDoctorModel.findOne({docId})
+        console.log('result in the ______',result);
         
+        return result
     }
 
     async findDoctorById(docId:string) : Promise <IAdminDoctor | null >{

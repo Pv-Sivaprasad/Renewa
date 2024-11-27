@@ -6,6 +6,7 @@ import { UpdateprofileDto } from "../dto/docDto";
 import { JwtPayload } from "jsonwebtoken";
 import { uploadFile } from "../utils/uploadUtil";
 import { sendDocDataToUser } from "../events/publishers/doctToUserPublisher";
+import { sendDoctorData } from "../events/publishers/doctorPublisher";
 
 
 const   doctorService= new DoctorService()
@@ -49,7 +50,7 @@ async updateProfile(req:CustomeRequest,res:Response){
         const doc=req.user as JwtPayload
       
         const docId=doc.id
-       
+        
         let imageUrl: string | undefined;
 
         if (req.file) {
@@ -95,11 +96,27 @@ async updateProfile(req:CustomeRequest,res:Response){
             docname:updateData.username,
             speciality:updateData.speciality,
             experience:updateData.experience,
-            image:updateData.image
+            image:updateData.image ,
+            
+            
         }
+
+        const docDetails=await doctorService.getProfileData(docId)
+        console.log(docDetails,'##########');
+        const sendDocData={
+            docId:docId,
+            docname:docDetails?.username,
+            email:docDetails?.email,
+            speciality:updateData.speciality,
+            isBlocked:docDetails?.isBlocked
+        }
+        console.log(sendDocData,'#@%^%#%$^%$^%$^');
+        
 
         await sendDocDataToUser(docData)
         console.log('sending doc data to userSide');
+        await sendDoctorData(sendDocData)
+        console.log('sending doc data to adminSide');
         
 
 

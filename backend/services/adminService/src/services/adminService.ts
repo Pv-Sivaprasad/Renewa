@@ -8,6 +8,19 @@ const adminDoctorRepository = new AdminDoctorRepository()
 
 export class AdminService {
 
+     getDocDetails =async(docId:string)=>{
+        try {
+          return   await adminDoctorRepository.findDoctor(docId)
+        } catch (error) {
+            console.log('error in getting doc details',error);
+            
+        }
+     }
+
+     updateDocDetails = async(docId:string,userData:{docId:string,docname:string,email:string,speciality:string,isBlocked:boolean})=>{
+        await adminDoctorRepository.updateDoctor(docId,userData)
+     }
+
      saveUserInAdminDb = async (userData: { userId: string; username: string; email: string }) => {
         try {
             await adminUserRepository.saveUser(userData)

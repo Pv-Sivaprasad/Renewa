@@ -8,6 +8,7 @@ import {
   Calendar,
   DollarSign,
   ChevronDown,
+  CalendarSearch,
   LogOut
 } from 'lucide-react';
 import { RootState } from '../../redux/store';
@@ -47,6 +48,7 @@ const Layout = ({Children}) => {
 
   const menuItems = [
     { title: 'Profile', icon: <User className="w-5 h-5" />, path: '/doctor/profile' },
+    { title: 'Slots', icon: <CalendarSearch className='w-5 h-5' />, path: '/doctor/slots' },
     { title: 'Appointments', icon: <Calendar className="w-5 h-5" />, path: '/doctor/appointments' },
     { title: 'Revenue', icon: <DollarSign className="w-5 h-5" />, path: '/doctor/revenue' },
   ];

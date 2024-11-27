@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { User, Phone, Mail, MapPin, Edit2, Save, Image as ImageIcon } from 'lucide-react';
 import UserHeader from '../../components/user/UserHeader';
+import {setUserName} from '../../redux/slices/authSlice'
 import { getProfile,updateProfile } from '../../services/user/userApi';
 import { toast } from 'react-toastify';
 import Sidebar from '../../components/user/SideBar'
 import { useFormik } from 'formik';
 import { profileValidationSchema } from '../../utils/validations';
+import { useDispatch } from 'react-redux';
 
 interface Address {
   address: string;
@@ -30,63 +32,16 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
-  //       const data = await getProfile();
-  //       console.log('data is',data);
-  //       const parsedAddress = data.data?.address ? JSON.parse(data.data?.address) : {};
-        
-  //       // const response = {
-  //       //   username: data.data.username ,
-  //       //   email: data.data.email ,
-  //       //   mobile: data.data.mobile ,
-  //       //   profilePic: data.data.profilePic || null,
-  //       //   address: {
-  //       //     address: data.data.address?.address,
-  //       //     city: data.data.address?.city ,
-  //       //     state: data.data.address?.state ,
-  //       //     pincode: data.data.address?.pincode,
-  //       //     nationality: data.data.address?.nationality,
-  //       //     landmark: data.data.address?.landmark ,
-  //       //   },
-  //       // };
-  //       const response = {
-  //         username: data.data.username || " " ,
-  //         email: data.data.email || " ",
-  //         mobile: data.data.mobile || " ",
-  //         profilePic: data.data.image || null,
-  //         address: {
-  //           address: parsedAddress?.address || " ",
-  //           city: parsedAddress?.city || " ",
-  //           state: parsedAddress?.state || " ",
-  //           pincode: parsedAddress?.pincode || " ",
-  //           nationality: parsedAddress?.nationality || " ",
-  //           landmark: parsedAddress?.landmark || " ",
-  //         },
-  //       }
-  //       setUserData(response);
-  //       setEditedData(response);
-  //     } catch (error) {
-  //       console.error('Error fetching user data:', error);
-  //       toast.error('Error fetching user data');
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, []);
+  const dispatch=useDispatch()
+ 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
         const data = await getProfile();
         console.log('data is', data);
   
-        // Define the parsedAddress type
+        
         let parsedAddress: Address = {
           address: "",
           city: "",
@@ -140,25 +95,7 @@ const UserProfile = () => {
     setIsEditing(true);
   };
 
-  // const handleSubmit = async () => {
-  //   setLoading(true);
-   
 
-  //   try {
-  //     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate save delay
-  //     setUserData(editedData);
-  //     console.log('editied data',editedData);
-     
-  //     let response=await updateProfile(editedData)
-  //     setIsEditing(false);
-  //     toast.success('Profile updated successfully');
-  //   } catch (error) {
-  //     console.error('Error updating profile:', error);
-  //     toast.error(error.response.message || 'Error in updatin profile');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleSubmit = async () => {
     setLoading(true);
   
@@ -180,23 +117,25 @@ const UserProfile = () => {
         landmark: editedData.address.landmark,
       }));
   
-      // Append profile picture file, if it exists
+     
       if (editedData.profilePicFile) {
-        console.log('Image:', editedData.image); // Ensure this is a File object
+        console.log('Image:', editedData.image);
 
         formData.append('image', editedData.profilePicFile);
       }
   
       console.log('FormData before submission:', formData);
   
-      // Call the API to update the profile
+
       const response = await updateProfile(formData);
   
-      // Simulate save delay for UX purposes
       await new Promise((resolve) => setTimeout(resolve, 1000));
   
-      // On success, update user data state
+     
       setUserData(editedData);
+      console.log('responseof uiser',response.data.username);
+      
+      dispatch(setUserName(response.data.username))
       setIsEditing(false);
       toast.success('Profile updated successfully');
     } catch (error) {
@@ -226,19 +165,7 @@ const UserProfile = () => {
     }));
   };
 
-  // const handleProfilePicChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setEditedData((prev) => ({
-  //         ...prev,
-  //         profilePic: reader.result,
-  //       }));
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+ 
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -246,11 +173,11 @@ const UserProfile = () => {
       reader.onload = () => {
         setEditedData((prev) => ({
           ...prev,
-          profilePic: reader.result, // Base64 for preview
-          profilePicFile: file, // Actual file to be sent
+          profilePic: reader.result, 
+          profilePicFile: file, 
         }));
       };
-      reader.readAsDataURL(file); // For preview purpose
+      reader.readAsDataURL(file); 
     }
   };
   
@@ -264,7 +191,7 @@ const UserProfile = () => {
 
   return (
     <div className="min-h-screen bg-custom-teal py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
-      {/* <UserHeader /> */}
+   
       <Sidebar/>
       <div className="max-w-5xl mx-auto bg-blue-300 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="flex flex-col items-center space-y-4 p-6 border-b border-gray-100">

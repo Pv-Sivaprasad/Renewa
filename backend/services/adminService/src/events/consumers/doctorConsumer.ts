@@ -20,12 +20,40 @@ export const recieveDoctorData=async()=>{
         console.log('doctor consumer triggered attempting to process message');
         
         if(message){
-            const {docId,docname,email,speciality}=JSON.parse(message.content.toString())
-            console.log(`Received message: docId: ${docId}, docname: ${docname}, Email: ${email} speciality: ${speciality} `);
+            const {docId,docname,email,speciality,isBlocked}=JSON.parse(message.content.toString())
+            console.log(`Received message: docId: ${docId},
+                 docname: ${docname}, Email: ${email},
+                  speciality: ${speciality}
+                  isBlocked: ${isBlocked} `);
 
-
-            await adminService.saveDoctorInAdminDb({docId,docname,email,speciality})
-            console.log(`Doctor data saved in admin database: ${docname}, ${email}`);
+            const docData={
+                docId:docId,
+                docname:docname,
+                email:email,
+                speciality:speciality,
+                isBlocked:isBlocked,
+            }
+            console.log('the docdata in admin consumer is ',docData);
+            
+            try {
+                const exisitingDoc=await adminService.getDocDetails(docId)
+                console.log(exisitingDoc,'***************************');
+                
+                if(exisitingDoc){
+                    console.log('the doc is existing');
+                    await adminService.updateDocDetails(docId,docData)
+                    console.log('dodcot data changed in admindb');
+                    
+                }else{
+                    
+                    await adminService.saveDoctorInAdminDb({docId,docname,email,speciality})
+                    console.log(`Doctor data saved in admin database: ${docname}, ${email}`);
+                }
+                
+            } catch (error) {
+                console.log('error in try catch of doc consumer admin side',error);
+                
+            }
 
             channel.ack(message)
         }else{
