@@ -1,6 +1,15 @@
-export interface DocSlotDto{
-    date:String,
+export interface Slot{
     startTime:string,
     endTime:string,
-    isAvailable?:boolean
+    isAvailable:boolean
+}
+
+export interface DateSlotDto{
+    date:string,
+    slots:Slot[]
+}
+
+export interface DocSlotDto{
+    docId:string,
+    dates:DateSlotDto[]
 }

@@ -18,7 +18,7 @@ const  upload=multer({storage:storage})
 
 doctor_route.get('/profiledata',authenticateToken,checkDocStatus,doctorController.getProfile)
 doctor_route.patch('/profile',authenticateToken,checkDocStatus,upload.single('image'),doctorController.updateProfile)
-doctor_route.post('/slots',authenticateToken,checkDocStatus,slotController.slots)
+doctor_route.post('/slots',authenticateToken,checkDocStatus,slotController.upsertSlots)
 
 
 

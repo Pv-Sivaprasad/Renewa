@@ -53,13 +53,36 @@ const SlotManagement = () => {
       );
     }
   };
+ // Confirm selected slots
+ const confirmSlots = async () => {
+  if (!selectedDate) {
+    toast.error('Please select a date!');
+    return;
+  }
 
-  // Confirm selected slots
-  const confirmSlots = async() => {
-    console.log('Selected Slots:', selectedSlots);
-    const response=await slotSelecting(selectedSlots)
-    toast.success('slot selected')
+  const payload = {
+    date: selectedDate, // Include the selected date
+    slots: selectedSlots, // Selected slots
   };
+
+  try {
+    const response = await slotSelecting(payload); // Send both date and slots
+  //   if (response.success) {
+      toast.success('Slots selected successfully');
+  //   } else {
+  //     toast.error('Failed to select slots. Please try again.');
+  //   }
+  } catch (error) {
+  //   console.error('Error selecting slots:', error);
+    toast.error('An error occurred while selecting slots.');
+  }
+};
+  // // Confirm selected slots
+  // const confirmSlots = async() => {
+  //   console.log('Selected Slots:', selectedSlots);
+  //   const response=await slotSelecting(selectedSlots)
+  //   toast.success('slot selected')
+  // };
 
   return (
     <div className="p-6 bg-custom-reg min-h-screen">

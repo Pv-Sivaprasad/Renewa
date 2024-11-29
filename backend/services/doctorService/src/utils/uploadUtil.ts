@@ -44,7 +44,7 @@ export const uploadFile=async(uploadType:UploadType)=>{
             Key:randomFileName
         })
 
-        const signedUrl= await getSignedUrl(s3,getCommand,{expiresIn:3600})
+        const signedUrl= await getSignedUrl(s3,getCommand,{expiresIn:604800})
       
         return {signedUrl,randomFileName}
 

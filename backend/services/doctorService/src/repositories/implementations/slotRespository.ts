@@ -1,13 +1,47 @@
-import { ISlotRepository } from "../interfaces/ISlotRepository";
-import { DocSlotDto } from "../../dto/slotDto";
-import SlotModel from "../../models/slotModel";
+import DocSlotModel, { DocSlot, DateSlot } from '../../models/slotModel'
+import { DocSlotDto } from '../../dto/slotDto';
 
+export class SlotRepository {
+  async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {
+    try {
+      const { docId, dates } = docSlotDto;
 
-export class SlotRepository implements ISlotRepository{
+      
+      const updatedDoc = await DocSlotModel.findOneAndUpdate(
+        { docId },
+        {
+          $setOnInsert: { docId }, 
+        },
+        { upsert: true, new: true }
+      );
 
-    async createSlot(slotDto: DocSlotDto): Promise<any> {
-        const newSlot=new SlotModel(slotDto)
-        return newSlot.save()
+    
+      for (const dateSlot of dates) {
+        const existingDate = updatedDoc.dates.find((d: DateSlot) => d.date === dateSlot.date);
+        if (existingDate) {
+        
+          existingDate.slots.push(...dateSlot.slots);
+        } else {
+       
+          updatedDoc.dates.push(dateSlot);
+        }
+      }
+
+      await updatedDoc.save();
+      return updatedDoc;
+    } catch (error) {
+      console.error('Error upserting slots:', error);
+      throw error;
     }
+  }
 
+  async getSlotsByDoctorId(docId: string): Promise<DocSlot | null> {
+    try {
+      return await DocSlotModel.findOne({ docId });
+    } catch (error) {
+      console.error('Error fetching slots for doctor:', error);
+      throw error;
+    }
+  }
 }
+

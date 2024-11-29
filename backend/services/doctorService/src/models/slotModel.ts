@@ -1,30 +1,64 @@
-import mongoose, {Schema,Document} from 'mongoose'
+import mongoose, { Schema, Document } from 'mongoose'
 
-export interface DoctorSlot extends Document{
-    date:string;
-    startTime:string;
-    endTime:string,
-    isAvailable:boolean
+
+
+export interface Slot {
+    startTime: string,
+    endTime: string,
+    isAvailable: boolean
 }
 
-const SlotSchema : Schema= new Schema({
-    date:{
-        type:String,
-        required:true
+export interface DateSlot {
+    date: string,
+    slots: Slot[];
+
+}
+
+export interface DocSlot extends Document {
+    docId: string,
+    dates: DateSlot[]
+}
+
+const SlotSchema: Schema = new Schema({
+    startTime: {
+        type: String,
+        required: true
     },
-    startTime:{
-        type:String,
-        required:true
+    endTime: {
+        type: String,
+        required: true
     },
-    endTime:{
-        type:String,
-        required:true
-    },
-    isAvailable:{
-        type:Boolean,
-        default:true
+    isAvailable: {
+        type: Boolean,
+        default: true
     }
 })
 
+const DateSlotSchema = new Schema<DateSlot>({
+    date:
+    {
+        type: String,
+        required: true
+    },
+    slots:
+    {
+        type: [SlotSchema],
+        required: true
+    },
+});
 
-export default mongoose.model<DoctorSlot>('DocSlot',SlotSchema)
+const DocSlotSchema = new Schema<DocSlot>({
+    docId:
+    {
+        type: String,
+        required: true
+    },
+    dates:
+    {
+        type: [DateSlotSchema],
+        required: true
+    },
+});
+
+
+export default mongoose.model<DocSlot>('DocSlot', DocSlotSchema)
