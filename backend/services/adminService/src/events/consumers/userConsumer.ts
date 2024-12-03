@@ -29,6 +29,13 @@ export const recieveUserData = async () => {
             const { userId, username, email } = JSON.parse(message.content.toString());
             console.log(`Received message: UserId: ${userId}, Username: ${username}, Email: ${email}`);
 
+            const userData={
+                userId:userId,
+                username:username,
+                email:email
+            }
+
+            const exisitinguser=await 
             
             await adminService.saveUserInAdminDb({ userId, username, email });
             console.log(`User data saved in admin database: ${username}, ${email}`);
