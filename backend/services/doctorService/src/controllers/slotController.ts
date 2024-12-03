@@ -49,6 +49,26 @@ class SlotController{
 
     }
 
+    async getDocSlots(req:CustomeRequest,res:Response){
+      console.log('eneterd the get slot in the slot controller');
+      const doc=req.user as JwtPayload
+      const docId=doc.id
+      console.log('the dod id in the slot controller is ',docId);
+      
+      if(!docId){
+        return res.status(HttpStatus.FORBIDDEN).json({message:"No Authorization to view this page"})
+      }
+      try {
+      const slots =await slotService.getSlotsByDocId(docId)
+      console.log('sots in controller is after checking',slots);
+      return res.status(HttpStatus.CREATED).json(slots)
+      
+      } catch (error) {
+        console.log('error in the getdoc slots',error);
+        
+      }
+    }
+
 }
 
 

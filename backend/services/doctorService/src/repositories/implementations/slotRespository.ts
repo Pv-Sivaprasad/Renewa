@@ -4,18 +4,14 @@ import { DocSlotDto } from '../../dto/slotDto';
 export class SlotRepository {
   async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {
     try {
-      const { docId, dates } = docSlotDto;
-
-      
+      const { docId, dates } = docSlotDto;    
       const updatedDoc = await DocSlotModel.findOneAndUpdate(
         { docId },
         {
           $setOnInsert: { docId }, 
         },
         { upsert: true, new: true }
-      );
-
-    
+      );  
       for (const dateSlot of dates) {
         const existingDate = updatedDoc.dates.find((d: DateSlot) => d.date === dateSlot.date);
         if (existingDate) {
@@ -37,7 +33,10 @@ export class SlotRepository {
 
   async getSlotsByDoctorId(docId: string): Promise<DocSlot | null> {
     try {
-      return await DocSlotModel.findOne({ docId });
+      let slotInRepo= await DocSlotModel.findOne({ docId });
+      console.log('slotInRepo',slotInRepo);
+      
+      return slotInRepo
     } catch (error) {
       console.error('Error fetching slots for doctor:', error);
       throw error;

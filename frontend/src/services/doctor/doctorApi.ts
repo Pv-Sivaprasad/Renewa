@@ -53,7 +53,16 @@ console.log('the data of editprofile before to backen',data);
     return response    
 }
 
+export const filledSlots=async()=>{
+    console.log('foing to fetch the slots in the backend');
+    const response=await api.get('createdslots')
+    return response
+}
+
 export const slotSelecting=async(selectedSlots:any)=>{
     console.log('before going to backned slots');
     const response=await api.post('/slots',selectedSlots)
+    return response
 }
+
+

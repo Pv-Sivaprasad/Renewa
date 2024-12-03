@@ -11,6 +11,19 @@ export class SlotService{
         this.slotRepository= new SlotRepository()
     }
 
+    async getSlotsByDocId(docId:string){
+        console.log('entering the get slots of doc in the slot service');
+        
+        try {
+
+            let slots= await this.slotRepository.getSlotsByDoctorId(docId)
+            console.log('the slots of doc is',slots);
+            return slots
+        } catch (error) {
+           console.log('error in the getslotsbydocid',error);
+            
+        }
+    }
 
     async upsertSlots(docSlotDto:DocSlotDto){
         try {
@@ -22,5 +35,7 @@ export class SlotService{
             
         }
     }
+
+
 
 }
