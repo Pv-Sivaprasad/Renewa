@@ -6,10 +6,9 @@ import Swal from 'sweetalert2';
 const SlotManagement = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [availableSlots, setAvailableSlots] = useState([]); 
-  const [selectedSlots, setSelectedSlots] = useState([]);
+  const [selectedSlots, setSelectedSlots] = useState([]); 
   const [existingSlots, setExistingSlots] = useState([]); 
 
- 
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -18,7 +17,6 @@ const SlotManagement = () => {
     return `${year}-${month}-${day}`;
   };
 
- 
   const generateSlots = (date) => {
     const slots = [];
     const startHour = 9;
@@ -34,7 +32,6 @@ const SlotManagement = () => {
     setSelectedSlots([]);
   };
 
-  
   const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
     console.log('the date selected is ', date);
@@ -43,14 +40,20 @@ const SlotManagement = () => {
     let recievedSlots = await filledSlots(date);
     console.log('reciedSlots are', recievedSlots);
 
+   
     setSelectedDate(date);
-    generateSlots(date);
-    setExistingSlots(recievedSlots.data || []); 
+    generateSlots(date); 
+    setExistingSlots(recievedSlots.data || []); // Set the existing filled slots for the date
   };
 
- 
   const toggleSlotSelection = (index) => {
     const updatedSlots = [...availableSlots];
+    const slot = updatedSlots[index];
+    
+    if (isSlotFilled(slot) && !slot.isSelected) {
+      return;
+    }
+
     updatedSlots[index].isSelected = !updatedSlots[index].isSelected;
     setAvailableSlots(updatedSlots);
 
@@ -63,11 +66,10 @@ const SlotManagement = () => {
     }
   };
 
-  
   const confirmSlots = async () => {
     const confirmation = await Swal.fire({
       title: "Slot Selection",
-      text: "Are you sure about the dates that have been selected?",
+      text: selectedSlots.length === 0 ? "Are you sure you want to update the slots?" : "Are you sure about the dates that have been selected?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Proceed",
@@ -75,7 +77,6 @@ const SlotManagement = () => {
     });
 
     if (!confirmation.isConfirmed) {
-     
       return;
     }
 
@@ -90,20 +91,47 @@ const SlotManagement = () => {
     };
 
     try {
+      
       const response = await slotSelecting(payload);
       toast.success('Slots selected successfully');
+
+      
+      const updatedSlots = await filledSlots(selectedDate);
+      setExistingSlots(updatedSlots.data || []);
+      
+    
+      setAvailableSlots((prevSlots) =>
+        prevSlots.map((slot) => ({
+          ...slot,
+          isSelected: updatedSlots.data.some(
+            (existingSlot) =>
+              existingSlot.startTime === slot.startTime &&
+              existingSlot.endTime === slot.endTime
+          ),
+        }))
+      );
     } catch (error) {
       toast.error('An error occurred while selecting slots.');
     }
   };
 
-  
   const isSlotFilled = (slot) => {
     return existingSlots.some(
       (existingSlot) =>
         existingSlot.startTime === slot.startTime && existingSlot.endTime === slot.endTime
     );
   };
+
+  useEffect(() => {
+    if (selectedDate) {
+   
+      const fetchSlots = async () => {
+        let recievedSlots = await filledSlots(selectedDate);
+        setExistingSlots(recievedSlots.data || []);
+      };
+      fetchSlots();
+    }
+  }, [selectedDate]);
 
   return (
     <div className="p-6 bg-custom-reg min-h-screen">
@@ -124,7 +152,7 @@ const SlotManagement = () => {
           className="w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring focus:ring-blue-300"
         />
 
-        {/* Slots Display */}
+      
         {availableSlots.length > 0 && (
           <>
             <h3 className="text-lg font-semibold mb-2 text-gray-700">Available Slots</h3>
@@ -148,13 +176,13 @@ const SlotManagement = () => {
               ))}
             </div>
 
-            {/* Confirm Button */}
+          
             <button
               className="mt-6 w-full bg-green-500 text-white py-2 rounded-md font-medium hover:bg-green-600 transition-colors"
               onClick={confirmSlots}
               disabled={selectedSlots.length === 0}
             >
-              Confirm Slots
+              {existingSlots.length > 0 ? "Update Slots" : "Confirm Slots"}
             </button>
           </>
         )}
