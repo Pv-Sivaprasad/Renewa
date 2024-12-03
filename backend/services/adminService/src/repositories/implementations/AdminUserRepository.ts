@@ -1,6 +1,7 @@
 import { IAdminUserRepository } from "../interfaces/IAdminUserRepository";
 import AdminUserModel, { IAdminUser } from '../../models/userModel'
 import { User } from "../../types/User";
+import { UserDataDto } from "../../dto/authDto";
 
 
 
@@ -27,7 +28,11 @@ export class AdminUserRepository implements IAdminUserRepository {
       return await AdminUserModel.findById(id)
         }
 
+      async findUserData(userId:string):Promise<IAdminUser | null > {
+        console.log('the id is',userId);
+        return await AdminUserModel.findOne({userId})
         
+      }  
         
     async findByUserId(userId: string): Promise<IAdminUser | null> {
       console.log('entering the findbyuserUdd',userId);
@@ -59,5 +64,13 @@ export class AdminUserRepository implements IAdminUserRepository {
         }
     }
 
+
+    async updateuser(userId:string,userData:UserDataDto){
+      await AdminUserModel.findOneAndUpdate({
+        userId
+      },
+      {$set:userData},{new:true}
+    )
+    }
 
 }

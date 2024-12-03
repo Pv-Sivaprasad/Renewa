@@ -35,12 +35,20 @@ export const recieveUserData = async () => {
                 email:email
             }
 
-            const exisitinguser=await 
-            
-            await adminService.saveUserInAdminDb({ userId, username, email });
-            console.log(`User data saved in admin database: ${username}, ${email}`);
+            const exisitinguser=await adminService.getUserDetails(userId)
+            console.log('the exisiting usere is @@@@@@@@@@@@',exisitinguser);
 
-         
+            if(exisitinguser){
+                console.log('the user exist');
+                await adminService.updateUserDetails(userId,userData)
+                console.log('the data has been changed');
+                
+            }else{
+                await adminService.saveUserInAdminDb({ userId, username, email });
+                console.log(`User data saved in admin database: ${username}, ${email}`);
+
+            }
+            
             channel.ack(message);
         } else {
             console.warn('Received an empty message.');

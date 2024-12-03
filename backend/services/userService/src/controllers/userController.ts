@@ -5,6 +5,7 @@ import { IncomingReques } from "../middleware/auth.middleware";
 import { UpdateProfileDto } from "../dto/userDto";
 import { UserService } from "../services/userService";
 import { uploadFile } from "../utils/upload.util";
+import { sendUserData } from "../events/rabbitmq/userPublisher";
 
 
 const userService=new UserService()
@@ -106,7 +107,9 @@ class UserController {
                 nationality:updateData.address?.nationality,
                 landmark:updateData.address?.landmark,
                 
+                
             }
+
             
             return res.status(HttpStatus.CREATED).json(data)
             

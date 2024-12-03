@@ -13,3 +13,9 @@ export interface updatedDocDto{
     experience?:string,
     speciality?:string,
 }
+
+export interface UserDataDto{
+    userId?:string,
+    username?:string,
+    email?:string
+}

@@ -1,4 +1,5 @@
 import { UpdateProfileDto } from "../dto/userDto";
+import { sendUserData } from "../events/rabbitmq/userPublisher";
 import { UserRepository } from "../repositories/implementations/userRespository";
 
 
@@ -16,7 +17,19 @@ export class UserService {
     }
 
     async updateUserProfile(userId:string,updateProfileDto:UpdateProfileDto){
-        return await this.userRepository.updateProfile(userId,updateProfileDto)
+      let data=await this.userRepository.updateProfile(userId,updateProfileDto)
+      console.log('the data in the userService after updatiojn is ',data);
+
+      
+      let sendData={
+        username:data?.username,
+        email:data?.email,
+        userId:data?._id
+    }
+
+    await sendUserData(sendData)
+      
+      return data
     }
 
 }

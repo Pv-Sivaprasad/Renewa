@@ -1,7 +1,7 @@
 import { AdminUserRepository } from "../repositories/implementations/AdminUserRepository";
 import { User } from "../types/User";
 import { AdminDoctorRepository } from "../repositories/implementations/AdminDoctorRepository";
-
+import { UserDataDto } from "../dto/authDto";
 
 const adminUserRepository = new AdminUserRepository()
 const adminDoctorRepository = new AdminDoctorRepository()
@@ -17,8 +17,31 @@ export class AdminService {
         }
      }
 
+     getUserDetails=async(userId:string)=>{
+        try {
+            let data= await adminUserRepository.findUserData(userId)
+            console.log('the data in get user details adminservice is',data);
+
+            return data
+            
+        } catch (error) {
+            console.log('error in getting user details',error);
+            
+        }
+     }
+
      updateDocDetails = async(docId:string,userData:{docId:string,docname:string,email:string,speciality:string,isBlocked:boolean})=>{
         await adminDoctorRepository.updateDoctor(docId,userData)
+     }
+
+     updateUserDetails=async(userId:string,userData:{userId:string,username:string,email:string})=>{
+
+        try {
+            let updatedData=await adminUserRepository.updateuser(userId,userData)
+        } catch (error) {
+            console.log('failed to update the data');
+            
+        }
      }
 
      saveUserInAdminDb = async (userData: { userId: string; username: string; email: string }) => {
