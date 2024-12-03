@@ -3,9 +3,11 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import connectMongoDb from './config/dbConfig'
 import authRoute from './routes/authRoute'
+import userRoute from './routes/userRoute'
 import cookieparser from 'cookie-parser'
 import { rabbitMqConnect } from './config/rabbitMq'
 import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
+import { listenForDocDetails } from './events/consumers/doctorConsumer'
 
 dotenv.config()
 
@@ -22,6 +24,7 @@ app.use(cors({
 app.use(express.json())
 
 app.use('/',authRoute)
+app.use('/',userRoute)
 
 connectMongoDb();
 
@@ -30,6 +33,7 @@ connectMongoDb();
     if (channel) {
         console.log('RabbitMQ connected in admin service');
         await listenForUserStatusUpdate(); // Start consuming messages
+        await listenForDocDetails(); //
         console.log('Admin consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');

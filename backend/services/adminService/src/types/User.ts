@@ -6,3 +6,10 @@ export interface User {
     isBlocked: boolean;
   }
   
+export interface Doctor {
+  docId:string;
+  docname:string;
+  email:string;
+  speciality:string
+  isBlocked:boolean
+}

@@ -89,5 +89,8 @@ async function getNewAccessToken() {
   const response = await axios.get(`${API_URL}/refresh-token`, {
     withCredentials: true,
   });
-  return response.data.data.accessToken;
+  console.log('the response in the getnewAcess token in admin indatce is ',response);
+  console.log(response.data.accessToken,'response.data.accessToken;');
+  
+  return response.data.accessToken;
 }

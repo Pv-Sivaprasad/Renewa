@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
-import { forgetPassword, resetPassword } from '../../services/userApi'
+import { forgetPassword, resetPassword } from '../../services/user/userApi'
 import UserHeader from './UserHeader'
 import UserFooter from './UserFooter'
 import banner from '../../assets/user/banner.jpeg'

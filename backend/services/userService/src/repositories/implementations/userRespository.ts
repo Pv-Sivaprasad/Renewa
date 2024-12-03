@@ -1,3 +1,4 @@
+import { UpdateProfileDto } from '../../dto/userDto'
 import UserModel from '../../models/userModel'
 import User, {IUser} from '../../models/userModel'
 import { BaseRepository } from '../baseRepository'
@@ -48,9 +49,9 @@ export class UserRepository  extends BaseRepository<IUser> {
             console.log(isBlocked,'to change');
             
             const result = await User.findOneAndUpdate(
-                { _id:userId },               // Search for user by `userId`
-                { isBlocked },            // Update `isBlocked` field
-                { new: true }             // Return the updated document
+                { _id:userId },              
+                { isBlocked },            
+                { new: true }           
             );
 
             if (result) {
@@ -64,6 +65,14 @@ export class UserRepository  extends BaseRepository<IUser> {
             console.error(`Error in updating user status for ${userId}:`, error);
             throw new Error('Failed to update user status');
         }
+    }
+
+    async updateProfile(userId:string,updateProfileDto:UpdateProfileDto) : Promise<IUser | null>{
+        return await User.findByIdAndUpdate(
+            userId,
+            {$set:updateProfileDto},
+            {new:true}
+        )
     }
 
 }

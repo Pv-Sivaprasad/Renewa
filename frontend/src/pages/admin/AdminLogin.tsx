@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { AdminLoginSchema } from '../../utils/validations';
 import logo from '../../assets/user/back.png'; 
-import { adminSignIn } from '../../services/adminApi';
+import { adminSignIn } from '../../services/admin/adminApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useDispatch, UseDispatch } from 'react-redux';
@@ -67,6 +67,7 @@ const AdminLogin: React.FC = () => {
         console.log('the formData in the adminLogin before sending to api',formData);
         
       const response = await adminSignIn(formData)
+       console.log('response in adminLogin',response);
        
       if(response.data.accessToken){
         localStorage.setItem('accessToken',response.data.accessToken)
@@ -83,8 +84,8 @@ const AdminLogin: React.FC = () => {
       }
       
     } catch (err) {
-      setError('An error occurred during login');
-      
+      toast.error(err.response.data.message)
+
     } finally {
       setIsLoading(false);
     }

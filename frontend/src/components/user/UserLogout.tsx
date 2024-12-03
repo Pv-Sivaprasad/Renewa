@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { resetUser } from '../../redux/slices/authSlice'
 import { Link,useNavigate } from 'react-router-dom'
-import { logout } from '../../services/userApi'
+import { logout } from '../../services/user/userApi'
 
 
 

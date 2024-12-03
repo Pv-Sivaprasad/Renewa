@@ -8,6 +8,7 @@ const authController=new AuthController()
 
 auth_route.post('/signin',authController.signin)
 auth_route.get('/logout',authController.logout)
+auth_route.get('/refresh-token',authController.setNewToken)
 
 
 
