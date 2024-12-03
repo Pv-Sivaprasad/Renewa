@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { slotSelecting } from '../../services/doctor/doctorApi';
+import { slotSelecting, filledSlots } from '../../services/doctor/doctorApi';
+import Swal from 'sweetalert2';
 
 const SlotManagement = () => {
   const [selectedDate, setSelectedDate] = useState('');
-  const [availableSlots, setAvailableSlots] = useState([]); // Array of time slots
+  const [availableSlots, setAvailableSlots] = useState([]); 
   const [selectedSlots, setSelectedSlots] = useState([]);
+  const [existingSlots, setExistingSlots] = useState([]); 
 
-  // Generate today's date in the format YYYY-MM-DD
+ 
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -16,7 +18,7 @@ const SlotManagement = () => {
     return `${year}-${month}-${day}`;
   };
 
-  // Generate a list of 1-hour slots for the day (9 AM to 5 PM)
+ 
   const generateSlots = (date) => {
     const slots = [];
     const startHour = 9;
@@ -32,14 +34,21 @@ const SlotManagement = () => {
     setSelectedSlots([]);
   };
 
-  // Handle date change
-  const handleDateChange = (e) => {
+  
+  const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
+    console.log('the date selected is ', date);
+
+   
+    let recievedSlots = await filledSlots(date);
+    console.log('reciedSlots are', recievedSlots);
+
     setSelectedDate(date);
     generateSlots(date);
+    setExistingSlots(recievedSlots.data || []); 
   };
 
-  // Toggle slot selection
+ 
   const toggleSlotSelection = (index) => {
     const updatedSlots = [...availableSlots];
     updatedSlots[index].isSelected = !updatedSlots[index].isSelected;
@@ -53,36 +62,48 @@ const SlotManagement = () => {
       );
     }
   };
- // Confirm selected slots
- const confirmSlots = async () => {
-  if (!selectedDate) {
-    toast.error('Please select a date!');
-    return;
-  }
 
-  const payload = {
-    date: selectedDate, // Include the selected date
-    slots: selectedSlots, // Selected slots
+  
+  const confirmSlots = async () => {
+    const confirmation = await Swal.fire({
+      title: "Slot Selection",
+      text: "Are you sure about the dates that have been selected?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Proceed",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!confirmation.isConfirmed) {
+     
+      return;
+    }
+
+    if (!selectedDate) {
+      toast.error('Please select a date!');
+      return;
+    }
+
+    const payload = {
+      date: selectedDate,
+      slots: selectedSlots,
+    };
+
+    try {
+      const response = await slotSelecting(payload);
+      toast.success('Slots selected successfully');
+    } catch (error) {
+      toast.error('An error occurred while selecting slots.');
+    }
   };
 
-  try {
-    const response = await slotSelecting(payload); // Send both date and slots
-  //   if (response.success) {
-      toast.success('Slots selected successfully');
-  //   } else {
-  //     toast.error('Failed to select slots. Please try again.');
-  //   }
-  } catch (error) {
-  //   console.error('Error selecting slots:', error);
-    toast.error('An error occurred while selecting slots.');
-  }
-};
-  // // Confirm selected slots
-  // const confirmSlots = async() => {
-  //   console.log('Selected Slots:', selectedSlots);
-  //   const response=await slotSelecting(selectedSlots)
-  //   toast.success('slot selected')
-  // };
+  
+  const isSlotFilled = (slot) => {
+    return existingSlots.some(
+      (existingSlot) =>
+        existingSlot.startTime === slot.startTime && existingSlot.endTime === slot.endTime
+    );
+  };
 
   return (
     <div className="p-6 bg-custom-reg min-h-screen">
@@ -91,7 +112,6 @@ const SlotManagement = () => {
           Manage Your Available Slots
         </h2>
 
-        {/* Date Picker */}
         <label htmlFor="date" className="block text-gray-600 font-medium mb-2">
           Select a Date
         </label>
@@ -100,26 +120,26 @@ const SlotManagement = () => {
           id="date"
           value={selectedDate}
           onChange={handleDateChange}
-          min={getTodayDate()} // Restrict dates to today onwards
+          min={getTodayDate()} 
           className="w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring focus:ring-blue-300"
         />
 
         {/* Slots Display */}
         {availableSlots.length > 0 && (
           <>
-            <h3 className="text-lg font-semibold mb-2 text-gray-700">
-              Available Slots
-            </h3>
+            <h3 className="text-lg font-semibold mb-2 text-gray-700">Available Slots</h3>
             <div className="grid grid-cols-3 gap-4">
               {availableSlots.map((slot, index) => (
                 <div
                   key={index}
                   className={`border rounded-md p-3 text-center cursor-pointer transition-colors ${
-                    slot.isSelected
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                    isSlotFilled(slot)
+                      ? 'border-red-500' 
+                      : slot.isSelected
+                      ? 'bg-blue-500 text-white border-blue-700'
+                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300 border-green-400'
                   }`}
-                  onClick={() => toggleSlotSelection(index)}
+                  onClick={() => !isSlotFilled(slot) && toggleSlotSelection(index)} 
                 >
                   <p className="font-medium">
                     {slot.startTime} - {slot.endTime}

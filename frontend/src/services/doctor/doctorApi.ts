@@ -53,9 +53,9 @@ console.log('the data of editprofile before to backen',data);
     return response    
 }
 
-export const filledSlots=async()=>{
+export const filledSlots=async(date:string)=>{
     console.log('foing to fetch the slots in the backend');
-    const response=await api.get('createdslots')
+    const response=await api.get(`/available/:${date}`)
     return response
 }
 
