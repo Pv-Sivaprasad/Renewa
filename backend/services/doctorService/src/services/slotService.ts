@@ -30,6 +30,7 @@ export class SlotService{
             console.log('enterd the slot service');
             return await this.slotRepository.upsertSlots(docSlotDto)
             
+            
         } catch (error) {
             console.log('error in upperslots in slotservice',error);
             

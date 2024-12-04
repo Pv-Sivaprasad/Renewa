@@ -93,8 +93,9 @@ const SlotManagement = () => {
     try {
       
       const response = await slotSelecting(payload);
-      toast.success('Slots selected successfully');
-
+      console.log('the response is ',response);
+      toast.success('Slot selected successfully');
+      
       
       const updatedSlots = await filledSlots(selectedDate);
       setExistingSlots(updatedSlots.data || []);
