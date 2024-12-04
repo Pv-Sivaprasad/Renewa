@@ -2,9 +2,11 @@ import { AdminUserRepository } from "../repositories/implementations/AdminUserRe
 import { User } from "../types/User";
 import { AdminDoctorRepository } from "../repositories/implementations/AdminDoctorRepository";
 import { UserDataDto } from "../dto/authDto";
+import { AdminDocSlotRepository } from "../repositories/implementations/AdminDocSlotRepository";
 
 const adminUserRepository = new AdminUserRepository()
 const adminDoctorRepository = new AdminDoctorRepository()
+const adminDocSlotRepository= new AdminDocSlotRepository()
 
 export class AdminService {
 
@@ -155,5 +157,11 @@ export class AdminService {
         
     }
     
+    upsertSlot=async(slotData:UserDataDto)=>{
+        console.log('reached the upsertSlot in the adminService');
+
+        await adminDocSlotRepository.saveDocSlot(slotData)
+        
+    }
 
 }

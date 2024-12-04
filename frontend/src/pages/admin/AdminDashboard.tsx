@@ -95,20 +95,7 @@ const AdminDashboard = () => {
               <ChevronDown size={16} className="ml-2" />
             </button>
 
-            {/* {isProfileOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white py-2 shadow-lg">
-                <button
-                  onClick={() => {
-                    setIsProfileOpen(false);
-                    // Add logout logic here
-                  }}
-                  className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-50"
-                >
-                  <LogOut size={16} className="mr-2" />
-                  Logout
-                </button>
-              </div>
-            )} */}
+          
               {isProfileOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white py-2 shadow-lg">
                 <button
