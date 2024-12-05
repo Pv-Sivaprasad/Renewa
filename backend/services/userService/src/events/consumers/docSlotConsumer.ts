@@ -26,7 +26,7 @@ export const recieveDocSlotData = async () => {
             const slotData = JSON.parse(msg.content.toString());
             console.log('The slotData received in user side is:', slotData);
 
-           
+            let docSlotinUser= await userService.upsertSlot(slotData)
 
             // Acknowledge the message
             channel.ack(msg);
