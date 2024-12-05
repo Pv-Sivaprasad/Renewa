@@ -9,7 +9,7 @@ import UserHome from '../pages/user/UserHome'
 import NewPassword from '../components/user/NewPassword'
 import UserProfile  from '../pages/user/UserProfile'
 import DoctorPage from '../pages/user/DoctorPage'
-
+import SlotBook from '../pages/user/SlotBook'
 const userRoute = () => {
   return (
     <Routes>
@@ -22,6 +22,7 @@ const userRoute = () => {
     <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>} />
     <Route path='/profile' element={<PrivateRoute><UserProfile/></PrivateRoute>} />
     <Route path='/doctors' element={<PrivateRoute><DoctorPage/></PrivateRoute>} />
+    <Route path='/doctorslot' element={<PrivateRoute><SlotBook/></PrivateRoute>} />
 
 
     </Routes>
