@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
 
 // Dummy data - in real app, this would come from backend
@@ -20,6 +20,13 @@ const mockSlots = {
 const DoctorSlotBooking = ({ doctorId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
+
+
+    useEffect(()=>{
+        // const response=await availableDocslots()
+    })
+
+
 
   // Function to handle date selection
   const handleDateSelect = (date) => {

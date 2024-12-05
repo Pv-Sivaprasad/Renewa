@@ -35,4 +35,10 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
 
     }
 
+    async getDocSlotData(doctorId:string):Promise<any>{
+       return  await UserDocSlotModel.findOne({doctorId})
+    }
+    
+
+
 }

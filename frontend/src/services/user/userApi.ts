@@ -111,6 +111,13 @@ export const allDoctors=async()=>{
     
 }
 
+export const availableDocslots=async()=>{
+    console.log('going to backend to check slots');
+    const response=await api.get('/docslot')
+    
+}
+
+
 export const logout=async()=>{
 
     const response=await publicApi.get('/logout')
