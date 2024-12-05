@@ -8,6 +8,7 @@ import cookieparser from 'cookie-parser'
 import { rabbitMqConnect } from './config/rabbitMq'
 import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
 import { listenForDocDetails } from './events/consumers/doctorConsumer'
+import { recieveDocSlotData } from './events/consumers/docSlotConsumer'
 
 dotenv.config()
 
@@ -32,8 +33,9 @@ connectMongoDb();
     const channel = await rabbitMqConnect();
     if (channel) {
         console.log('RabbitMQ connected in admin service');
-        await listenForUserStatusUpdate(); // Start consuming messages
-        await listenForDocDetails(); //
+        await listenForUserStatusUpdate(); 
+        await listenForDocDetails(); 
+        await recieveDocSlotData()
         console.log('Admin consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');

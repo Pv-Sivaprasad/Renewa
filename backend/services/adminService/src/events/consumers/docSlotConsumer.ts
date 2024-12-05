@@ -12,10 +12,14 @@ export const recieveDocSlotData=async()=>{
     }
 
 
-    const queueName='DocSlotToAdminQueue'
+    const exchangeName = 'DocSlotExchange';
+    const queueName = 'DocSlotToAdminQueue';
 
-    await channel.assertQueue(queueName,{durable:true})
-    console.log('consumer is ready , waiting for messages in q :',queueName);
+      // Assert the exchange and bind the queue to it
+      await channel.assertExchange(exchangeName, 'fanout', { durable: true });
+      await channel.assertQueue(queueName, { durable: true });
+      await channel.bindQueue(queueName, exchangeName, '');
+      console.log('Admin consumer is ready, waiting for messages in queue:', queueName);
 
     channel.consume(queueName,async(msg)=>{
         console.log('doc slot consumer triggered going to process message');
@@ -25,6 +29,9 @@ export const recieveDocSlotData=async()=>{
             console.log('the slotData recived in admin side is',slotData);
 
             let docSlotInAdmin=await adminService.upsertSlot(slotData)
+            
+
+            channel.ack(msg)
             
         }
     })

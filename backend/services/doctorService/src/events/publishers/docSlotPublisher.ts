@@ -9,13 +9,14 @@ export const sendDocSlotData=async(data:any)=>{
     }
 
 
-    const queueName='DocSlotToAdminQueue'
-    console.log('sending slot data from doc to admin');
+    const exchangeName = 'DocSlotExchange';
+    console.log('Sending slot data from doctor to all consumers...');
+
     
+    await channel.assertExchange(exchangeName, 'fanout', { durable: true });
 
-    await channel.assertQueue(queueName,{durable:true})
-
-    channel.sendToQueue(queueName,Buffer.from(JSON.stringify(data)))
-    console.log('data send q :',queueName);
+    
+    channel.publish(exchangeName, '', Buffer.from(JSON.stringify(data)));
+    console.log('Slot data published to exchange:', exchangeName);
     
 }

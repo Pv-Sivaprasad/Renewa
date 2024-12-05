@@ -38,7 +38,7 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
    
     async findDoctor(docId:any) : Promise <IAdminDoctor | null>{
         console.log('this is in findoctor',docId);
-        let result = await AdminDoctorModel.findOne({docId})
+        let result = await AdminDoctorModel.findOneAndUpdate({docId})
         console.log('result in the ______',result);
         
         return result
@@ -60,4 +60,6 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
         return updateDoctorStatus ? (updateDoctorStatus.toObject() as Doctor) : null;
        }
 
+
+       
 }

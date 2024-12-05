@@ -3,6 +3,7 @@ import { User } from "../types/User";
 import { AdminDoctorRepository } from "../repositories/implementations/AdminDoctorRepository";
 import { UserDataDto } from "../dto/authDto";
 import { AdminDocSlotRepository } from "../repositories/implementations/AdminDocSlotRepository";
+import { SlotDTO } from "../dto/slotDto";
 
 const adminUserRepository = new AdminUserRepository()
 const adminDoctorRepository = new AdminDoctorRepository()
@@ -12,6 +13,8 @@ export class AdminService {
 
      getDocDetails =async(docId:string)=>{
         try {
+            console.log('the docid is ',docId);
+            
           return   await adminDoctorRepository.findDoctor(docId)
         } catch (error) {
             console.log('error in getting doc details',error);
@@ -157,7 +160,7 @@ export class AdminService {
         
     }
     
-    upsertSlot=async(slotData:UserDataDto)=>{
+    upsertSlot=async(slotData:SlotDTO)=>{
         console.log('reached the upsertSlot in the adminService');
 
         await adminDocSlotRepository.saveDocSlot(slotData)
