@@ -22,7 +22,9 @@ const DoctorList: React.FC = () => {
     const fetchDocData = async () => {
       try {
         const response = await allDoctors();
-        setDoctors(response.data); // Map data from backend
+        console.log(response,'the response is');
+        
+        setDoctors(response.data); 
       } catch (error) {
         console.error("Error fetching doctors:", error);
       }

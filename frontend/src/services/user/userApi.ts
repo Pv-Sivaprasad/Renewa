@@ -112,7 +112,7 @@ export const allDoctors=async()=>{
 }
 
 export const availableDocslots=async(docId:string)=>{
-    console.log('going to backend to check slots');
+    console.log('going to backend to check slots',docId);
     const response=await api.get(`/docslot/${docId}`)
     return response
     

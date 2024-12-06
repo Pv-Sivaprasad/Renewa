@@ -152,9 +152,10 @@ const DoctorSlotBooking = ({ doctorId }) => {
     const fetchDocData = async (docId) => {
       try {
         const response = await availableDocslots(docId);
+       console.log('the res us',response);
        
         
-        if (response.status) {
+        if (response.status===201) {
           setSlotsData(response.data.dates);
         } else {
           console.error('Error fetching doctor slots:', response.statusText);

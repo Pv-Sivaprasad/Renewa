@@ -23,11 +23,11 @@ const controllerMap = new Map();
 
 userAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
-  console.log(token,'this is is in userInstance');
+
   
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
-    console.log('===========',config.headers.authorization);
+   
     
   }
 
