@@ -34,7 +34,8 @@ const DoctorList: React.FC = () => {
   const handleBookAppointment = (doctorId: string) => {
     setSelectedDoctor(doctorId);
     console.log(`Booking appointment with Doctor ID: ${doctorId}`);
-    navigate('/doctorslot')
+    // navigate('/doctorslot')
+    navigate('/doctorslot', { state: { doctorId } })
   };
 
   return (

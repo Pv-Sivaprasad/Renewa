@@ -17,6 +17,11 @@ export class DocSlotController{
         try {
             const slots=await docSlotService.docSlotsById(doctorId)
             console.log('the doc slot controller',slots);
+            if(slots){
+                return res.status(HttpStatus.CREATED).json(slots)
+            }else{
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json("internal server Error")
+            }
             
         } catch (error) {
             console.log('error in the doc slot con of ger doc by id',error);
