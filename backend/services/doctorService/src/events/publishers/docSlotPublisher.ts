@@ -17,6 +17,8 @@ export const sendDocSlotData=async(data:any)=>{
 
     
     channel.publish(exchangeName, '', Buffer.from(JSON.stringify(data)));
+
     console.log('Slot data published to exchange:', exchangeName);
-    
+    console.log('the data from the doc slot publisher is ',data);
+        
 }

@@ -23,11 +23,10 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
              return
             }
         const newToken = token?.split(' ')[1]
-        console.log(newToken, 'token in doctor auth middleware ');
+       
 
         const secret = process.env.ACCESS_TOKEN_SECRET
-        console.log(secret,'secret in ');
-        
+      
         const decodedToken = jwt.decode(newToken, { complete: true });
         
 
@@ -35,7 +34,7 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
             throw new Error('Access token secret is not defined')
         }
         jwt.verify(newToken, secret, (err, user) => {
-            console.log('verify done');
+           
 
             if (err) {
                 return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid token' });

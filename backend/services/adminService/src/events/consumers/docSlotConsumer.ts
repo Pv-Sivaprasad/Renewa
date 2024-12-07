@@ -4,6 +4,7 @@ import { AdminService } from "../../services/adminService";
 const adminService= new AdminService()
 
 
+
 export const recieveDocSlotData=async()=>{
     const channel=await getChannel()
     if(!channel){
@@ -28,7 +29,7 @@ export const recieveDocSlotData=async()=>{
             const slotData=JSON.parse(msg.content.toString())
             console.log('the slotData recived in admin side is',slotData);
 
-            let docSlotInAdmin=await adminService.upsertSlot(slotData)
+            // let docSlotInAdmin=await adminService.upsertSlot(slotData)
             
 
             channel.ack(msg)

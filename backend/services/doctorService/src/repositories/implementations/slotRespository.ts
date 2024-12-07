@@ -1,5 +1,6 @@
 import DocSlotModel, { DocSlot, DateSlot } from '../../models/slotModel'
 import { DocSlotDto, Slot } from '../../dto/slotDto';
+import { sendDocSlotData } from '../../events/publishers/docSlotPublisher';
 
 export class SlotRepository {
 
@@ -28,7 +29,7 @@ export class SlotRepository {
           );
           existingDate.slots.push(...newSlots);
         } else {
-         
+          
           updatedDoc.dates.push(dateSlot);
         }
       }
@@ -71,9 +72,27 @@ export class SlotRepository {
       console.log('Result from DB:', JSON.stringify(slotInRepo, null, 2));
      
       if (slotInRepo && slotInRepo.dates.length > 0) {
+        console.log('&^%&*()(*&^*',slotInRepo);
+        await sendDocSlotData(slotInRepo)
+        
         return slotInRepo.dates[0].slots;
       }
+
       
+      // if (slotInRepo && slotInRepo.dates.length > 0) {
+      //   // Include docId in the data to be sent
+      //   const slotDataWithDocId = {
+      //     docId, // Adding docId
+      //     date: slotInRepo.dates[0].date,
+      //     slots: slotInRepo.dates[0].slots,
+      //   };
+  
+      //   console.log('Data being sent with docId:', slotDataWithDocId);
+  
+      //   await sendDocSlotData(slotDataWithDocId);
+  
+      //   return slotInRepo.dates[0].slots;
+      // }
       return null;  
     } catch (error) {
       console.error('Error fetching slots for doctor:', error);

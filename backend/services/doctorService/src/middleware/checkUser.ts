@@ -15,11 +15,10 @@ export interface CustomeRequest extends Request{
 
 export const checkDocStatus= async(req:CustomeRequest,res:Response,next:NextFunction)=>{
 
-    console.log('entering the checkDoc Status middleware');
     
     try {
         const docId=req.user as JwtPayload
-        console.log('the userId in cheusermiddleware is ',docId);
+      
 
         const id=docId.id
         console.log(id,'idfrom the docId')
