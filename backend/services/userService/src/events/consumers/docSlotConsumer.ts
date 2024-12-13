@@ -13,13 +13,13 @@ export const recieveDocSlotData = async () => {
     const exchangeName = 'DocSlotExchange';
     const queueName = 'DocSlotToUserQueue';
 
-    // Assert the exchange and bind the queue to it
+    
     await channel.assertExchange(exchangeName, 'fanout', { durable: true });
     await channel.assertQueue(queueName, { durable: true });
     await channel.bindQueue(queueName, exchangeName, '');
     console.log('User consumer is ready in , waiting for messages in queue:', queueName);
 
-    // Start consuming messages
+    
     channel.consume(queueName, async (msg) => {
         if (msg) {
             console.log('User consumer triggered, processing message...');

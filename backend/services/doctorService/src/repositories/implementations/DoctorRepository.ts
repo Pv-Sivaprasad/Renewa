@@ -43,6 +43,8 @@ export class DoctorRepository implements IDoctorRepository{
             throw new Error('Failed to update user status');
         }
     }
+
+    
     async updateProfile(userId: string, updateProfileDto: UpdateprofileDto): Promise<IDoctor | null> {
         console.log('imhere');
         

@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { availableDocslots } from '../../services/user/userApi';
 
-const DoctorSlotBooking = ({ doctorId }) => {
+const 
+DoctorSlotBooking = ({ doctorId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [slotsData, setSlotsData] = useState([]); 

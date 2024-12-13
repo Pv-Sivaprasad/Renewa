@@ -25,6 +25,8 @@ export const listenForAdminStatusUpdate = async () =>{
                     console.log(`Received user status update: ${docId}, isBlocked: ${isBlocked}`);
 
                     try {
+                        console.log('11111111111111111111111111111111111111');
+                        
                         await authService.updateDoctorStatus(docId,isBlocked,email)
                         console.log(`Successfully updated user ${docId} status to isBlocked: ${isBlocked}`);
                         channel.ack(msg);

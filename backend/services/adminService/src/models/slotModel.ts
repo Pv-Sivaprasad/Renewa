@@ -45,6 +45,6 @@ const AdminSlotSchema = new Schema<IAdminSlot>({
     dates: { type: [DateSchema], required: true },
 });
 
-export const AdminSlotModel = model<IAdminSlot>('AdminSlot', AdminSlotSchema);
+export const AdminDocSlotModel = model<IAdminSlot>('AdminDocSlot', AdminSlotSchema);
 
 
