@@ -10,6 +10,7 @@ import NewPassword from '../components/user/NewPassword'
 import UserProfile  from '../pages/user/UserProfile'
 import DoctorPage from '../pages/user/DoctorPage'
 import SlotBook from '../pages/user/SlotBook'
+import PaymentPage from '../pages/user/PaymentPage'
 const userRoute = () => {
   return (
     <Routes>
@@ -23,6 +24,9 @@ const userRoute = () => {
     <Route path='/profile' element={<PrivateRoute><UserProfile/></PrivateRoute>} />
     <Route path='/doctors' element={<PrivateRoute><DoctorPage/></PrivateRoute>} />
     <Route path='/doctorslot' element={<PrivateRoute><SlotBook/></PrivateRoute>} />
+    {/* <Route path='/payment' element={<PrivateRoute><PaymentPage/></PrivateRoute>} /> */}
+    <Route path='/payment' element={<PublicRoute><PaymentPage/></PublicRoute>} />
+
 
 
     </Routes>

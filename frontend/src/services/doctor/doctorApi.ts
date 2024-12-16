@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { publicAxiosInstance,doctorAxiosInstance } from '../axiosInstance/doctorInstance'
-import { log } from 'console'
+
 
 
 const api=doctorAxiosInstance
