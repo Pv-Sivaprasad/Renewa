@@ -14,10 +14,10 @@ export const recieveDoctorData=async()=>{
     const queueName='doctorToAdminQueue'
 
     await channel.assertQueue(queueName,{durable:true})
-    console.log(`doctorConsumer is ready, waiting for messages on queue: ${queueName}`);
+  
     
     channel.consume(queueName,async(message)=>{
-        console.log('doctor consumer triggered attempting to process message');
+      
         
         if(message){
             const {docId,docname,email,speciality,isBlocked}=JSON.parse(message.content.toString())
@@ -45,6 +45,7 @@ export const recieveDoctorData=async()=>{
                     console.log('dodcot data changed in admindb');
                     
                 }else{
+                    console.log('the doc is new doc');
                     
                     await adminService.saveDoctorInAdminDb({docId,docname,email,speciality})
                     console.log(`Doctor data saved in admin database: ${docname}, ${email}`);

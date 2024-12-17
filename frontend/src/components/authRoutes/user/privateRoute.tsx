@@ -13,7 +13,6 @@ const PrivateRoute : React.FC<PrivateRouteProps> = ({children})  => {
 
 const isAuthenticated=useSelector((state:RootState)=>state.user.isAuthenticated)
 
-console.log('isAuth in privat',isAuthenticated);
 
 
 

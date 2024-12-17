@@ -10,7 +10,7 @@ export const sendDocSlotData=async(data:any)=>{
 
 
     const exchangeName = 'DocSlotExchange';
-    console.log('Sending slot data from doctor to all consumers...');
+ 
 
     
     await channel.assertExchange(exchangeName, 'fanout', { durable: true });
@@ -18,7 +18,6 @@ export const sendDocSlotData=async(data:any)=>{
     
     channel.publish(exchangeName, '', Buffer.from(JSON.stringify(data)));
 
-    console.log('Slot data published to exchange:', exchangeName);
-    console.log('the data from the doc slot publisher is ',data);
+   
         
 }

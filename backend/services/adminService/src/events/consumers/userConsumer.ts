@@ -18,16 +18,15 @@ export const recieveUserData = async () => {
 
    
     await channel.assertQueue(queueName, { durable: true });
-    console.log(`userConsumer is ready, waiting for messages on queue: ${queueName}`);
-
+   
     
     channel.consume(queueName, async (message) => {
-        console.log('Consumer callback triggered, attempting to process message.');
+       
 
         if (message) {
             
             const { userId, username, email } = JSON.parse(message.content.toString());
-            console.log(`Received message: UserId: ${userId}, Username: ${username}, Email: ${email}`);
+          
 
             const userData={
                 userId:userId,

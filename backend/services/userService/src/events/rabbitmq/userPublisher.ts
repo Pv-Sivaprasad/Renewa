@@ -8,7 +8,7 @@ export const sendUserData = async (userData: any) => {
   }
 
   const queueName = 'userToAdminQueue';
-  console.log('Going to send the data');
+ 
 
   await channel.assertQueue(queueName, { durable: true }); 
 

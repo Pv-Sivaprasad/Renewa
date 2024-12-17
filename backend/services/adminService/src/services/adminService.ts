@@ -15,7 +15,7 @@ export class AdminService {
         try {
             console.log('the docid is ',docId);
             
-          return   await adminDoctorRepository.findDoctor(docId)
+          return   await adminDoctorRepository.findDoctorById(docId)
         } catch (error) {
             console.log('error in getting doc details',error);
             
@@ -145,6 +145,7 @@ export class AdminService {
                     console.log(`Doc with ${doctorId} not found`);
                     return null
                 }
+                
                 if(docData){
                     docData.isBlocked = !docData.isBlocked
                 }

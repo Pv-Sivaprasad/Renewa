@@ -50,6 +50,8 @@ export class AuthService{
                 email:savedDoc?.email,
                 speciality:savedDoc?.speciality
             }
+            console.log('the userData before sending is ',userData);
+            
             await sendDoctorData(userData).then(()=>{
                 console.log('successully send the data to admin ');  
             }).catch((err:any)=>{

@@ -8,7 +8,7 @@ export const sendDoctorData=async(userData:any)=>{
     }
 
     const queueName='doctorToAdminQueue'
-    console.log('going to send doc data to admin');
+   
     
 
     await channel.assertQueue(queueName,{durable:true})

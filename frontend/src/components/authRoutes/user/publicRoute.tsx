@@ -13,7 +13,7 @@ const PublicRoute  :React.FC<PublicRouteProps>=({children})=>{
 
     const isAuthenticated=useSelector((state:RootState)=>state.user.isAuthenticated);
 
-    console.log('isAuth in publ',isAuthenticated);
+
 
 
     return isAuthenticated ? <Navigate to='/dashboard' /> : <> {children} </>

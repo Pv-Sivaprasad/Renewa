@@ -8,7 +8,7 @@ export const sendDocDataToUser=async(docData:any)=>{
     }
 
     const queueName='DocToUserQueue'
-    console.log('sending doc data to userService');
+ 
     
     await channel.assertQueue(queueName,{durable:true})
 

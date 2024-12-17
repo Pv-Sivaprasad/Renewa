@@ -38,7 +38,7 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
    
     async findDoctor(docId:any) : Promise <IAdminDoctor | null>{
         console.log('this is in findoctor',docId);
-        let result = await AdminDoctorModel.findOneAndUpdate({docId})
+        let result = await AdminDoctorModel.findById(docId)
         console.log('result in the ______',result);
         
         return result

@@ -118,6 +118,12 @@ export const availableDocslots=async(docId:string)=>{
     
 }
 
+export const slotPayment=async(payload)=>{
+    console.log('goinf to do payment to the backend');
+    let response =await api.post('/payment-intent',payload)
+    return response
+}
+
 
 export const logout=async()=>{
 
