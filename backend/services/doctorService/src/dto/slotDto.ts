@@ -11,5 +11,6 @@ export interface DateSlotDto{
 
 export interface DocSlotDto{
     docId:string,
+    docName:string,
     dates:DateSlotDto[]
 }

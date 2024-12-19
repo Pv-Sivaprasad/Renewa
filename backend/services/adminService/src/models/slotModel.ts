@@ -13,6 +13,7 @@ interface IDates {
 
 export interface IAdminSlot extends Document {
     docId: string;
+    docName:string;
     dates: IDates[];
 }
 
@@ -42,6 +43,7 @@ const DateSchema = new Schema<IDates>({
 
 const AdminSlotSchema = new Schema<IAdminSlot>({
     docId: { type: String, required: true },
+    docName:{type:String,required:true},
     dates: { type: [DateSchema], required: true },
 });
 

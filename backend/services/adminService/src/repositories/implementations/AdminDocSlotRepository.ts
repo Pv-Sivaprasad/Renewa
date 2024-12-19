@@ -8,12 +8,16 @@ import { AdminDocSlotModel } from "../../models/slotModel";
 export class AdminDocSlotRepository implements IAdminDocSlotRepository {
 
     async saveDocSlot(slotData: SlotDTO): Promise<any> {
+        console.log('the slot dto in the doc slot admin side is',slotData);
         
         const docId = slotData.docId;
         const dates = slotData.dates || []; 
+        const docName=slotData.docName
     
         console.log('The slot data is:', JSON.stringify(slotData, null, 2));
         console.log('docId:', docId, 'dates:', dates);
+        console.log('docName',docName);
+        
         
         
         if (!Array.isArray(dates)) {
@@ -37,15 +41,28 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
                 console.log('Updating existing record for date:', date);
                 await AdminDocSlotModel.updateOne(
                     { docId, 'dates.date': date },
-                    { $set: { 'dates.$.slots': slots } } 
+                    { 
+                        $set: { 
+                            docName,
+                            'dates.$.slots': slots 
+                        } 
+                    } 
                 );
             } else {
               
                 console.log('No record found for date:', date, '- Creating a new one.');
+                // await AdminDocSlotModel.updateOne(
+                //     { docId },
+                //     { $push: { dates: { date, slots } } },
+                //     { upsert: true } 
+                // );
                 await AdminDocSlotModel.updateOne(
                     { docId },
-                    { $push: { dates: { date, slots } } },
-                    { upsert: true } 
+                    {
+                        $set: { docName }, 
+                        $push: { dates: { date, slots } },
+                    },
+                    { upsert: true }
                 );
             }
         }

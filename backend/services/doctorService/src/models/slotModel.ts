@@ -16,6 +16,7 @@ export interface DateSlot {
 
 export interface DocSlot extends Document {
     docId: string,
+    docName:string
     dates: DateSlot[]
 }
 
@@ -52,6 +53,10 @@ const DocSlotSchema = new Schema<DocSlot>({
     {
         type: String,
         required: true
+    },
+    docName:{
+        type:String,
+        required:true
     },
     dates:
     {

@@ -9,8 +9,8 @@ const DoctorList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState('Users');
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('Doctors');
+  const [isProfileOpen, setIsProfileOpen] = useState(false); 
   const [users, setUsers] = useState<any[]>([]); 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState({

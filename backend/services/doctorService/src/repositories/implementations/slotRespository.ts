@@ -6,12 +6,17 @@ export class SlotRepository {
 
   async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {
     try {
-      const { docId, dates } = docSlotDto;
-  
+      console.log('the slotDto in the repo is ',docSlotDto);
+      const { docId, dates,docName } = docSlotDto;
+      
     
       const updatedDoc = await DocSlotModel.findOneAndUpdate(
         { docId },
-        { $setOnInsert: { docId } },
+        
+        { 
+          $set: { docName },
+          $setOnInsert: { docId }
+      },
         { upsert: true, new: true }
       );
   

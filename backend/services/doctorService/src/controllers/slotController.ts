@@ -5,9 +5,10 @@ import { CustomeRequest } from "../middleware/isAuthenticated";
 import { JwtPayload } from "jsonwebtoken";
 import { SlotService } from "../services/slotService";
 import { sendDocSlotData } from "../events/publishers/docSlotPublisher";
+import { DoctorService } from "../services/doctorService";
 
 const slotService= new SlotService()
-
+const doctorService= new DoctorService()
 class SlotController{
    
 
@@ -17,6 +18,11 @@ class SlotController{
               const docId=doc.id
               console.log('the dod id in the slot controller is ',docId);
 
+              const doctorProfile = await doctorService.getProfileData(docId);
+
+              // Extract the doctor's name as a string or provide a fallback
+              const docName = doctorProfile?.username || 'Unknown Doctor';
+
               const {date,slots}=req.body
 
                    if (!date || !slots || !Array.isArray(slots)) {
@@ -25,6 +31,7 @@ class SlotController{
 
           const slotDto={
             docId,
+            docName,
             dates: [
                 {
                   date,
