@@ -35,6 +35,7 @@ const UserTable = () => {
     { title: 'Dashboard', icon: Home, route: '/admin/dashboard' },
     { title: 'Doctors', icon: UserCog, route: '/admin/doctors' },
     { title: 'Users', icon: Users, route: '/admin/users' },
+     { title: 'Doc Slots', icon: UserCog, route: '/admin/docslots' }
   ];
 
   const toggleSidebar = () => {

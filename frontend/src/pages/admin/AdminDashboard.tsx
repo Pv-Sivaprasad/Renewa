@@ -14,9 +14,10 @@ const AdminDashboard = () => {
 
   // Updated menu items with route
   const menuItems = [
-    { title: 'Dashboard', icon: Home, route: '/admin/dashboard' }, // Added route
-    { title: 'Doctors', icon: UserCog, route: '/admin/doctors' }, // Added route
-    { title: 'Users', icon: Users, route: '/admin/users' }, // Added route
+    { title: 'Dashboard', icon: Home, route: '/admin/dashboard' }, 
+    { title: 'Doctors', icon: UserCog, route: '/admin/doctors' }, 
+    { title: 'Users', icon: Users, route: '/admin/users' }, 
+    { title: 'Doc Slots', icon: UserCog, route: '/admin/docslots' }
   ];
 
   const toggleSidebar = () => {

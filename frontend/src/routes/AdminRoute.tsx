@@ -6,6 +6,7 @@ import AdminLogin from '../pages/admin/AdminLogin';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import UserTable from '../pages/admin/UserList';
 import DoctorList from '../pages/admin/DoctorList';
+import DocSlots from '../pages/admin/DocSlots';
 
 const AdminRoute = () => {
   return (
@@ -15,7 +16,7 @@ const AdminRoute = () => {
     <Route path='/dashboard' element={ <PrivateRoute><AdminDashboard/></PrivateRoute>} />
     <Route path='/users' element={ <PrivateRoute><UserTable/></PrivateRoute> } />
     <Route path='/doctors' element={ <PrivateRoute><DoctorList/></PrivateRoute> } />
-    
+    <Route path='/docslots' element={ <PrivateRoute><DocSlots/></PrivateRoute> } />
 
     </Routes>
   )

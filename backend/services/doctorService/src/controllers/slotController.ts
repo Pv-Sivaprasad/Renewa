@@ -40,7 +40,7 @@ class SlotController{
           try {
            const result=await slotService.upsertSlots(slotDto)
            console.log('the resilt in the slotcontroller is',result);
-           console.log('&(*%^$%$#%^&*(&^%$^&*(&^');
+    
            console.log(slotDto,'*&$#%^&)(*$^&*()');
            
             await sendDocSlotData(slotDto)
