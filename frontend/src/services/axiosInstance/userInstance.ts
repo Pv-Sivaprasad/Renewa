@@ -2,8 +2,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import store from '../../redux/store';
 import { resetUser } from "../../redux/slices/authSlice";
+const API_URL = import.meta.env.VITE_USER_API_URL
 
-const API_URL = import.meta.env.VITE_USER_API_URL;
+
+export const publicAxiosInstance = axios.create({
+    baseURL: API_URL,
+    withCredentials: true,
+  });
+
 
 export const userAxiosInstance = axios.create({
   baseURL: API_URL,
@@ -17,8 +23,12 @@ const controllerMap = new Map();
 
 userAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
+
+  
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.authorization = `Bearer ${token}`;
+   
+    
   }
 
  
@@ -78,5 +88,5 @@ async function getNewAccessToken() {
   const response = await axios.get(`${API_URL}/refresh-token`, {
     withCredentials: true,
   });
-  return response.data.data.accessToken;
+  return response.data.accessToken;
 }

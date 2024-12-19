@@ -13,7 +13,7 @@ const generateAccessToken =(user:IUser) =>{
     if(!secret){
         throw new Error('Access token is not working as expected in userService')
     }
-    return jwt.sign(user,secret,{expiresIn:'1m'})
+    return jwt.sign(user,secret,{expiresIn:'24h'})
 }
 
 

@@ -1,10 +1,53 @@
 import { AdminUserRepository } from "../repositories/implementations/AdminUserRepository";
 import { User } from "../types/User";
+import { AdminDoctorRepository } from "../repositories/implementations/AdminDoctorRepository";
+import { UserDataDto } from "../dto/authDto";
+import { AdminDocSlotRepository } from "../repositories/implementations/AdminDocSlotRepository";
+import { SlotDTO } from "../dto/slotDto";
 
 const adminUserRepository = new AdminUserRepository()
-
+const adminDoctorRepository = new AdminDoctorRepository()
+const adminDocSlotRepository= new AdminDocSlotRepository()
 
 export class AdminService {
+
+     getDocDetails =async(docId:string)=>{
+        try {
+            console.log('the docid is ',docId);
+            
+          return   await adminDoctorRepository.findDoctorById(docId)
+        } catch (error) {
+            console.log('error in getting doc details',error);
+            
+        }
+     }
+
+     getUserDetails=async(userId:string)=>{
+        try {
+            let data= await adminUserRepository.findUserData(userId)
+            console.log('the data in get user details adminservice is',data);
+
+            return data
+            
+        } catch (error) {
+            console.log('error in getting user details',error);
+            
+        }
+     }
+
+     updateDocDetails = async(docId:string,userData:{docId:string,docname:string,email:string,speciality:string,isBlocked:boolean})=>{
+        await adminDoctorRepository.updateDoctor(docId,userData)
+     }
+
+     updateUserDetails=async(userId:string,userData:{userId:string,username:string,email:string})=>{
+
+        try {
+            let updatedData=await adminUserRepository.updateuser(userId,userData)
+        } catch (error) {
+            console.log('failed to update the data');
+            
+        }
+     }
 
      saveUserInAdminDb = async (userData: { userId: string; username: string; email: string }) => {
         try {
@@ -17,6 +60,15 @@ export class AdminService {
     
     }
     
+    saveDoctorInAdminDb=async(userData:{docId:string;docname:string;email:string,speciality:string})=>{
+        try {
+            await adminDoctorRepository.saveDoctor(userData)
+        } catch (error) {
+            console.error('Failed to save doctor data in admin  DB:', error);
+            console.log('error from adminservice');
+        }
+    }
+
      getAllUsers = async () => {
         try {
             console.log('entering the get all users in admin servie');
@@ -28,6 +80,19 @@ export class AdminService {
             
         }
     }
+
+    getAllDoctors=async()=>{
+        try {
+            console.log('enteing th get all doctor in admin service');
+            const doctors=await adminDoctorRepository.getAllDoctors()
+            return doctors
+            
+        } catch (error) {
+            
+        }
+    }
+
+
 
     toggleBlockStatus=async(userid:string)=>{
         console.log('the id is in toggle',userid);
@@ -51,6 +116,7 @@ export class AdminService {
             if(userData){
                 userData.isBlocked = !userData.isBlocked
               }
+              
               console.log('the userdata after',userData);
               const response =await adminUserRepository.save(userData)
               console.log('the updated user is ',response);
@@ -63,6 +129,43 @@ export class AdminService {
         }
     }
     
+    toggleDoctorStatus=async(docid:string)=>{
+        console.log('the id in the toggel doctor is ',docid);
+
+        try {
+            
+            const doc=await adminDoctorRepository.findDoctor(docid)
+            console.log('the doc in the adminservice',doc);
+
+            if(doc){
+                let doctorId=doc.docId
+                const docData=await adminDoctorRepository.findDoctorById(doctorId)
+                console.log('the docData is',docData);
+                if(!docData){
+                    console.log(`Doc with ${doctorId} not found`);
+                    return null
+                }
+                
+                if(docData){
+                    docData.isBlocked = !docData.isBlocked
+                }
+                const response=await adminDoctorRepository.save(docData)
+                console.log('the updated doctor is ',response);
+                return response
+                 
+            }
+            
+        } catch (error) {
+            console.log('error in the toggle Doctor status in adminService',error);
+        }
+        
+    }
     
+    upsertSlot=async(slotData:SlotDTO)=>{
+        console.log('reached the upsertSlot in the adminService');
+
+        await adminDocSlotRepository.saveDocSlot(slotData)
+        
+    }
 
 }

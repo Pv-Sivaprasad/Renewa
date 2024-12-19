@@ -23,6 +23,8 @@ module.exports = {
         'footer-color': 'rgba(28,12,60,255)', 
         'custom-teal': '#0f766e',
         'custom-log':'#5eead4',
+        'custom-reg':"#1e293b",
+        'custom-doc':'#334155',
       },
     },
   },

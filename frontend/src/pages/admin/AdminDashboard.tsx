@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Users, UserCog, LogOut, Menu, X, Home, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'; // Updated import
-import {logout} from '../../services/adminApi'
+import {logout} from '../../services/admin/adminApi'
 import { resetAdmin } from '../../redux/slices/adminSlice';
 import { useDispatch, UseDispatch } from 'react-redux';
 const AdminDashboard = () => {
@@ -14,9 +14,10 @@ const AdminDashboard = () => {
 
   // Updated menu items with route
   const menuItems = [
-    { title: 'Dashboard', icon: Home, route: '/admin/dashboard' }, // Added route
-    { title: 'Doctors', icon: UserCog, route: '/admin/doctors' }, // Added route
-    { title: 'Users', icon: Users, route: '/admin/users' }, // Added route
+    { title: 'Dashboard', icon: Home, route: '/admin/dashboard' }, 
+    { title: 'Doctors', icon: UserCog, route: '/admin/doctors' }, 
+    { title: 'Users', icon: Users, route: '/admin/users' }, 
+    { title: 'Doc Slots', icon: UserCog, route: '/admin/docslots' }
   ];
 
   const toggleSidebar = () => {
@@ -37,6 +38,8 @@ const AdminDashboard = () => {
         navigate('/admin')
       }
     } catch (error) {
+      console.log('error in logging out',error);
+      
       
     }
   }
@@ -93,20 +96,7 @@ const AdminDashboard = () => {
               <ChevronDown size={16} className="ml-2" />
             </button>
 
-            {/* {isProfileOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white py-2 shadow-lg">
-                <button
-                  onClick={() => {
-                    setIsProfileOpen(false);
-                    // Add logout logic here
-                  }}
-                  className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-50"
-                >
-                  <LogOut size={16} className="mr-2" />
-                  Logout
-                </button>
-              </div>
-            )} */}
+          
               {isProfileOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white py-2 shadow-lg">
                 <button

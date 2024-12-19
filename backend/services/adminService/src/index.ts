@@ -4,40 +4,47 @@ import dotenv from 'dotenv';
 import connectMongoDb from './config/dbConfig';
 import authRoute from './routes/authRoute';
 import adminRoute from './routes/adminRoute'
-import { recieveUserData } from './events/userConsumer';
+import { recieveUserData } from './events/consumers/userConsumer';
 import { rabbitMqConnect } from './config/rabbitmq';
+import { recieveDoctorData } from './events/consumers/doctorConsumer';
+import cookieParser from 'cookie-parser';
+import { recieveDocSlotData } from './events/consumers/docSlotConsumer';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4002; // Default port to 4002 if not defined in .env
+const PORT = process.env.PORT ;
 
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }));
-app.use(express.json());
 
-// Initialize MongoDB connection
+app.use(cookieParser())
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
+
 connectMongoDb();
 
-// Initialize RabbitMQ and consumer setup
+
 (async () => {
     const channel = await rabbitMqConnect();
     if (channel) {
         console.log('RabbitMQ connected in admin service');
-        await recieveUserData(); // Start consuming messages
+        await recieveUserData(); 
+        await recieveDoctorData()
+        await recieveDocSlotData()
         console.log('Admin consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');
     }
 })();
 
-// Routes
+
 app.use('/', authRoute);
 app.use('/',adminRoute)
 
-// Start server
+
 app.listen(PORT, () => {
     console.log(`adminService is running on the port http://localhost:${PORT}`);
 });

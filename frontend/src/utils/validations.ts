@@ -1,5 +1,5 @@
 import {z} from 'zod'
-
+import  * as Yup from 'yup'
 
 interface UserFormData{
     username:string,
@@ -61,3 +61,43 @@ export const AdminLoginSchema=z.object({
     password: z.string().min(8, { message: 'Password must be at least 8 characters long' }),
    
 })
+
+
+export const validateDocUsername = (username: string): string => {
+    if(username.length < 3) return 'Username should be 3 character long'
+    if (!username.trim()) return 'Username cannot be empty.';
+    if (/\s{2,}/.test(username)) return 'Username cannot contain consecutive spaces.';
+    return '';
+  };
+  
+  export const validateDocExperience = (experience: string): string => {
+    const exp = Number(experience);
+    if (isNaN(exp) || exp < 0 || exp > 25) return 'Experience must be a number between 0 and 25.';
+    return '';
+  };
+
+
+  export const profileValidationSchema = Yup.object({
+    username: Yup.string()
+      .min(3, 'Username must be at least 3 characters long')
+      .trim('Username cannot be empty')
+      ,
+    mobile: Yup.string()
+      .matches(/^\d{10}$/, 'Mobile number must be exactly 10 digits')
+      ,
+    address: Yup.object({
+      state: Yup.string()
+        .trim()
+        ,
+      nationality: Yup.string()
+        .trim()
+        ,
+      landmark: Yup.string()
+        .trim()
+        ,
+    }),
+    pincode: Yup.string()
+      .matches(/^\d{6}$/, 'Pincode must be exactly 6 digits')
+      ,
+  });
+  

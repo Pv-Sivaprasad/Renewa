@@ -8,6 +8,8 @@ import cookieparser from 'cookie-parser'
 const app = express();
 dotenv.config();
 app.use(cookieparser())
+app.use(express.urlencoded({extended:true}))
+
 
 app.use(cors({
   origin:'http://localhost:5173',
