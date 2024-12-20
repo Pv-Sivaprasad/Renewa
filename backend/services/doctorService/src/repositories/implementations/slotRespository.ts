@@ -83,21 +83,7 @@ export class SlotRepository {
         return slotInRepo.dates[0].slots;
       }
 
-      
-      // if (slotInRepo && slotInRepo.dates.length > 0) {
-      //   // Include docId in the data to be sent
-      //   const slotDataWithDocId = {
-      //     docId, // Adding docId
-      //     date: slotInRepo.dates[0].date,
-      //     slots: slotInRepo.dates[0].slots,
-      //   };
-  
-      //   console.log('Data being sent with docId:', slotDataWithDocId);
-  
-      //   await sendDocSlotData(slotDataWithDocId);
-  
-      //   return slotInRepo.dates[0].slots;
-      // }
+    
       return null;  
     } catch (error) {
       console.error('Error fetching slots for doctor:', error);

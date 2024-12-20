@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { adminAxiosInstance,publicAxiosInstance } from '../axiosInstance/adminInstance';
+import { CatchingPokemonSharp } from '@mui/icons-material';
 
 
 
@@ -61,4 +62,11 @@ export const updateDoctorStatus=async(docId:string)=>{
     return response
     
     
+}
+
+
+export const getSingleDocSlots=async(docId:string)=>{
+    console.log('going to fetch the data for the doc');
+    const response =await api.get(`docslots/${docId}`)
+    return response
 }

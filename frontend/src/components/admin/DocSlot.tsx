@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, X, Users, UserCog, LogOut, Menu, Home, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { resetAdmin } from '../../redux/slices/adminSlice';
 import { logout } from '../../redux/slices/adminSlice';
+import { getSingleDocSlots } from '../../services/admin/adminApi';
 
 const DoctorSlotChecker = ({doctorId}) => {
   const navigate=useNavigate()
   const dispatch=useDispatch()
-
+  const [docSlotData, setDocSlotData] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -18,6 +19,32 @@ const DoctorSlotChecker = ({doctorId}) => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+useEffect(()=>{
+  const fetchDocData = async (doctorId:string) => {
+    try {
+      const response = await getSingleDocSlots(doctorId);
+      console.log('Backend response:', response);
+  
+      // Transform backend data into a format similar to `dummySlotData`
+      const formattedData = response.data.dates.reduce((acc, dateObj) => {
+        const formattedDate = dateObj.date; // "2024-12-20"
+        acc[formattedDate] = dateObj.slots.map((slot) => ({
+          id: slot._id,
+          time: `${slot.startTime} - ${slot.endTime}`,
+          isAvailable: slot.isAvailable,
+        }));
+        return acc;
+      }, {});
+      
+      setDocSlotData(formattedData);
+    } catch (error) {
+      console.error('Error retrieving data:', error);
+    }
+  };
+  fetchDocData(doctorId)
+},[doctorId])
+
   // Dummy slot data
   const dummySlotData = {
     '2024-02-15': [
@@ -107,8 +134,9 @@ const DoctorSlotChecker = ({doctorId}) => {
 
   // Get slots for selected date
   const getSlots = (date) => {
-    return date ? dummySlotData[formatDate(date)] || [] : [];
+    return date ? docSlotData[formatDate(date)] || [] : [];
   };
+  
 
   const handleLogout = async () => {
     try {

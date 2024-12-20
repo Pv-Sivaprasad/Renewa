@@ -12,6 +12,7 @@ const doctorService= new DoctorService()
 class SlotController{
    
 
+  // going to create a slot
     async upsertSlots(req:CustomeRequest,res:Response){
         console.log('eneterd the upsert slot in the slot controller');
               const doc=req.user as JwtPayload
@@ -47,7 +48,8 @@ class SlotController{
           try {
            const result=await slotService.upsertSlots(slotDto)
            console.log('the resilt in the slotcontroller is',result);
-    
+            
+            
            console.log(slotDto,'*&$#%^&)(*$^&*()');
            
             await sendDocSlotData(slotDto)
@@ -63,6 +65,7 @@ class SlotController{
 
 
     }
+
 
     async getDocSlots(req:CustomeRequest,res:Response){
       console.log('eneterd the get slot in the slot controller');

@@ -20,10 +20,7 @@ const logger = createLogger({
     new transports.File({ filename: "app.log" }),
   ],
 });
-logger.info("This is a test log message"); // Add a test log message
-logger.error("This is an error message");
-logger.warn("This is a warning message");
-logger.debug("This is a debug message");
+
 
 export default logger;
 

@@ -70,6 +70,13 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
 
     }
 
-    
+    async getDocSlot(docId: string): Promise<any> {
+        console.log('entering the getDocslot in repo for checking');
+        
+        let result= await AdminDocSlotModel.findOne({docId})
+        console.log('the result is',result);
+        return result
+        
+    }
 
 }

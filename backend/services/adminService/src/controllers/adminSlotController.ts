@@ -12,6 +12,11 @@ class  AdminSlotController{
 
         const {id}=req.params
         console.log('the id in params is',id);
+        const slots=await adminSlotService.getDocSlots(id)
+        console.log('the slot of the doctor with all details is ',slots);
+        
+       res.status(HttpStatus.CREATED).json(slots)
+       return 
         
     }
 
