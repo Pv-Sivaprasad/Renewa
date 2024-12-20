@@ -1,0 +1,5 @@
+{"level":"\u001b[32minfo\u001b[39m","message":"This is a test log message","timestamp":"2024-12-20T05:58:31.508Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"This is a test log message","timestamp":"2024-12-20T05:59:20.154Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"This is an error message","timestamp":"2024-12-20T05:59:20.159Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"This is a warning message","timestamp":"2024-12-20T05:59:20.160Z"}
+{"level":"\u001b[34mdebug\u001b[39m","message":"This is a debug message","timestamp":"2024-12-20T05:59:20.160Z"}

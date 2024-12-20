@@ -10,7 +10,7 @@ const DocSlots = () => {
       
   return (
     <div>
-    <DoctorSlotChecker/>
+    <DoctorSlotChecker doctorId={doctorId}/>
     </div>
   )
 }

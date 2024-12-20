@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { resetAdmin } from '../../redux/slices/adminSlice';
 import { logout } from '../../redux/slices/adminSlice';
 
-const DoctorSlotChecker = () => {
+const DoctorSlotChecker = ({doctorId}) => {
   const navigate=useNavigate()
   const dispatch=useDispatch()
 
