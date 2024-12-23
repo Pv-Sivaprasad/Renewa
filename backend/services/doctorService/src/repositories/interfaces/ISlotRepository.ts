@@ -9,6 +9,7 @@ export interface ISlotRepository{
   
   // for creating multiple slots
   createSlots(slotDtos: DocSlotDto[]): Promise<any>;
+  editSlots(date: string, slots: any[]): Promise<any>;
   getAvailableSlots(docId: string, date: string): Promise<any>;
   // updateSlotAvailability(id: string, isAvailable: boolean): Promise<void>;
   // getSlotById(id: string): Promise<void | null>;

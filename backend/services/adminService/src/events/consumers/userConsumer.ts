@@ -35,16 +35,16 @@ export const recieveUserData = async () => {
             }
 
             const exisitinguser=await adminService.getUserDetails(userId)
-            console.log('the exisiting usere is @@@@@@@@@@@@',exisitinguser);
+            // console.log('the exisiting usere is @@@@@@@@@@@@',exisitinguser);
 
             if(exisitinguser){
-                console.log('the user exist');
+               
                 await adminService.updateUserDetails(userId,userData)
-                console.log('the data has been changed');
+                // console.log('the data has been changed');
                 
             }else{
                 await adminService.saveUserInAdminDb({ userId, username, email });
-                console.log(`User data saved in admin database: ${username}, ${email}`);
+                // console.log(`User data saved in admin database: ${username}, ${email}`);
 
             }
             

@@ -1,9 +1,10 @@
 import { DocSlotDto } from "../dto/slotDto";
 import { SlotRepository } from "../repositories/implementations/slotRespository";
 import slotModel from "../models/slotModel";
+import { ISlotRepository } from "../repositories/interfaces/ISlotRepository";
 
 
-export class SlotService{
+export class SlotService {
 
     private slotRepository : SlotRepository
 
@@ -37,6 +38,21 @@ export class SlotService{
         }
     }
 
+    async editSlots(date:string,docSlotDto:DocSlotDto)  {
+        console.log('the date ',date,'the docSLotDot',docSlotDto);
+        
+        try {
+            if (!date || !docSlotDto) {
+                throw new Error('Date and valid slots array are required');
+              }
+            console.log('entered the slot service for editing the slots ');
+            return await this.slotRepository.editDocSlots(date,docSlotDto)
+            
+        } catch (error) {
+            console.log('error in editing the slot',error);
+            
+        }
+    }
 
 
 }

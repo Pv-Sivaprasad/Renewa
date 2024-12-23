@@ -7,7 +7,7 @@ async function publishUserStatusUpdate(message:any) {
     }
 
     const queueName='AdminToUserQueue'
-    console.log('going to send the data');
+  
     
 
     await channel.assertQueue(queueName,{durable:true})

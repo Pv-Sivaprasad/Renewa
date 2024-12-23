@@ -10,15 +10,15 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
         const docId = slotData.docId;
         const dates = slotData.dates || []; 
     
-        console.log('The slot data is:', JSON.stringify(slotData, null, 2));
-        console.log('docId:', docId, 'dates:', dates);
+        // console.log('The slot data is:', JSON.stringify(slotData, null, 2));
+        // console.log('docId:', docId, 'dates:', dates);
     
         if (!Array.isArray(dates)) {
             throw new Error(`Invalid dates value. Expected an array, got: ${typeof dates}`);
         }
     
         for (const dateObj of dates) {
-            console.log('Processing dateObj:', dateObj);
+            // console.log('Processing dateObj:', dateObj);
     
             const { date, slots } = dateObj;
     
@@ -29,7 +29,8 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
     
             if (existingRecord) {
                 // Update the specific date's slots if the record exists
-                console.log('Updating existing record for date:', date);
+                // console.log('Updating existing record for date:', date);
+                
                 await UserDocSlotModel.updateOne(
                     { docId, 'dates.date': date },
                     { $set: { 'dates.$.slots': slots } } // Update the slots for the matched date

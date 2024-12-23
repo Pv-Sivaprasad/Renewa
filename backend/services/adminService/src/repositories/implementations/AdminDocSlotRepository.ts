@@ -8,15 +8,15 @@ import { AdminDocSlotModel } from "../../models/slotModel";
 export class AdminDocSlotRepository implements IAdminDocSlotRepository {
 
     async saveDocSlot(slotData: SlotDTO): Promise<any> {
-        console.log('the slot dto in the doc slot admin side is',slotData);
+        
         
         const docId = slotData.docId;
         const dates = slotData.dates || []; 
         const docName=slotData.docName
     
-        console.log('The slot data is:', JSON.stringify(slotData, null, 2));
-        console.log('docId:', docId, 'dates:', dates);
-        console.log('docName',docName);
+        // console.log('The slot data is:', JSON.stringify(slotData, null, 2));
+        // console.log('docId:', docId, 'dates:', dates);
+        // console.log('docName',docName);
         
         
         
@@ -27,7 +27,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
 
         for(const dateObj of dates){
             
-            console.log('Processing dateObj:', dateObj);
+            // console.log('Processing dateObj:', dateObj);
             
             const {date,slots}=dateObj
 
@@ -35,7 +35,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
                 docId,
                 'dates.date':date
             })
-            console.log('ertyui',exisitingRecord);
+            // console.log('ertyui',exisitingRecord);
             if (exisitingRecord) {
                 
                 console.log('Updating existing record for date:', date);
@@ -50,7 +50,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
                 );
             } else {
               
-                console.log('No record found for date:', date, '- Creating a new one.');
+                // console.log('No record found for date:', date, '- Creating a new one.');
                 // await AdminDocSlotModel.updateOne(
                 //     { docId },
                 //     { $push: { dates: { date, slots } } },

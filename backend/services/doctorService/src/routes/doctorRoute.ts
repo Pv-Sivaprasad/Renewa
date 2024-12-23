@@ -21,8 +21,9 @@ doctor_route.patch('/profile',authenticateToken,checkDocStatus,upload.single('im
 
 doctor_route.get('/available/:date',authenticateToken,checkDocStatus,slotController.getDocSlots)
 doctor_route.post('/slots',authenticateToken,checkDocStatus,slotController.upsertSlots)
-doctor_route.patch('/available/:date:slotId',authenticateToken,checkDocStatus)
+doctor_route.patch('/changeslots',authenticateToken,checkDocStatus,slotController.editSlots)
 
+ 
 
 
 export default doctor_route

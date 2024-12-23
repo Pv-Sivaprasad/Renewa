@@ -24,11 +24,10 @@ const controllerMap = new Map();
 
 doctorAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
-  console.log(token,'this is is in adminInstance');
+ 
   
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
-    console.log('===========',config.headers.authorization);
     
   }
 

@@ -21,10 +21,10 @@ export const recieveDoctorData=async()=>{
         
         if(message){
             const {docId,docname,email,speciality,isBlocked}=JSON.parse(message.content.toString())
-            console.log(`Received message: docId: ${docId},
-                 docname: ${docname}, Email: ${email},
-                  speciality: ${speciality}
-                  isBlocked: ${isBlocked} `);
+            // console.log(`Received message: docId: ${docId},
+            //      docname: ${docname}, Email: ${email},
+            //       speciality: ${speciality}
+            //       isBlocked: ${isBlocked} `);
 
             const docData={
                 docId:docId,
@@ -33,22 +33,22 @@ export const recieveDoctorData=async()=>{
                 speciality:speciality,
                 isBlocked:isBlocked,
             }
-            console.log('the docdata in admin consumer is ',docData);
+            // console.log('the docdata in admin consumer is ',docData);
             
             try {
                 const exisitingDoc=await adminService.getDocDetails(docId)
-                console.log(exisitingDoc,'***************************');
+                // console.log(exisitingDoc,'***************************');
                 
                 if(exisitingDoc){
-                    console.log('the doc is existing');
+                 
                     await adminService.updateDocDetails(docId,docData)
-                    console.log('dodcot data changed in admindb');
+                  
                     
                 }else{
                     console.log('the doc is new doc');
                     
                     await adminService.saveDoctorInAdminDb({docId,docname,email,speciality})
-                    console.log(`Doctor data saved in admin database: ${docname}, ${email}`);
+                 
                 }
                 
             } catch (error) {

@@ -9,7 +9,7 @@ async function PublishDoctorStatusUpdate(message:any) {
     }
     
     const queueName='AdminToDoctorQueue'
-    console.log('going to send the data to doctor');
+  
     
 
     await channel?.assertQueue(queueName,{durable:true})

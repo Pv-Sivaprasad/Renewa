@@ -60,8 +60,15 @@ export const filledSlots=async(date:string)=>{
 }
 
 export const slotSelecting=async(selectedSlots:any)=>{
-    console.log('before going to backned slots');
+    console.log('before going to backned slots',selectedSlots);
     const response=await api.post('/slots',selectedSlots)
+    return response
+}
+
+export const updateBookedSlots=async(editData:any)=>{
+    console.log('before going to edit bakcend',editData);
+    
+    const response=await api.patch('/changeslots',editData)
     return response
 }
 

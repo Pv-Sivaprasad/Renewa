@@ -10,17 +10,16 @@ const adminService=new AdminService()
 class AdminController {
 
     async getAllUser(req:Request,res:Response,next:NextFunction) {
-        console.log('entering get all users in admin controller');
+       
         try {
             const users=await adminService.getAllUsers()
 
-            console.log('users in the admin controller ',users);
-
+           
             res.status(HttpStatus.CREATED).json(users)
             return 
 
         } catch (error) {
-            console.log('error in the admincontroller get all users',error);
+          
              res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
              return 
             
@@ -29,9 +28,9 @@ class AdminController {
     }
 
     async updateUserStatus(req:Request,res:Response,next:NextFunction){
-        console.log('enterinf the updateUserStatus in admin controller');
+      
         const {id}=req.params
-        console.log('the id in params is ',id);
+      
 
         try {
             
@@ -45,7 +44,7 @@ class AdminController {
                     userId:response.userId,
                     isBlocked:response.isBlocked
                 }
-                console.log('the message for the publisher',message);
+             
                 
                 await publishUserStatusUpdate(message)
 
@@ -57,7 +56,7 @@ class AdminController {
             }
 
         } catch (error) {
-            console.log('error in the updateuser status',error);
+          
              res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"Internal server error"})
              return
         }
@@ -82,12 +81,12 @@ class AdminController {
     }
 
     async updateDoctorStatus(req:Request,res:Response,next:NextFunction) {
-        console.log('entering the update doctor in admin controller');
+       
         const {id}=req.params
-        console.log('the id in params is ',id);
+      
         try {
             const response=await adminService.toggleDoctorStatus(id)
-            console.log(response,'thi is in adm|Con update ');
+        
             if(response){
                 const message={
                     docId:response.docId,
@@ -95,7 +94,7 @@ class AdminController {
                     email:response.email
                     
                 }
-                console.log(message,'the message in the adminsevice');
+             
                 
                 await PublishDoctorStatusUpdate(message)
 
@@ -103,7 +102,7 @@ class AdminController {
                 return
             }
         } catch (error) {
-             console.log('error in the admincontroller get all users',error);
+         
               res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
               return
         }

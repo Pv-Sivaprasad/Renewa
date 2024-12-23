@@ -6,6 +6,7 @@ import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtil";
 import {sendDoctorData} from '../events/publishers/doctorPublisher'
 import { MailService } from "../utils/emailUtil";
 import jwt from 'jsonwebtoken'
+// import redisClient from "../utils/redisUtil";
 
 
 const mailService=new MailService()
@@ -121,7 +122,8 @@ export class AuthService{
             
             await mailService.sendConfirmMail(email)
             console.log('mail has been sent to the doctor ');
-            
+            // await redisClient.set(`doctor:${isUpdated}`, JSON.stringify(isUpdated));
+
 
             return isUpdated
         } catch (error) {

@@ -13,7 +13,7 @@ export class AdminService {
 
      getDocDetails =async(docId:string)=>{
         try {
-            console.log('the docid is ',docId);
+          
             
           return   await adminDoctorRepository.findDoctorById(docId)
         } catch (error) {

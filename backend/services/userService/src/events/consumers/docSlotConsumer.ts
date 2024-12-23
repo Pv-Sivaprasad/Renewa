@@ -17,14 +17,14 @@ export const recieveDocSlotData = async () => {
     await channel.assertExchange(exchangeName, 'fanout', { durable: true });
     await channel.assertQueue(queueName, { durable: true });
     await channel.bindQueue(queueName, exchangeName, '');
-    console.log('User consumer is ready in , waiting for messages in queue:', queueName);
+  
 
     
     channel.consume(queueName, async (msg) => {
         if (msg) {
             console.log('User consumer triggered, processing message...');
             const slotData = JSON.parse(msg.content.toString());
-            console.log('The slotData received in user side is:', slotData);
+            // console.log('The slotData received in user side is:', slotData);
 
             let docSlotinUser= await userService.upsertSlot(slotData)
 

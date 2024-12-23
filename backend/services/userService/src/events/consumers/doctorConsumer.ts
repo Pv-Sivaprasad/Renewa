@@ -18,11 +18,11 @@ export const listenForDocDetails=async()=>{
             const doctorService = new DoctorService();
 
             channel.consume(queueName,async (msg)=>{
-                console.log('checking message in doctor consumer');
+             
                 if(msg){
                     const{docId,docname,experience,speciality,image}=JSON.parse(msg.content.toString())
-                    console.log(`Received user status update: ${docId}, docname: ${docname} ,experience : ${experience}
-                        speciality: ${speciality},imgage:${image} `);
+                    // console.log(`Received user status update: ${docId}, docname: ${docname} ,experience : ${experience}
+                    //     speciality: ${speciality},imgage:${image} `);
 
                         const docData={
                             docId:docId,
@@ -36,15 +36,15 @@ export const listenForDocDetails=async()=>{
 
                         const existingDoc=await doctorService.getDoctorByDocId(docId)
                         if(existingDoc){
-                            console.log('doc is exisitng ',existingDoc);
+                          
 
                             await doctorService.updateDoctorDetails(docId,docData)
-                            console.log(`updaed the doc with `);
+                           
                             
                         }else{
 
                             await doctorService.saveDoctorDetails(docData)
-                            console.log(`Doc details saved for the doc with name ${docname} and id ${docId} `);
+                          
                         }
 
                         channel.ack(msg)

@@ -49,16 +49,16 @@ class UserController {
 
     
     async updateProfile(req:IncomingReques,res:Response){
-        console.log('entering the updateprofile in the user controller');
+       
         console.log(req.body);
-        console.log('req.file',req.file);
+      
         
         
         try {
             const user=req.user as JwtPayload
-            console.log('the userid from the middleware is ',user);
+         
             const userId=user.id
-            console.log('the user id ',userId);
+       
 
             let imageUrl :string | undefined
 

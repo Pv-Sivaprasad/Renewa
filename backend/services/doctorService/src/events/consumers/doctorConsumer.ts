@@ -30,6 +30,7 @@ export const listenForAdminStatusUpdate = async () =>{
                         await authService.updateDoctorStatus(docId,isBlocked,email)
                         console.log(`Successfully updated user ${docId} status to isBlocked: ${isBlocked}`);
                         channel.ack(msg);
+                        
                     } catch (error) {
                         console.log(`Error updating user ${docId} status:`, error);
                         channel.nack(msg, false, true); 
