@@ -13,6 +13,7 @@ interface IDates {
 
 export interface IUserDocSlot extends Document {
     docId: string;
+    consultationFee:number
     dates: IDates[];
 }
 
@@ -33,6 +34,7 @@ const SlotSchema = new Schema<ISlot>({
         type: Boolean, 
         default: true 
     },
+    
 });
 
 const DateSchema = new Schema<IDates>({
@@ -43,6 +45,7 @@ const DateSchema = new Schema<IDates>({
 const UserDocSlotSchema = new Schema<IUserDocSlot>({
     docId: { type: String, required: true },
     dates: { type: [DateSchema], required: true },
+    consultationFee:{type:Number }
 });
 
 export const UserDocSlotModel = model<IUserDocSlot>('UserDocSlot', UserDocSlotSchema);

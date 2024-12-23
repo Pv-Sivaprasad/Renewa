@@ -1,33 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { availableDocslots, slotPayment } from '../../services/user/userApi';
-import axios from 'axios'; 
+import axios from 'axios';
 
 const DoctorSlotBooking = ({ doctorId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [slotsData, setSlotsData] = useState([]);
+  const [consultationFee, setConsultationFee] = useState(0);
 
 
-  
+
   useEffect(() => {
     const fetchDocData = async (docId) => {
       try {
         const response = await availableDocslots(docId);
         console.log('The response is:', response);
-  
+
         if (response.status === 201) {
-          
+          setConsultationFee(response.data.consultationFee || 0);
           const formattedSlots = response.data.dates.map((dateObj) => ({
-            date: dateObj.date, 
+            date: dateObj.date,
             slots: dateObj.slots.map((slot) => ({
-              id: slot._id, 
+              id: slot._id,
               startTime: slot.startTime,
               endTime: slot.endTime,
               isAvailable: slot.isAvailable,
             })),
           }));
-  
+
           setSlotsData(formattedSlots);
         } else {
           console.error('Error fetching doctor slots:', response.statusText);
@@ -36,11 +37,11 @@ const DoctorSlotBooking = ({ doctorId }) => {
         console.error('Error fetching doctor slots:', error);
       }
     };
-  
+
     fetchDocData(doctorId);
   }, [doctorId]);
-  
-  
+
+
   const handleDateSelect = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
     setSelectedDate(formattedDate);
@@ -61,14 +62,15 @@ const DoctorSlotBooking = ({ doctorId }) => {
         const payload = {
           doctorId,
           date: selectedDate,
+          amount:consultationFee,
           slot: {
-            slotId: selectedSlot.id, 
+            slotId: selectedSlot.id,
             startTime: selectedSlot.startTime,
             endTime: selectedSlot.endTime,
           },
         };
-        console.log('payload before sending',payload);
-        
+        console.log('payload before sending', payload);
+
         const response = await slotPayment(payload)
 
         if (response.status === 200) {
@@ -90,11 +92,16 @@ const DoctorSlotBooking = ({ doctorId }) => {
     slotsData.find((slot) => slot.date === selectedDate)?.slots;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-custom-log shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-center">
         Book Doctor's Appointment
       </h2>
-
+      <div className="mt-4 text-center">
+        <h4 className="text-lg font-semibold">Consultation Fee</h4>
+        <p className="text-xl text-blue-600 font-bold">
+          ₹{consultationFee}
+        </p>
+      </div>
       <div className="grid md:grid-cols-2 gap-6">
         {/* Calendar Section */}
         <div className="bg-gray-50 p-4 rounded-lg">
@@ -125,13 +132,12 @@ const DoctorSlotBooking = ({ doctorId }) => {
                   key={index}
                   onClick={() => handleSlotSelect(slot)}
                   disabled={!slot.isAvailable}
-                  className={`p-2 rounded-md text-sm ${
-                    slot.isAvailable
+                  className={`p-2 rounded-md text-sm ${slot.isAvailable
                       ? selectedSlot === slot
                         ? 'bg-green-500 text-white'
                         : 'bg-blue-100 hover:bg-blue-200'
                       : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   {slot.startTime} - {slot.endTime}
                 </button>
@@ -148,11 +154,10 @@ const DoctorSlotBooking = ({ doctorId }) => {
         <button
           onClick={handlePayment}
           disabled={!selectedSlot}
-          className={`px-6 py-3 rounded-md ${
-            selectedSlot
+          className={`px-6 py-3 rounded-md ${selectedSlot
               ? 'bg-blue-600 text-white hover:bg-blue-700'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
+            }`}
         >
           Proceed to Payment
         </button>

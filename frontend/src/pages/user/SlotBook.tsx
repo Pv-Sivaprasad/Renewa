@@ -10,7 +10,7 @@ const SlotBook = () => {
 console.log('the doctorId is',doctorId);
 
   return (
-    <div>
+    <div className='bg-custom-teal' >
     <Sidebar/>
     <DoctorSlotBooking doctorId={doctorId}/>
     </div>

@@ -13,10 +13,11 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
         const docId = slotData.docId;
         const dates = slotData.dates || []; 
         const docName=slotData.docName
-    
+        const consultationFee=slotData.consultationFee
         // console.log('The slot data is:', JSON.stringify(slotData, null, 2));
         // console.log('docId:', docId, 'dates:', dates);
         // console.log('docName',docName);
+         // console.log('fee',consultationFee);
         
         
         
@@ -40,7 +41,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
                 
                 console.log('Updating existing record for date:', date);
                 await AdminDocSlotModel.updateOne(
-                    { docId, 'dates.date': date },
+                    { docId,'dates.date': date },
                     { 
                         $set: { 
                             docName,

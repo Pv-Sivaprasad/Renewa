@@ -6,6 +6,7 @@ export interface IAdminDoctor extends Document {
     docname:string,
     email:string,
     speciality:string;
+    consultationFee:number
     isBlocked:boolean
 }
 
@@ -32,6 +33,9 @@ const AdminDoctorSchema : Schema = new Schema({
     isBlocked:{
         type:Boolean,
         default:true
+    },
+    consultationFee:{
+        type:Number
     }
 })
 

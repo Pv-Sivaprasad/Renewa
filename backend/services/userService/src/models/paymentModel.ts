@@ -12,7 +12,7 @@ const UserPaymentSchema = new Schema<PaymentDocument>({
    },
    slot: {
       type: Schema.Types.ObjectId,
-      ref: 'Slot',
+      ref: 'UserDocSlot',
       required: true
    },
    paymentStatus: {
@@ -31,7 +31,7 @@ const UserPaymentSchema = new Schema<PaymentDocument>({
    },
    docId: {
       type: Schema.Types.ObjectId,
-      ref: 'Doctor',
+      ref: 'UserDoctor',
       required: true
    },
    createdAt: {

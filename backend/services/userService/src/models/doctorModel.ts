@@ -6,6 +6,7 @@ export interface IUserDoctor extends Document{
     speciality:string,
     experience:number,
     image:string,
+    consultationFee:number
     
 }
 
@@ -28,6 +29,9 @@ const UserDoctorSchema : Schema = new Schema({
     },
     image:{
         type:String
+    },
+    consultationFee:{
+        type:Number
     }
 
 })

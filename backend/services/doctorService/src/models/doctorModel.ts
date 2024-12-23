@@ -6,6 +6,7 @@ export interface IDoctor extends Document {
     password: string;
     image: string;
     experience: number;
+    consultationFee:number;
     speciality: string;
     isVerified: boolean;
     isBlocked: boolean;
@@ -55,6 +56,11 @@ const DoctorSchema: Schema = new Schema({
     speciality: {
         type: String,
         required: true,
+    },
+    consultationFee:{
+        type:Number,
+        
+        default:300
     },
     address: {
         state: {

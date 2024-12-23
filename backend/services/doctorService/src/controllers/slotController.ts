@@ -12,12 +12,32 @@ const doctorService = new DoctorService()
 class SlotController {
 
 
+  async getDocSlots(req: CustomeRequest, res: Response) {
+
+    const doc = req.user as JwtPayload
+    const docId = doc.id
+    const { date } = req.params
+
+    if (!docId) {
+      return res.status(HttpStatus.FORBIDDEN).json({ message: "No Authorization to view this page" })
+    }
+    try {
+      const avialbaleSlots = await slotService.getSlotsByDocId(docId, date)
+      return res.status(HttpStatus.CREATED).json(avialbaleSlots)
+
+    } catch (error) {
+      console.log('error in the getdoc slots', error);
+
+    }
+  }
+
 
   async upsertSlots(req: CustomeRequest, res: Response) {
     const doc = req.user as JwtPayload
     const docId = doc.id
     const doctorProfile = await doctorService.getProfileData(docId);
     const docName = doctorProfile?.username || 'Unknown Doctor'
+    const consultationFee = doctorProfile?.consultationFee || 300;
     const { date, slots } = req.body
     if (!date || !slots || !Array.isArray(slots)) {
       return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Invalid input data' });
@@ -26,6 +46,7 @@ class SlotController {
     const slotDto = {
       docId,
       docName,
+      consultationFee,
       dates: [
         {
           date,
@@ -56,30 +77,12 @@ class SlotController {
   }
 
 
-  async getDocSlots(req: CustomeRequest, res: Response) {
-
-    const doc = req.user as JwtPayload
-    const docId = doc.id
-    const { date } = req.params
-
-    if (!docId) {
-      return res.status(HttpStatus.FORBIDDEN).json({ message: "No Authorization to view this page" })
-    }
-    try {
-      const avialbaleSlots = await slotService.getSlotsByDocId(docId, date)
-      return res.status(HttpStatus.CREATED).json(avialbaleSlots)
-
-    } catch (error) {
-      console.log('error in the getdoc slots', error);
-
-    }
-  }
-
   async editSlots(req: CustomeRequest, res: Response) {
     const doc = req.user as JwtPayload
     const docId = doc.id
     const doctorProfile = await doctorService.getProfileData(docId);
     const docName = doctorProfile?.username || 'Unknown Doctor'
+    const consultationFee = doctorProfile?.consultationFee || 300;
     const { date, slots } = req.body
     if (!date || !slots || !Array.isArray(slots)) {
       return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Invalid input data' });
@@ -88,6 +91,7 @@ class SlotController {
     const slotDto = {
       docId,
       docName,
+      consultationFee,
       dates: [
         {
           date,
@@ -104,6 +108,7 @@ class SlotController {
       console.log('the data to backend is ',slotDto);
       
       const editedData= await slotService.editSlots(date,slotDto)
+      await sendDocSlotData(slotDto)
       if(editedData){
         return res.status(HttpStatus.CREATED).json(editedData)
       }else{

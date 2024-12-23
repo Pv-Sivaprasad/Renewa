@@ -1,7 +1,9 @@
 export interface Slot{
     startTime:string,
     endTime:string,
-    isAvailable:boolean
+    isAvailable:boolean,
+    
+  
 }
 
 export interface DateSlotDto{
@@ -12,5 +14,6 @@ export interface DateSlotDto{
 export interface DocSlotDto{
     docId:string,
     docName:string,
-    dates:DateSlotDto[]
+    consultationFee: number;
+    dates:DateSlotDto[],
 }
