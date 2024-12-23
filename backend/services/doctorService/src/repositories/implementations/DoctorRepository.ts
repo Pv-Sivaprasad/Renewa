@@ -30,6 +30,8 @@ export class DoctorRepository implements IDoctorRepository{
                 { isBlocked },            
                 { new: true }            
             );
+            console.log('the result is',result);
+            
             if (result) {
                 console.log(`User ${docId} status updated to isBlocked: ${isBlocked}`);
                 return true;

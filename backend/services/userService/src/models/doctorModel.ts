@@ -6,7 +6,8 @@ export interface IUserDoctor extends Document{
     speciality:string,
     experience:number,
     image:string,
-    consultationFee:number
+    consultationFee:number,
+    isBlocked:boolean
     
 }
 
@@ -32,6 +33,10 @@ const UserDoctorSchema : Schema = new Schema({
     },
     consultationFee:{
         type:Number
+    },
+    isBlocked:{
+        type:Boolean,
+        default:false
     }
 
 })

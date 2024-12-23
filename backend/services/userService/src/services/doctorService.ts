@@ -22,4 +22,12 @@ export class DoctorService{
     async allDoctorsList(){
         return await userDoctorRepository.getAllDoctors()
     }
+
+    async updateDocStatus(docId:string,isBlocked:boolean){
+        let data= await userDoctorRepository.updateStatus(docId,isBlocked)
+        
+      
+
+        
+    }
 }

@@ -7,7 +7,9 @@ import Doctor,{IUserDoctor} from "../../models/doctorModel";
 export class DoctorRepository implements IDoctorRepository{
 
     async findDocById(docId:string) {
-        return await Doctor.findOne({docId})
+        let docData= await Doctor.findOne({docId})
+        console.log(docData,'+++++++++');
+        return docData
         
     }
 
@@ -25,5 +27,14 @@ export class DoctorRepository implements IDoctorRepository{
 
     async getAllDoctors() {
         return await Doctor.find()
+    }
+    
+    async updateStatus(docId:string,isBlocked:boolean){
+        return await Doctor.findOneAndUpdate(
+            {docId},
+            {isBlocked},
+            {new:true}
+            
+        )
     }
 }

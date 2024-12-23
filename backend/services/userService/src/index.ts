@@ -9,6 +9,7 @@ import { rabbitMqConnect } from './config/rabbitMq'
 import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
 import { listenForDocDetails } from './events/consumers/doctorConsumer'
 import { recieveDocSlotData } from './events/consumers/docSlotConsumer'
+import { listenForDocStatusUpdate } from './events/consumers/docStatusConsumer'
 
 dotenv.config()
 
@@ -33,11 +34,12 @@ connectMongoDb();
 (async () => {
     const channel = await rabbitMqConnect();
     if (channel) {
-        console.log('RabbitMQ connected in admin service');
+        console.log('RabbitMQ connected in User service');
         await listenForUserStatusUpdate(); 
         await listenForDocDetails(); 
         await recieveDocSlotData()
-        console.log('Admin consumer setup initiated');
+        await listenForDocStatusUpdate()
+        console.log('User consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');
     }
