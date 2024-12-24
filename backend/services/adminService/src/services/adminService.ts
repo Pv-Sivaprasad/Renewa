@@ -24,9 +24,7 @@ export class AdminService {
 
      getUserDetails=async(userId:string)=>{
         try {
-            let data= await adminUserRepository.findUserData(userId)
-            console.log('the data in get user details adminservice is',data);
-
+            let data= await adminUserRepository.findUserData(userId)    
             return data
             
         } catch (error) {

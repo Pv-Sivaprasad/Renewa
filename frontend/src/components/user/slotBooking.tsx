@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { availableDocslots, slotPayment } from '../../services/user/userApi';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const DoctorSlotBooking = ({ doctorId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [slotsData, setSlotsData] = useState([]);
   const [consultationFee, setConsultationFee] = useState(0);
-
+  
+  const navigate=useNavigate()
 
 
   useEffect(() => {
@@ -72,20 +74,23 @@ const DoctorSlotBooking = ({ doctorId }) => {
         console.log('payload before sending', payload);
 
         const response = await slotPayment(payload)
-
-        if (response.status === 200) {
-          console.log('Payment initiated successfully:', response.data);
-          alert('Payment initiated. Redirecting...');
-          // Optionally redirect the user to a payment gateway or confirmation page
-        } else {
-          console.error('Error initiating payment:', response.statusText);
-        }
+        navigate('/checkout')
+        // if (response.status === 200) {
+        //   console.log('Payment initiated successfully:', response.data);
+        //   alert('Payment initiated. Redirecting...');
+        //   // Optionally redirect the user to a payment gateway or confirmation page
+        // } else {
+        //   console.error('Error initiating payment:', response.statusText);
+        // }
       } catch (error) {
+        
         console.error('Payment error:', error.message);
       }
     }
   };
-
+  const getTodayDate = () => {
+    return new Date().toISOString().split('T')[0];
+  };
   // Get slots for the selected date
   const filteredSlots =
     selectedDate &&
@@ -113,6 +118,7 @@ const DoctorSlotBooking = ({ doctorId }) => {
           <input
             type="date"
             className="w-full p-2 border rounded-md"
+            min={getTodayDate()}
             onChange={(e) => handleDateSelect(new Date(e.target.value))}
           />
         </div>

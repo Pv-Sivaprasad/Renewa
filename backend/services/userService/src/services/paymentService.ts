@@ -1,4 +1,6 @@
 import { UserPaymentRepository } from "../repositories/implementations/userPaymentRespository";
+import { PaymentDto } from "../dto/paymentDto";
+import stripe from "../utils/stripeUtil";
 
 
 const userPaymentRepository = new UserPaymentRepository()
@@ -6,10 +8,28 @@ const userPaymentRepository = new UserPaymentRepository()
 
 export class PaymentService {
 
-    async createPaymentIntent(data:any){
+    async createPaymentIntent(paymentDto:PaymentDto){
         console.log('entering create payment in the payment service');
-        
-        const slot=await userPaymentRepository.createPayment(data)
+        console.log('the data in the service is',paymentDto);
+        const amount=paymentDto.amount
+        const slotId=paymentDto.slot.slotId
+        const docId=paymentDto.docId
+        const userId=paymentDto.userId
+        const paymentIntent=await stripe.paymentIntents.create({
+            amount:amount,
+            currency:'usd',
+            metadata:{userId,docId,slotId}
+        })
+
+        const paymentData={
+            userId,
+            docId,
+            slotId,
+            amount,
+            paymentIntent:paymentIntent.id,
+            paymentStatus:'pending'
+        }
+        const payment=await userPaymentRepository.createPayment(paymentData)
      
     }
 }

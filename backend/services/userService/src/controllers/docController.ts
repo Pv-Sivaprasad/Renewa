@@ -15,7 +15,8 @@ export class DoctorController{
    try {
      
     const doctors=await doctorService.allDoctorsList()
- 
+    console.log('docs',doctors,'the whole list');
+   
     return res.status(HttpStatus.CREATED).json(doctors)
    } catch (error) {
     console.log('error in getting doctors in doc ocntroller user side',error);

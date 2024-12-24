@@ -45,10 +45,11 @@ export const authenticateToken = (req: IncomingReques, res: Response, next: Next
                 return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid token' });
             }
 
-            req.user = decodedToken?.payload as JwtPayload;
-            console.log(req.user,'inthe midle');
+            // req.user = decodedToken?.payload as JwtPayload;
+            // console.log(req.user,'inthe midle');
             
-        
+            req.user = decodedToken?.payload as JwtPayload;
+            console.log(req.user);
              
             next()
         })

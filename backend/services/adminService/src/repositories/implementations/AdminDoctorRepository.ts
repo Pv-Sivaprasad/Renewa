@@ -16,9 +16,7 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
     async saveDoctor(data: { docId:string;docname:string;email:string;speciality:string }): Promise<void> {
         try {
             const newDoc= await AdminDoctorModel.create(data)
-            await newDoc.save()
-            console.log('savedDoc',newDoc);
-            
+            await newDoc.save() 
         } catch (error) {
             console.error('Error saving doctor to admin database:', error);
             throw new Error('Failed to save user in admin database');
@@ -26,7 +24,6 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
     }
 
     async getAllDoctors(): Promise<any[]> { 
-        console.log('entering the get all users in admin user repository');
         try {
             const users = await AdminDoctorModel.find(); 
             return users; 
@@ -36,16 +33,13 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
         }
     }
    
-    async findDoctor(docId:any) : Promise <IAdminDoctor | null>{
-        console.log('this is in findoctor',docId);
-        let result = await AdminDoctorModel.findById(docId)
-        console.log('result in the ______',result);
-        
+    async findDoctor(docId:any) : Promise <IAdminDoctor | null>{    
+        let result = await AdminDoctorModel.findById(docId) 
         return result
     }
 
     async findDoctorById(docId:string) : Promise <IAdminDoctor | null >{
-        console.log('entering the finddoc by id',docId);
+       
 
         return await AdminDoctorModel.findOne({docId})
         

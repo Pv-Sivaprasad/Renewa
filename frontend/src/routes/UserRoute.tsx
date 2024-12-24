@@ -25,7 +25,7 @@ const userRoute = () => {
     <Route path='/doctors' element={<PrivateRoute><DoctorPage/></PrivateRoute>} />
     <Route path='/doctorslot' element={<PrivateRoute><SlotBook/></PrivateRoute>} />
     {/* <Route path='/payment' element={<PrivateRoute><PaymentPage/></PrivateRoute>} /> */}
-    <Route path='/payment' element={<PublicRoute><PaymentPage/></PublicRoute>} />
+    <Route path='/checkout' element={<PrivateRoute><PaymentPage/></PrivateRoute>} />
 
 
 

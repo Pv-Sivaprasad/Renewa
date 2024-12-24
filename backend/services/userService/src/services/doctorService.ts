@@ -20,7 +20,9 @@ export class DoctorService{
     }
 
     async allDoctorsList(){
-        return await userDoctorRepository.getAllDoctors()
+        let doctors= await userDoctorRepository.getAllDoctors()
+        return   doctors.filter((doctor: any) => !doctor.isBlocked);
+       
     }
 
     async updateDocStatus(docId:string,isBlocked:boolean){

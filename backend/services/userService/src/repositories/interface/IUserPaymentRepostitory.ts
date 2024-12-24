@@ -1,6 +1,6 @@
-import { SlotDTO } from "../../dto/slotDto";
+import { PaymentDataDto } from "../../dto/paymentDto";
 
 
 export interface IUserPaymentRepository{
-     createPayment(data:SlotDTO):Promise<void>
+     createPayment(data:PaymentDataDto):Promise<void>
 }

@@ -95,7 +95,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
             }
         }
     
-        console.log('SaveDocSlot completed successfully with consultationFee:', consultationFee);
+       
     }
     
     async getDocSlotData(docId:string):Promise<any>{
