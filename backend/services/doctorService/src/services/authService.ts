@@ -119,10 +119,13 @@ export class AuthService{
                 console.log(`User ${docId} not found or status update failed.`);
             }
             console.log(isUpdated,'the updated in the updateStatus');
-            
-            await mailService.sendConfirmMail(email)
-            console.log('mail has been sent to the doctor ');
-            // await redisClient.set(`doctor:${isUpdated}`, JSON.stringify(isUpdated));
+          
+            if(!isBlocked){
+
+                await mailService.sendConfirmMail(email)
+                console.log('mail has been sent to the doctor ');
+                // await redisClient.set(`doctor:${isUpdated}`, JSON.stringify(isUpdated));
+            }
 
 
             return isUpdated

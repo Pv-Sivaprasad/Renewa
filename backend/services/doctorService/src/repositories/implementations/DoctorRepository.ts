@@ -1,7 +1,8 @@
 import { IDoctorRepository } from "../interfaces/IDoctorRepoository";
 import Doctor, { IDoctor } from "../../models/doctorModel";
 import { UpdateprofileDto } from "../../dto/docDto";
-
+import { DoctorStatusMessage } from "../../utils/messageUtil";
+import { sendDocStatusToUser } from "../../events/publishers/docStatusPublisher";
 
 
 export class DoctorRepository implements IDoctorRepository{
@@ -34,8 +35,15 @@ export class DoctorRepository implements IDoctorRepository{
             
             if (result) {
                 console.log(`User ${docId} status updated to isBlocked: ${isBlocked}`);
+
+                const message : DoctorStatusMessage ={
+                    docId:docId,
+                    isBlocked:result.isBlocked
+                }
+                await sendDocStatusToUser(message)
+
                 return true;
-            } else {
+            }   else {
                 console.log(`User with userId ${docId} not found.`);
                 return false;
             }
