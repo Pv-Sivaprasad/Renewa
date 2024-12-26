@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface PaymentDocument extends Document {
+export interface IPayment extends Document {
   userId: string; 
   doctorId: string;
   slotId: string;
@@ -11,7 +11,7 @@ interface PaymentDocument extends Document {
   createdAt: Date;
 }
 
-const PaymentSchema: Schema = new Schema({
+const paymentSchema: Schema = new Schema({
   userId: { type: String, required: true },
   doctorId: { type: String, required: true },
   slotId: { type: String, required: true },
@@ -22,5 +22,5 @@ const PaymentSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Payment = mongoose.model<PaymentDocument>('Payment', PaymentSchema);
+const Payment = mongoose.model<IPayment>('Payment', paymentSchema);
 export default Payment;

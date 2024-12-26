@@ -26,7 +26,7 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
        
 
         const secret = process.env.ACCESS_TOKEN_SECRET
-      
+            
         const decodedToken = jwt.decode(newToken, { complete: true });
         
 

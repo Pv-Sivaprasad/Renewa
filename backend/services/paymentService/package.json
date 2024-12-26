@@ -2,11 +2,13 @@
   "name": "paymentservice",
   "version": "1.0.0",
   "main": "index.js",
+ 
   "scripts": {
-    "start": "node index.ts",
-    "build": "tsc",
-    "dev": "nodemon --exec ts-node src/index.ts"
-  },
+  "start": "node index.js",  
+  "build": "tsc",              
+  "dev": "nodemon  --exec ts-node src/index.ts"  
+},
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,15 +23,18 @@
     "@types/node": "^22.10.2",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^5.4.0",
     "amqplib": "^0.10.5",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.2"
+    "mongoose": "^8.9.2",
+    "stripe": "^17.5.0"
   }
 }
