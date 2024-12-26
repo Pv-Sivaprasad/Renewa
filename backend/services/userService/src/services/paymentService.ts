@@ -23,13 +23,14 @@ export class PaymentService {
 
         const paymentData={
             userId,
-            docId,
+            doctorId:docId,
             slotId,
             amount,
-            paymentIntent:paymentIntent.id,
+            paymentIntentId:paymentIntent.id,
             paymentStatus:'pending'
         }
         const payment=await userPaymentRepository.createPayment(paymentData)
-     
+
+        return { clientSecret: paymentIntent.client_secret, payment };
     }
 }

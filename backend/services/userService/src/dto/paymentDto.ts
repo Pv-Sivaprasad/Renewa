@@ -12,9 +12,9 @@ export interface PaymentDto{
 
 export interface PaymentDataDto{
     userId:string,
-    docId:string,
+    doctorId:string,
     slotId:string,
     amount:number,
-    paymentIntent:string,
+    paymentIntentId:string,
     paymentStatus:string,
 }

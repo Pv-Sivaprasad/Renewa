@@ -1,8 +1,0 @@
-
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"401\",\"responseTime\":\"242.637\"}","timestamp":"2024-12-20T09:10:53.277Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"401\",\"responseTime\":\"12.655\"}","timestamp":"2024-12-20T09:11:45.571Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"504\",\"responseTime\":\"22880.979\"}","timestamp":"2024-12-20T09:12:35.358Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"201\",\"responseTime\":\"125.548\"}","timestamp":"2024-12-20T09:22:09.245Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"201\",\"responseTime\":\"128.840\"}","timestamp":"2024-12-20T09:32:48.720Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"201\",\"responseTime\":\"214.935\"}","timestamp":"2024-12-20T09:41:00.105Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/admin/docslots/67616ef406c67fa0850b896b\",\"status\":\"201\",\"responseTime\":\"229.380\"}","timestamp":"2024-12-20T10:22:59.437Z"}

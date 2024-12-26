@@ -31,7 +31,7 @@ export const signUpRequest=async(formData)=>{
 }
 
 
-export const otpSignup=async(otp,email)=>{
+export const otpSignup=async(otp: string,email: string)=>{
     console.log('the otp before forwarding to backend in user api',otp);
     const response=await publicApi.post('/otpverify',{otp,email})
     console.log(response,'the response that recieved from backend to userApi');
@@ -44,7 +44,7 @@ export const otpSignup=async(otp,email)=>{
 }
 
 
-export const resendOtp=async(email)=>{
+export const resendOtp=async(email: string)=>{
     console.log('the resend otp before forwarding to backend')
     const response=await publicApi.post('/resend-otp',{email})
     console.log('the responser from backend in resend otp');
@@ -96,7 +96,7 @@ export const getProfile=async()=>{
     return response
 }
 
-export const updateProfile=async(data)=>{
+export const updateProfile=async(data: FormData)=>{
     console.log('the data before sending to api',data);
     let response=await api.patch('/profile',data)
     console.log('the data  from api',data);
@@ -118,8 +118,8 @@ export const availableDocslots=async(docId:string)=>{
     
 }
 
-export const slotPayment=async(payload)=>{
-    console.log('goinf to do payment to the backend');
+export const slotPayment=async(payload: any)=>{
+    console.log('goinf to do payment to the backend',payload);
     let response =await api.post('/payment-intent',payload)
     return response
 }

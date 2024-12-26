@@ -57,7 +57,7 @@ const DoctorSlotBooking = ({ doctorId }) => {
     }
   };
 
-  // Send selected slot data to backend for payment
+  
   const handlePayment = async () => {
     if (selectedSlot) {
       try {
@@ -72,16 +72,26 @@ const DoctorSlotBooking = ({ doctorId }) => {
           },
         };
         console.log('payload before sending', payload);
+        // navigate('/checkout', { state: { payload } });
 
         const response = await slotPayment(payload)
-        navigate('/checkout')
-        // if (response.status === 200) {
-        //   console.log('Payment initiated successfully:', response.data);
-        //   alert('Payment initiated. Redirecting...');
-        //   // Optionally redirect the user to a payment gateway or confirmation page
-        // } else {
-        //   console.error('Error initiating payment:', response.statusText);
-        // }
+        console.log('the response is ',response);
+
+        window.location.href = response.data.session
+
+        return
+        
+        if (response.status === 201) {
+          console.log('Payment initiated successfully:', response.data);
+          alert('Payment initiated. Redirecting...');
+          const {clientSecret}=response.data
+          console.log(clientSecret,'{{{{{{{{{{{{{{{{{{');
+          
+          navigate('/checkout', { state: { clientSecret } });
+         
+        } else {
+          console.error('Error initiating payment:', response.statusText);
+        }
       } catch (error) {
         
         console.error('Payment error:', error.message);
