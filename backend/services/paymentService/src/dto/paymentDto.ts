@@ -1,6 +1,8 @@
 export interface PaymentDataDto{
+    userId:string,
     docId:string,
-    slotId:string
+    slotId:string,
+    date:string
 }
 
 export interface PaymentServiceDto{

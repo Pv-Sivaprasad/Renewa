@@ -6,9 +6,10 @@ export interface IPayment extends Document {
   slotId: string;
   amount: number;
   status: 'pending' | 'completed' | 'failed';
-  paymentIntentId: string; 
-  paymentMethod: string;
-  createdAt: Date;
+  
+  createdAt?: Date;
+  stripeSessionId?: string; 
+  stripePaymentIntentId?: string
 }
 
 const paymentSchema: Schema = new Schema({
@@ -17,8 +18,8 @@ const paymentSchema: Schema = new Schema({
   slotId: { type: String, required: true },
   amount: { type: Number, required: true },
   status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
-  paymentIntentId: { type: String, required: true },
-  paymentMethod: { type: String, required: true },
+  stripeSessionId: { type: String },
+  stripePaymentIntentId: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

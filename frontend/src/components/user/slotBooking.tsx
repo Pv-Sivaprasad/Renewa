@@ -3,6 +3,10 @@ import { Calendar } from 'lucide-react';
 import { availableDocslots, slotPayment } from '../../services/user/userApi';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import {loadStripe} from '@stripe/stripe-js';
+import { date } from 'zod';
+import { Toast } from 'react-toastify/dist/components';
+import { toast } from 'react-toastify';
 
 const DoctorSlotBooking = ({ doctorId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -11,7 +15,7 @@ const DoctorSlotBooking = ({ doctorId }) => {
   const [consultationFee, setConsultationFee] = useState(0);
   
   const navigate=useNavigate()
-
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
   useEffect(() => {
     const fetchDocData = async (docId) => {
@@ -59,39 +63,51 @@ const DoctorSlotBooking = ({ doctorId }) => {
 
   
   const handlePayment = async () => {
+
+   
+
     if (selectedSlot) {
       try {
         const payload = {
-          doctorId,
+          docId:doctorId,
           date: selectedDate,
           amount:consultationFee,
+         
           slot: {
             slotId: selectedSlot.id,
             startTime: selectedSlot.startTime,
             endTime: selectedSlot.endTime,
           },
-        };
-        console.log('payload before sending', payload);
-        // navigate('/checkout', { state: { payload } });
-
-        const response = await slotPayment(payload)
-        console.log('the response is ',response);
-
-        window.location.href = response.data.session
-
-        return
-        
-        if (response.status === 201) {
-          console.log('Payment initiated successfully:', response.data);
-          alert('Payment initiated. Redirecting...');
-          const {clientSecret}=response.data
-          console.log(clientSecret,'{{{{{{{{{{{{{{{{{{');
           
-          navigate('/checkout', { state: { clientSecret } });
-         
-        } else {
-          console.error('Error initiating payment:', response.statusText);
+        };
+        const stripe=await stripePromise
+
+        let slotId=payload.slot.slotId
+        let date=payload.date
+        try {
+          const payload={
+            docId:doctorId,
+            date,
+            slotId
+          }
+          console.log('payload before sending', payload);
+          const response = await slotPayment(payload)
+          console.log('the response is ',response);
+          if (response?.status >= 400) {
+            toast.error(response?.data.message)
+            return
         }
+        const result = await stripe?.redirectToCheckout({
+          sessionId: response?.data.id
+      })
+      if (result?.error) {
+          toast.error('Payment failed')
+      }
+        } catch (error) {
+          console.log('eror',error);
+          
+        }
+
       } catch (error) {
         
         console.error('Payment error:', error.message);

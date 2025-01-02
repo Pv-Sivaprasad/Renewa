@@ -5,15 +5,35 @@ import publishUserStatusUpdate from "../events/publishers/userStatusPublisher";
 import PublishDoctorStatusUpdate from "../events/publishers/doctorStatusPublisher";
 
 
-const adminService=new AdminService()
+// const adminService=new AdminService()
 
 class AdminController {
+
+ private adminServiceUse : AdminService
+ 
+    constructor(adminServiceUse: AdminService){
+        this.adminServiceUse= adminServiceUse
+    }
+
+    
+/**
+ * 
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @memberof AdminController
+ */
+
 
     async getAllUser(req:Request,res:Response,next:NextFunction) {
        
         try {
-            const users=await adminService.getAllUsers()
-
+            console.log('in here');
+            
+            // const users=await adminService.getAllUsers()
+            const users=await this.adminServiceUse.getAllUsers()
+           console.log('the users are',users);
            
             res.status(HttpStatus.CREATED).json(users)
             return 
@@ -27,6 +47,26 @@ class AdminController {
         
     }
 
+    async getAllDoctor(req:Request,res:Response,next:NextFunction) {
+        console.log('entering the get all doctor in admin controller');
+        
+        try {
+            // const doctors=await adminService.getAllDoctors()
+            const doctors=await this.adminServiceUse.getAllDoctors()
+            console.log('the doctors in admin controller',doctors);
+            res.status(HttpStatus.CREATED).json(doctors)
+            return
+            
+        } catch (error) {
+            console.log('error in the admincontroller get all users',error);
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
+            return 
+        }
+    }
+
+
+
+
     async updateUserStatus(req:Request,res:Response,next:NextFunction){
       
         const {id}=req.params
@@ -34,8 +74,9 @@ class AdminController {
 
         try {
             
-            const response=await adminService.toggleBlockStatus(id)
-           
+            // const response=await adminService.toggleBlockStatus(id)
+           const response =await this.adminServiceUse.toggleBlockStatus(id)
+            
             
             
             if(response){
@@ -64,28 +105,15 @@ class AdminController {
     }
 
 
-    async getAllDoctor(req:Request,res:Response,next:NextFunction) {
-        console.log('entering the get all doctor in admin controller');
-        
-        try {
-            const doctors=await adminService.getAllDoctors()
-            console.log('the doctors in admin controller',doctors);
-            res.status(HttpStatus.CREATED).json(doctors)
-            return
-            
-        } catch (error) {
-            console.log('error in the admincontroller get all users',error);
-            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
-            return 
-        }
-    }
+  
 
     async updateDoctorStatus(req:Request,res:Response,next:NextFunction) {
        
         const {id}=req.params
       
         try {
-            const response=await adminService.toggleDoctorStatus(id)
+            // const response=await adminService.toggleDoctorStatus(id)
+            const response=await this.adminServiceUse.toggleDoctorStatus(id)
         
             if(response){
                 const message={

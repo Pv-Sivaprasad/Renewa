@@ -1,10 +1,10 @@
 import { IDocSlotRepository } from "../interface/IDocSlotRepository";
 import { DocSlotModel,IDocSlot } from "../../models/slotModel";
-
+import { UpdateSlotDto } from "../../dto/slotDto";
+import { Types } from "mongoose";
 export class DocSlotRepository implements IDocSlotRepository{
-  
     
-   
+
     async getSlotByDocId(docId: string): Promise<IDocSlot | null> {
         return await DocSlotModel.findOne({ docId });
     }
@@ -39,5 +39,34 @@ export class DocSlotRepository implements IDocSlotRepository{
             console.error('❌ Repository Upsert Error:', error);
             throw error;
         }
+    }
+
+    async findSlot(docId: string): Promise<IDocSlot | null> {
+        console.log('the doc Id is',docId);
+        
+        return await DocSlotModel.findOne({docId})
+    }
+
+    async updateSlotAvailability(updateData: UpdateSlotDto): Promise<any> {
+        const slotId=updateData.slotId
+        const docId=updateData.docId
+        const date=updateData.date
+        const isAvailable=updateData.isAvailable
+        return await DocSlotModel.updateOne(
+            { 
+                docId, 
+                'dates.date': date, 
+                'dates.slots._id': new Types.ObjectId(slotId) 
+            },
+            { 
+                $set: { 'dates.$[date].slots.$[slot].isAvailable': isAvailable } 
+            },
+            { 
+                arrayFilters: [
+                    { 'date.date': date },
+                    { 'slot._id': new Types.ObjectId(slotId) }
+                ]
+            }
+        )
     }
 }

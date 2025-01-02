@@ -2,6 +2,7 @@ import mongoose, { model, Schema, Document } from "mongoose";
 
 
 interface ISlot {
+    _id: any;
     startTime: string;
     endTime: string;
     isAvailable: boolean;

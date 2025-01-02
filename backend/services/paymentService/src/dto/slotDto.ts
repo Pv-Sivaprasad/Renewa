@@ -11,3 +11,10 @@ export interface SlotDTO {
         }[];
     }[];
 }
+
+export interface UpdateSlotDto{
+    docId:string,
+    date:String,
+    slotId:string,
+    isAvailable:boolean
+}

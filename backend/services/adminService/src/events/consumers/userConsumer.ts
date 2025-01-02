@@ -1,7 +1,10 @@
 import { getChannel } from "../../config/rabbitmq"; 
 import { AdminService } from "../../services/adminService";
+import { AdminUserRepository } from "../../repositories/implementations/AdminUserRepository";
 
-const adminService=new AdminService()
+
+const adminUserRepo=new AdminUserRepository()
+const adminService=new AdminService(adminUserRepo,null as any)
 
 
 export const recieveUserData = async () => {
@@ -34,7 +37,7 @@ export const recieveUserData = async () => {
                 email:email
             }
 
-            const exisitinguser=await adminService.getUserDetails(userId)
+            const exisitinguser=await adminService.getUserDetails(userId)  
             // console.log('the exisiting usere is @@@@@@@@@@@@',exisitinguser);
 
             if(exisitinguser){

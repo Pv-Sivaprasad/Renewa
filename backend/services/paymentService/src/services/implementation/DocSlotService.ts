@@ -19,4 +19,8 @@ export class DocSlotService implements IDocSlotService{
         return await this.slotRepository.upsert(slotData);
     }
 
+    // async findSlot(slotId: string): Promise<IDocSlot | null> {
+    //     return await this.slotRepository.findSlot(slotId)
+    // }
+
 }

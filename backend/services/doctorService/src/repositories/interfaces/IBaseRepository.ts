@@ -1,7 +1,3 @@
-
-
-
-
 export interface IBaseRepository<T> {
 
     create(data: Partial<T>): Promise<T>;
@@ -15,5 +11,3 @@ export interface IBaseRepository<T> {
     delete(id: string): Promise<T | null>;
     
 }
-
-

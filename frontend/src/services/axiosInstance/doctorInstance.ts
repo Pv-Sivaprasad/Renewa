@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import store from '../../redux/store';
 import { resetDoc } from "../../redux/slices/doctorSlice";
+import { HttpStatus } from "../../enums/HttpStatus";
 
 const API_URL = import.meta.env.VITE_DCOTOR_API_URL
 
@@ -52,7 +53,7 @@ doctorAxiosInstance.interceptors.response.use(
     const url = originalRequest.url;
 
     if (error.response) {
-      if (error.response.status === 401 && !originalRequest._retry) {
+      if (error.response.status === HttpStatus.UNAUTHORIZED && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
           const newAccessToken = await getNewAccessToken();
@@ -66,11 +67,11 @@ doctorAxiosInstance.interceptors.response.use(
         }
       }
 
-      if (error.response.status >= 500) {
+      if (error.response.status >=  HttpStatus.INTERNAL_SERVER_ERROR) {
         toast.error("Server error, please try again later.");
       }
 
-      if (error.response.status >= 400 && error.response.status < 500 && error.response.status !== 401) {
+      if (error.response.status >= HttpStatus.INTERNAL_SERVER_ERROR && error.response.status <  HttpStatus.INTERNAL_SERVER_ERROR && error.response.status !== HttpStatus.UNAUTHORIZED) {
         toast.error(`${error.response.data.error || 'An error occurred'}`);
       }
     } else if (error.request) {

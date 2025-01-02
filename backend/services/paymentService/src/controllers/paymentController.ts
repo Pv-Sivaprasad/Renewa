@@ -20,21 +20,36 @@ export class PaymentController {
         try {
             const user = req.user as JwtPayload
             const userId = user.id
-            const { docId, slotId } = req.body
+            const { docId, slotId ,date} = req.body
             console.log(`docId ${docId}, slotId ${slotId} in payment controller `)
 
             const data = {
+                userId,
                 docId,
-                slotId
+                slotId,
+                date
             }
-
+            console.log('data to send is ',data);
+            
             const response = await this.paymentService.createSession(data)
+            console.log('the response is',response);
+            if(response.success){
+
+                 res.status(HttpStatus.CREATED).json(response)
+                 return
+            }else{
+                 res.status(HttpStatus.BAD_REQUEST).json(response)
+                 return
+            }
+            
 
         } catch (error) {
             console.error('ERror founded in create session  paymenservice', error);
             next(error)
         }
     }
+
+
 
 }
 

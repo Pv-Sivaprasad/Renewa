@@ -1,7 +1,9 @@
 import { getChannel } from "../../config/rabbitmq";
 import { AdminService } from "../../services/adminService";
+import { AdminDoctorRepository } from "../../repositories/implementations/AdminDoctorRepository";
 
-const adminService=new AdminService()
+const adminDoctorRepository= new   AdminDoctorRepository()
+const adminService=new AdminService(null as any ,adminDoctorRepository)
 
 export const recieveDoctorData=async()=>{
     const channel=await getChannel()
@@ -14,7 +16,7 @@ export const recieveDoctorData=async()=>{
     const queueName='doctorToAdminQueue'
 
     await channel.assertQueue(queueName,{durable:true})
-  
+
     
     channel.consume(queueName,async(message)=>{
       
