@@ -25,7 +25,8 @@ const controllerMap = new Map();
 
 userAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
-
+  console.log('toen',token);
+  
   
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
@@ -58,6 +59,8 @@ userAxiosInstance.interceptors.response.use(
         originalRequest._retry = true;
         try {
           const newAccessToken = await getNewAccessToken();
+          console.log('newtok',newAccessToken);
+          
           localStorage.setItem("accessToken", newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return userAxiosInstance(originalRequest);

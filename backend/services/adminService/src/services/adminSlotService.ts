@@ -1,12 +1,12 @@
 import { AdminDocSlotRepository } from "../repositories/implementations/AdminDocSlotRepository"
-
+import { IAdminDocSlotRepository } from "../repositories/interfaces/IAdminDocSlotRepository"
 
 class AdminSlotService{
 
-    private adminDocSlotRepository: AdminDocSlotRepository
+    private adminDocSlotRepository: IAdminDocSlotRepository
 
-    constructor(){
-        this.adminDocSlotRepository= new AdminDocSlotRepository()
+    constructor(adminDocSlotRepository:IAdminDocSlotRepository){
+        this.adminDocSlotRepository =adminDocSlotRepository
     }
 
 async getDocSlots(id:string){

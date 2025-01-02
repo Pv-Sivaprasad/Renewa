@@ -92,7 +92,7 @@ export const resetPassword=async(email:string,otp:string,password:string)=>{
 export const getProfile=async()=>{
     console.log('going to get the dat');
     
-    const response=await api.get('/profiledata')
+    const response=await api.get('/user/profiledata')
     console.log('resposne in the api',response);
     return response
 }

@@ -20,13 +20,14 @@ private adminDocRepo:AdminDoctorRepository
         this.adminDocRepo=adminDocRepo
     }
 
-    getAllUsers = async () => { 
+    getAllUsers = async (page:number,limit:number) => { 
         try {
             console.log('entering the get all users in admin servie');
             
             // const users = await adminUserRepository.getAllUsers()
-            const users=await this.adminUserRepo.getAllUsers()
-
+            const users=await this.adminUserRepo.getAllUsers(page,limit)
+            console.log('the uiser in servuce',users);
+            
             return users
         } catch (error) {
             console.log('error in getting all users', error);

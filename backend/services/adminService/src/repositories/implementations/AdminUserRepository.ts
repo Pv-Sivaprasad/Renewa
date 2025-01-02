@@ -2,6 +2,7 @@ import { IAdminUserRepository } from "../interfaces/IAdminUserRepository";
 import AdminUserModel, { IAdminUser } from '../../models/userModel'
 import { User } from "../../types/User";
 import { UserDataDto } from "../../dto/authDto";
+import { PaginateType } from "../../types/authTypes";
 
 
 
@@ -43,10 +44,25 @@ export class AdminUserRepository implements IAdminUserRepository {
 
 
 
-  async getAllUsers(): Promise<any[]> {
+  async getAllUsers(page:number,limit:number): Promise<PaginateType> {
     try {
-      const users = await AdminUserModel.find();
-      return users;
+
+      const skip=(page-1)*limit
+ 
+      // const users = await AdminUserModel.find().skip(skip).limit(limit)
+      const [users,total]=await Promise.all([
+        AdminUserModel.find().skip(skip).limit(limit),
+        AdminUserModel.countDocuments()
+      ])
+      // console.log('the total is//////////////////////// ',total);
+      
+      return {
+        users,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+    };
     } catch (error) {
       console.error('Error fetching all users from admin DB:', error);
       throw new Error('Failed to fetch users');

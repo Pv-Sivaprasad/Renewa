@@ -30,10 +30,13 @@ class AdminController {
        
         try {
             console.log('in here');
-            
+           
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 5;
+          
             // const users=await adminService.getAllUsers()
-            const users=await this.adminServiceUse.getAllUsers()
-           console.log('the users are',users);
+            const users=await this.adminServiceUse.getAllUsers(page,limit)
+           console.log('the users controller ******',users);
            
             res.status(HttpStatus.CREATED).json(users)
             return 

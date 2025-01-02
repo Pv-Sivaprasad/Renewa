@@ -104,6 +104,7 @@ class AuthController {
       console.log('token recieved back from authservice for controller is ', result);
       
       console.log(typeof result);
+
       if (typeof result === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: result });
       }
@@ -113,7 +114,7 @@ class AuthController {
         const refreshToken = result.refreshToken || ''
     
     
-          res.status(HttpStatus.CREATED).cookie('refrToken', result.refreshToken, {
+          res.status(HttpStatus.CREATED).cookie('reffToken', result.refreshToken, {
           httpOnly: true,
           secure: false,
           sameSite:'none',
@@ -157,7 +158,7 @@ class AuthController {
       }
 
       if (result?.success) {
-        res.cookie('refrToken', result.refreshToken, {
+        res.cookie('reffToken', result.refreshToken, {
           httpOnly: true,
           secure:true,
           sameSite: 'none',
@@ -242,7 +243,7 @@ class AuthController {
       console.log('req.body');
       
     try {
-      const refreshToken=req.cookies.refreshToken
+      const refreshToken=req.cookies.reffToken
       console.log('refreshtokke ',refreshToken);
       
       if(!refreshToken){

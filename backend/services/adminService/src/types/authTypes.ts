@@ -12,3 +12,11 @@ export type RefreshType={
     refreshToken?:string
 
 }
+
+export type PaginateType={
+    users:object,
+    total:number
+    page:number
+    limit:number
+    totalPages: number
+}

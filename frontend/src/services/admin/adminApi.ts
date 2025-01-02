@@ -28,7 +28,7 @@ export const logout = async () => {
     return response
 }
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (data:any) => {
     console.log('the get all users before sending to backend');
     
     const response = await api.get('/users')

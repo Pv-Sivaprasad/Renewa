@@ -1,11 +1,18 @@
 import { Request,Response } from "express"
 import { HttpStatus } from "../enums/HttpStatus"
 import AdminSlotService from "../services/adminSlotService"
+import { AdminDocSlotRepository } from "../repositories/implementations/AdminDocSlotRepository"
 
-
-const adminSlotService= new AdminSlotService()
+const adminDocSlotRepository=new AdminDocSlotRepository()
+const adminSlotService= new AdminSlotService(adminDocSlotRepository)
 
 class  AdminSlotController{
+
+    
+
+    constructor(){
+
+    }
 
     async getDocSlotById(req:Request,res:Response){
        
