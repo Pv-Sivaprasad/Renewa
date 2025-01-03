@@ -1,4 +1,5 @@
 import { rabbitMqConnect } from "../../config/rabbitmq";
+import { QUEUE_NAMES } from "../../constants/queueConstant";
 
 
 export const sendDocSlotData=async(data:any)=>{
@@ -9,8 +10,8 @@ export const sendDocSlotData=async(data:any)=>{
     }
 
 
-    const exchangeName = 'DocSlotExchange';
- 
+    // const exchangeName = 'DocSlotExchange';
+    const exchangeName=QUEUE_NAMES.EXCHANGE_NAME
 
     
     await channel.assertExchange(exchangeName, 'fanout', { durable: true });

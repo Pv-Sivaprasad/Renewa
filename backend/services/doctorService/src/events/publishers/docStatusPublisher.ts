@@ -1,4 +1,5 @@
 import { rabbitMqConnect } from "../../config/rabbitmq";
+import { QUEUE_NAMES } from "../../constants/queueConstant";
 import { DoctorStatusMessage } from "../../utils/messageUtil";
 
 
@@ -9,7 +10,8 @@ export const sendDocStatusToUser=async(message:DoctorStatusMessage)=>{
         throw new Error('Failed to connect to rabbitMq')
     }
 
-    const queueName='DocStatusToUserQueue'
+    // const queueName='DocStatusToUserQueue'
+    const queueName=QUEUE_NAMES.DOC_STATUS_TO_USER_QUEUE
  
     
     await channel.assertQueue(queueName,{durable:true})

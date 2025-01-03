@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route,Routes } from 'react-router';
-import PublicRoute from '../components/authRoutes/doctor/publicRoute';
-import PrivateRoute from '../components/authRoutes/doctor/privateRoute';
+import PublicRoute from './authRoutes/doctor/publicRoute';
+import PrivateRoute from './authRoutes/doctor/privateRoute';
 import DoctorLoginForm from "../pages/doctor/DoctorLogin";
 import DoctorRegistration from '../pages/doctor/DoctorRegistration'
 import DoctorDashboard from '../pages/doctor/DoctorDashboard';

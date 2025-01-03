@@ -1,5 +1,6 @@
 import { getChannel } from "../../config/rabbitMq";
 import { UserService } from "../../services/userService";
+import { QUEUE_NAMES,ERROR_MESSAGES,SUCCESS_MESSAGES } from "../../constants/queueConstants";
 
 const userService = new UserService();
 
@@ -10,8 +11,8 @@ export const recieveDocSlotData = async () => {
         return;
     }
 
-    const exchangeName = 'DocSlotExchange';
-    const queueName = 'DocSlotToUserQueue';
+    const exchangeName = QUEUE_NAMES.EXCHANGE_NAME;
+    const queueName = QUEUE_NAMES.DOC_SLOT_TO_USER_QUEUE;
 
     
     await channel.assertExchange(exchangeName, 'fanout', { durable: true });
@@ -25,7 +26,8 @@ export const recieveDocSlotData = async () => {
             console.log('User consumer triggered, processing message...');
             const slotData = JSON.parse(msg.content.toString());
             // console.log('The slotData received in user side is:', slotData);
-
+            console.log(SUCCESS_MESSAGES.SLOT_DATA_SAVED);
+            
             let docSlotinUser= await userService.upsertSlot(slotData)
 
             // Acknowledge the message

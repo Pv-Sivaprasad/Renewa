@@ -1,5 +1,6 @@
 
 import { rabbitMqConnect } from "../../config/rabbitMq";
+import { QUEUE_NAMES } from "../../constants/queueConstants";
 
 export const sendUserData = async (userData: any) => {
   const channel = await rabbitMqConnect(); 
@@ -7,8 +8,8 @@ export const sendUserData = async (userData: any) => {
     throw new Error('Failed to connect to RabbitMQ'); 
   }
 
-  const queueName = 'userToAdminQueue';
- 
+  // const queueName = 'userToAdminQueue';
+  const queueName=QUEUE_NAMES.USER_TO_ADMIN_QUEUE
 
   await channel.assertQueue(queueName, { durable: true }); 
 

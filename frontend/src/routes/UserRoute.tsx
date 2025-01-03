@@ -1,6 +1,6 @@
 import { Route,Routes } from 'react-router'
-import PrivateRoute from '../components/authRoutes/user/privateRoute'
-import PublicRoute from '../components/authRoutes/user/publicRoute'
+import PrivateRoute from './authRoutes/user/privateRoute'
+import PublicRoute from './authRoutes/user/publicRoute'
 import Dashboard from '../pages/user/UserDashboard'
 import UserLogin from '../pages/user/UserLogin'
 import UserRegistration from '../pages/user/UserRegistration'

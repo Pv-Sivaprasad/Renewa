@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route,Routes } from "react-router";
-import PublicRoute from '../components/authRoutes/admin/publicRoute';
-import PrivateRoute from '../components/authRoutes/admin/privateRoute';
+import PublicRoute from './authRoutes/admin/publicRoute';
+import PrivateRoute from './authRoutes/admin/privateRoute';
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import UserTable from '../pages/admin/UserList';

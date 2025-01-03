@@ -1,7 +1,7 @@
 import { getChannel } from "../../config/rabbitmq";
 import { AdminService } from "../../services/adminService";
 import { AdminDoctorRepository } from "../../repositories/implementations/AdminDoctorRepository";
-
+import { QUEUE_NAMES,ERROR_MESSAGES,SUCCESS_MESSAGES } from "../../constants/queueConstants";
 const adminDoctorRepository= new   AdminDoctorRepository()
 const adminService=new AdminService(null as any ,adminDoctorRepository)
 
@@ -13,7 +13,7 @@ export const recieveDoctorData=async()=>{
     }
 
 
-    const queueName='doctorToAdminQueue'
+    const queueName=QUEUE_NAMES.DOCTOR_TO_ADMIN_QUEUE
 
     await channel.assertQueue(queueName,{durable:true})
 
@@ -40,17 +40,17 @@ export const recieveDoctorData=async()=>{
             try {
                 const exisitingDoc=await adminService.getDocDetails(docId)
                 // console.log(exisitingDoc,'***************************');
-                
+                 console.log(SUCCESS_MESSAGES.USER_UPDATED);
                 if(exisitingDoc){
                  
                     await adminService.updateDocDetails(docId,docData)
-                  
+                    console.log(SUCCESS_MESSAGES.USER_UPDATED);
                     
                 }else{
                     console.log('the doc is new doc');
                     
                     await adminService.saveDoctorInAdminDb({docId,docname,email,speciality})
-                 
+                    console.log(SUCCESS_MESSAGES.USER_SAVED);
                 }
                 
             } catch (error) {
@@ -60,7 +60,7 @@ export const recieveDoctorData=async()=>{
 
             channel.ack(message)
         }else{
-            console.warn('Recieved an empty message')
+            console.warn(ERROR_MESSAGES.EMPTY_MESSAGE);
         }
     })
 

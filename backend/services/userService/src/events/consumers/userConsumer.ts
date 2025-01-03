@@ -1,4 +1,5 @@
 import { getChannel } from "../../config/rabbitMq";
+import { QUEUE_NAMES } from "../../constants/queueConstants";
 import { AuthService } from "../../services/authService";
 
 const userService = new AuthService();
@@ -8,7 +9,8 @@ export const listenForUserStatusUpdate = async () => {
         const channel = await getChannel();
         console.log('Channel successfully created for user consumer');
 
-        const queueName = 'AdminToUserQueue';
+        // const queueName = 'AdminToUserQueue';
+        const queueName=QUEUE_NAMES.ADMIN_TO_USER_QUEUE
 
         if(channel){
 

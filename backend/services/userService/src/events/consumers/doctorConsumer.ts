@@ -1,4 +1,5 @@
 import { getChannel } from "../../config/rabbitMq";
+import { ERROR_MESSAGES, QUEUE_NAMES, SUCCESS_MESSAGES } from "../../constants/queueConstants";
 import { DoctorRepository } from "../../repositories/implementations/doctorRepository";
 import { DoctorService } from "../../services/doctorService";
 
@@ -7,7 +8,8 @@ export const listenForDocDetails=async()=>{
         const channel=await getChannel()
         console.log('Channel successfully created for doctor consumer in userside');
 
-        const queueName='DocToUserQueue'
+        // const queueName='DocToUserQueue'
+        const queueName=QUEUE_NAMES.DOCTOR_TO_USER_QUEUE
         console.log(queueName,'queueName');
 
         if(channel){
@@ -39,12 +41,13 @@ export const listenForDocDetails=async()=>{
                           
 
                             await doctorService.updateDoctorDetails(docId,docData)
+                           console.log(SUCCESS_MESSAGES.DOC_DATA_SAVED);
                            
                             
                         }else{
 
                             await doctorService.saveDoctorDetails(docData)
-                          
+                            console.log(SUCCESS_MESSAGES.DOC_DATA_SAVED);
                         }
 
                         channel.ack(msg)
@@ -55,6 +58,7 @@ export const listenForDocDetails=async()=>{
 
                 }else{
                     console.log('recieved null message in doctor consumer');
+                    console.log(ERROR_MESSAGES.CHANNEL_FAILURE);
                     
                 }
             })
@@ -64,5 +68,6 @@ export const listenForDocDetails=async()=>{
         
     } catch (error) {
         console.error('Error in doctor consumer userSide :', error);
+        console.log(ERROR_MESSAGES.CHANNEL_FAILURE);
     }
 }

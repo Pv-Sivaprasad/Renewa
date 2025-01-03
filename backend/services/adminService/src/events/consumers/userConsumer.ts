@@ -1,7 +1,7 @@
 import { getChannel } from "../../config/rabbitmq"; 
 import { AdminService } from "../../services/adminService";
 import { AdminUserRepository } from "../../repositories/implementations/AdminUserRepository";
-
+import { QUEUE_NAMES,SUCCESS_MESSAGES,ERROR_MESSAGES } from "../../constants/queueConstants";
 
 const adminUserRepo=new AdminUserRepository()
 const adminService=new AdminService(adminUserRepo,null as any)
@@ -17,7 +17,7 @@ export const recieveUserData = async () => {
     
 
     
-    const queueName = 'userToAdminQueue';
+    const queueName = QUEUE_NAMES.USER_TO_ADMIN_QUEUE;
 
    
     await channel.assertQueue(queueName, { durable: true });
@@ -43,17 +43,17 @@ export const recieveUserData = async () => {
             if(exisitinguser){
                
                 await adminService.updateUserDetails(userId,userData)
-                // console.log('the data has been changed');
+                console.log(SUCCESS_MESSAGES.USER_UPDATED);
                 
             }else{
                 await adminService.saveUserInAdminDb({ userId, username, email });
                 // console.log(`User data saved in admin database: ${username}, ${email}`);
-
+                console.log(SUCCESS_MESSAGES.USER_SAVED);
             }
             
             channel.ack(message);
         } else {
-            console.warn('Received an empty message.');
+            console.warn(ERROR_MESSAGES.EMPTY_MESSAGE);
         }
     });
 };

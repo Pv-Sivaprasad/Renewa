@@ -1,4 +1,5 @@
 import { getChannel } from "../../config/rabbitMq";
+import { ERROR_MESSAGES, QUEUE_NAMES, SUCCESS_MESSAGES } from "../../constants/queueConstants";
 import { DoctorService } from "../../services/doctorService";
 
 const doctorService= new DoctorService()
@@ -9,7 +10,7 @@ export const listenForDocStatusUpdate=  async()=>{
     const channel=getChannel()
     console.log('channel connected successfully');
 
-    const queueName='DocStatusToUserQueue'
+    const queueName=QUEUE_NAMES.DOCTOR_STATUS_TO_USER_QUEUE
     console.log(queueName,"queueName");
     
     if(channel){
@@ -23,6 +24,8 @@ export const listenForDocStatusUpdate=  async()=>{
           try {
             await doctorService.updateDocStatus(docId,isBlocked)
             console.log(`Successfully updated user ${docId} status to isBlocked: ${isBlocked}`);
+            console.log(SUCCESS_MESSAGES.DOC_STATUS_UPDATED);
+            
             channel.ack(msg)
           } catch (error) {
             
@@ -33,6 +36,7 @@ export const listenForDocStatusUpdate=  async()=>{
     }
   } catch (error) {
     console.log('error in docSTatupdate in userSErvice',error);
+    console.log(ERROR_MESSAGES.CHANNEL_FAILURE);
     
   }
 }

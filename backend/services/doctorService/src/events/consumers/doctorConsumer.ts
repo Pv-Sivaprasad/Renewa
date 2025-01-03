@@ -1,4 +1,5 @@
 import {getChannel} from '../../config/rabbitmq'
+import { ERROR_MESSAGES, QUEUE_NAMES, SUCCESS_MESSAGES } from '../../constants/queueConstant'
 import { AuthService } from '../../services/authService'
 
 
@@ -11,7 +12,7 @@ export const listenForAdminStatusUpdate = async () =>{
         console.log('Channel successfully created for doctor consumer');
 
 
-        const queueName='AdminToDoctorQueue'
+        const queueName=QUEUE_NAMES.ADMIN_TO_DOC_QUEUE
         console.log('quenename',queueName);
         
         if(channel){
@@ -29,6 +30,8 @@ export const listenForAdminStatusUpdate = async () =>{
                         
                         await authService.updateDoctorStatus(docId,isBlocked,email)
                         console.log(`Successfully updated user ${docId} status to isBlocked: ${isBlocked}`);
+                        console.log(SUCCESS_MESSAGES.DATA_UPDATED);
+                        
                         channel.ack(msg);
                         
                     } catch (error) {
@@ -38,6 +41,7 @@ export const listenForAdminStatusUpdate = async () =>{
 
                 }else{
                     console.log('recieved null message in doctor consumer');
+                    console.log(ERROR_MESSAGES.EMPTY_MESSAGE);
                     
                 }
             })
@@ -46,6 +50,7 @@ export const listenForAdminStatusUpdate = async () =>{
 
 
     } catch (error) {
+        console.log(ERROR_MESSAGES.CHANNEL_FAILURE);
         
     }
 }

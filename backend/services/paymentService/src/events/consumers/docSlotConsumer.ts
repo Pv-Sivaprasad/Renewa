@@ -2,6 +2,7 @@ import { getChannel } from "../../config/rabbitmq";
 import { DocSlotController } from "../../controllers/slotController";
 import { DocSlotService } from "../../services/implementation/DocSlotService";
 import { DocSlotRepository } from "../../repositories/implementation/DocSlotRepository";
+import { QUEUE_NAMES } from "../../constants/queueConstants";
 
 
 const slotRepository = new DocSlotRepository();
@@ -15,8 +16,8 @@ export const receiveDocSlotData = async () => {
         return;
     }
 
-    const exchangeName = 'DocSlotExchange';
-    const queueName = 'DocSlotToPaymentQueue';
+    const exchangeName = QUEUE_NAMES.EXCHANGE_NAME;
+    const queueName = QUEUE_NAMES.DOC_SLOT_TO_PAYMENT_QUEUE
 
     try {
         
