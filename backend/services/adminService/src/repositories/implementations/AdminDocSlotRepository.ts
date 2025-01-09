@@ -2,12 +2,14 @@ import { UserDataDto } from "../../dto/authDto";
 import { SlotDTO } from "../../dto/slotDto";
 import { IAdminDocSlotRepository } from "../interfaces/IAdminDocSlotRepository";
 import { AdminDocSlotModel } from "../../models/slotModel";
-
+import mongoose from "mongoose";
 
 
 export class AdminDocSlotRepository implements IAdminDocSlotRepository {
+   
+   
 
-    async saveDocSlot(slotData: SlotDTO): Promise<any> {
+    async saveDocSlot(slotData: SlotDTO): Promise<void> {
         
         
         const docId = slotData.docId;
@@ -50,13 +52,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
                     } 
                 );
             } else {
-              
-                // console.log('No record found for date:', date, '- Creating a new one.');
-                // await AdminDocSlotModel.updateOne(
-                //     { docId },
-                //     { $push: { dates: { date, slots } } },
-                //     { upsert: true } 
-                // );
+             
                 await AdminDocSlotModel.updateOne(
                     { docId },
                     {
@@ -71,6 +67,8 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
 
     }
 
+
+    
     async getDocSlot(docId: string): Promise<any> {
         console.log('entering the getDocslot in repo for checking');
         

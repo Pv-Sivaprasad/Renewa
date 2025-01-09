@@ -1,5 +1,4 @@
 import { UserDocSlotRepository } from "../repositories/implementations/userSlotRepository";
-import { UserDocSlotModel } from "../models/slotModel";
 
 
 

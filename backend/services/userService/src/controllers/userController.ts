@@ -50,7 +50,7 @@ class UserController {
     
     async updateProfile(req:IncomingReques,res:Response){
        
-        console.log(req.body);
+        console.log(req.body,'/**********************************/');
       
         
         

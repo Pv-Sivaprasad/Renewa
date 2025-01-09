@@ -1,10 +1,13 @@
 import express,{Request,Response} from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import morgan from 'morgan'
+import path from 'path'
 import connectMongoDb from './config/dbConfig'
 import authRoute from './routes/authRoute'
 import userRoute from './routes/userRoute'
 import cookieparser from 'cookie-parser'
+import { createStream } from 'rotating-file-stream'
 import { rabbitMqConnect } from './config/rabbitMq'
 import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
 import { listenForDocDetails } from './events/consumers/doctorConsumer'
@@ -19,6 +22,15 @@ const PORT=process.env.PORT;
 app.use(cookieparser())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+
+const accessLogStream = createStream('access.log', {
+    interval: '1d', 
+    path: path.join(__dirname, 'logs'),
+  });
+  
+  app.use(morgan('combined', { stream: accessLogStream })); 
+  app.use(morgan('dev')); 
 
 app.use(cors({
     origin:process.env.CLIENT_URI,

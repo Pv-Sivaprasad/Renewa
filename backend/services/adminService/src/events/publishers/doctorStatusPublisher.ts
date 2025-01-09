@@ -1,8 +1,8 @@
 
 import { rabbitMqConnect } from "../../config/rabbitmq";
+import { DocStatusDto } from "../../dto/statusDto";
 
-
-async function PublishDoctorStatusUpdate(message:any) {
+async function PublishDoctorStatusUpdate(message:DocStatusDto) {
     const channel=await rabbitMqConnect()
     if(!channel){
         console.log('rabbit mq might not be connected');

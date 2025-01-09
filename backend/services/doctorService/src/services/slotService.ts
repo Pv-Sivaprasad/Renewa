@@ -29,8 +29,11 @@ export class SlotService {
     async upsertSlots(docSlotDto:DocSlotDto){
         try {
             console.log('enterd the slot service',docSlotDto);
-            return await this.slotRepository.upsertSlots(docSlotDto)
-            
+
+        let data= await this.slotRepository.upsertSlots(docSlotDto)
+        console.log('the data is ','{{{{{}}}}}}}}}}}}}}}}}}}}}}}}}');
+        
+            return data
             
         } catch (error) {
             console.log('error in upperslots in slotservice',error);

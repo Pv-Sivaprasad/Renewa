@@ -13,4 +13,5 @@ export const ERROR_MESSAGES = {
 export const SUCCESS_MESSAGES = {
     USER_SAVED: 'User data saved in admin database',
     USER_UPDATED: 'User data updated successfully',
+    SLOT_SAVED:'Slot Data saved in adminDb'
 };

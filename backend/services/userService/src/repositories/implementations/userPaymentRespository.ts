@@ -1,6 +1,6 @@
 import { PaymentDto,PaymentDataDto } from '../../dto/paymentDto';
 import UserPayment from '../../models/paymentModel'
-import { UserDocSlotModel } from '../../models/slotModel'
+// import { UserDocSlotModel } from '../../models/slotModel'
 import { IUserPaymentRepository } from '../interface/IUserPaymentRepostitory'
 import { SlotDTO } from '../../dto/slotDto';
 

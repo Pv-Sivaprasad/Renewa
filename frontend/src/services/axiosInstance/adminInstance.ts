@@ -2,9 +2,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import store from '../../redux/store';
 import { resetAdmin } from "../../redux/slices/adminSlice";
+import { HttpStatus } from "../../enums/HttpStatus";
 
-const API_URL = import.meta.env.VITE_ADMIN_API_URL
-
+// const API_URL = import.meta.env.VITE_ADMIN_API_URL
+const API_URL=import.meta.env.VITE_ADMIN_API_URL
 
 export const publicAxiosInstance = axios.create({
     baseURL: API_URL,
@@ -39,7 +40,7 @@ adminAxiosInstance.interceptors.request.use(async (config) => {
 
   return config;
 });
-
+ 
 
 adminAxiosInstance.interceptors.response.use(
   (response) => {
@@ -51,7 +52,7 @@ adminAxiosInstance.interceptors.response.use(
     const url = originalRequest.url;
 
     if (error.response) {
-      if (error.response.status === 401 && !originalRequest._retry) {
+      if (error.response.status === HttpStatus.UNAUTHORIZED && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
           const newAccessToken = await getNewAccessToken();
@@ -65,11 +66,11 @@ adminAxiosInstance.interceptors.response.use(
         }
       }
 
-      if (error.response.status >= 500) {
+      if (error.response.status >= HttpStatus.INTERNAL_SERVER_ERROR) {
         toast.error("Server error, please try again later.");
       }
 
-      if (error.response.status >= 400 && error.response.status < 500 && error.response.status !== 401) {
+      if (error.response.status >= HttpStatus.BAD_REQUEST && error.response.status < HttpStatus.INTERNAL_SERVER_ERROR && error.response.status !== HttpStatus.UNAUTHORIZED) {
         toast.error(`${error.response.data.error || 'An error occurred'}`);
       }
     } else if (error.request) {

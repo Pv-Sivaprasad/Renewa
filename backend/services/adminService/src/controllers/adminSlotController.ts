@@ -6,6 +6,13 @@ import { AdminDocSlotRepository } from "../repositories/implementations/AdminDoc
 const adminDocSlotRepository=new AdminDocSlotRepository()
 const adminSlotService= new AdminSlotService(adminDocSlotRepository)
 
+
+
+/**
+ *
+ *
+ * @class AdminSlotController
+ */
 class  AdminSlotController{
 
     
@@ -14,7 +21,16 @@ class  AdminSlotController{
 
     }
 
-    async getDocSlotById(req:Request,res:Response){
+/**
+ *
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @memberof AdminSlotController
+ */
+
+
+async getDocSlotById(req:Request,res:Response){
        
 
         const {id}=req.params

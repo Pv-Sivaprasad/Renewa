@@ -34,48 +34,6 @@ export class SlotRepository {
     }
   }
 
-  // async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {
-  //   try {
-  //     const { docId, dates,docName,consultationFee } = docSlotDto;
-  //      console.log(`docId ${docId} , dates ${dates} ,docName ${docName},consultationFee${consultationFee}`);
-       
-        
-  //     const updatedDoc = await DocSlotModel.findOneAndUpdate(
-  //       { docId },
-        
-  //       { 
-  //         $set: { docName,consultationFee },
-  //         $setOnInsert: { docId }
-  //     },
-  //       { upsert: true, new: true }
-  //     );
-  
-  //     for (const dateSlot of dates) {
-     
-  //       const existingDate = updatedDoc.dates.find((d: DateSlot) => d.date === dateSlot.date);
-  
-  //       if (existingDate) {
-         
-  //         const newSlots = dateSlot.slots.filter(newSlot => 
-  //           !existingDate.slots.some(existingSlot => 
-  //             existingSlot.startTime === newSlot.startTime && 
-  //             existingSlot.endTime === newSlot.endTime
-  //           )
-  //         );
-  //         existingDate.slots.push(...newSlots);
-  //       } else {
-          
-  //         updatedDoc.dates.push(dateSlot);
-  //       }
-  //     }
-  
-  //     await updatedDoc.save();
-  //     return updatedDoc;
-  //   } catch (error) {
-  //     console.error('Error upserting slots:', error);
-  //     throw error;
-  //   }
-  // }
   async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {
     try {
       const { docId, dates, docName, consultationFee } = docSlotDto;

@@ -6,7 +6,7 @@ import { getProfile,updateProfile } from '../../services/user/userApi';
 import { toast } from 'react-toastify';
 import Sidebar from '../../components/user/SideBar'
 import { useFormik } from 'formik';
-import { profileValidationSchema } from '../../utils/validations';
+import { validateUserProfile } from '../../utils/validations';
 import { useDispatch } from 'react-redux';
 
 interface Address {
@@ -100,7 +100,12 @@ const UserProfile = () => {
     setLoading(true);
   
     try {
-    
+      const validationResult = validateUserProfile(editedData);
+      if (!validationResult.success) {
+        validationResult.errors?.forEach((error) => toast.error(error));
+        setLoading(false);
+        return;
+      }
       const formData = new FormData();
   
      
@@ -125,7 +130,8 @@ const UserProfile = () => {
       }
   
       console.log('FormData before submission:', formData);
-  
+      
+
 
       const response = await updateProfile(formData);
   

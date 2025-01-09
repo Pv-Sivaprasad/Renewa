@@ -50,6 +50,14 @@ class AdminController {
         
     }
 
+    /**
+     *
+     *
+     * @param {Request} req
+     * @param {Response} res
+     * @param {NextFunction} next
+     * @memberof AdminController
+     */
     async getAllDoctor(req:Request,res:Response,next:NextFunction) {
         console.log('entering the get all doctor in admin controller');
         

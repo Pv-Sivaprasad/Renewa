@@ -18,7 +18,7 @@ export class AdminUserRepository implements IAdminUserRepository {
     }
   }
 
-  async findUser(id: any): Promise<IAdminUser | null> {
+  async findUser(id: string): Promise<IAdminUser | null> {
     return await AdminUserModel.findById(id)
   }
 

@@ -102,7 +102,11 @@ private adminDocRepo:AdminDoctorRepository
 
 
 
-     
+    /**
+     * this is for getting all the doctors list 
+     *
+     * @memberof AdminService
+     */
     getAllDoctors=async()=>{
         try {
             console.log('enteing th get all doctor in admin service');
@@ -115,8 +119,13 @@ private adminDocRepo:AdminDoctorRepository
         }
     }
 
-
-     getDocDetails =async(docId:string)=>{
+    /**
+     * this is to get a particulat doc list
+     *
+     * @param {string} docId
+     * @memberof AdminService
+     */
+    getDocDetails =async(docId:string)=>{
         try {
           
             

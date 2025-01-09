@@ -62,6 +62,8 @@ class SlotController {
 
     try {
       const result = await slotService.upsertSlots(slotDto)
+    console.log('the result is ===========================',result);
+      
       await sendDocSlotData(slotDto)
       if (result) {
         return res.status(HttpStatus.CREATED).json(result)

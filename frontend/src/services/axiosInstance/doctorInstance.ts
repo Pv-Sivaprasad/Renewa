@@ -4,8 +4,8 @@ import store from '../../redux/store';
 import { resetDoc } from "../../redux/slices/doctorSlice";
 import { HttpStatus } from "../../enums/HttpStatus";
 
-const API_URL = import.meta.env.VITE_DCOTOR_API_URL
 
+const API_URL=import.meta.env.VITE_DCOTOR_API_URL
 
 export const publicAxiosInstance = axios.create({
     baseURL: API_URL,

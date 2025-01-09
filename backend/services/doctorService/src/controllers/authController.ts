@@ -10,6 +10,12 @@ const authService= new AuthService()
 
 class AuthController {
 
+private authServiceUse:AuthService
+
+    constructor(){
+        this.authServiceUse=new AuthService()
+        
+    }
 
     async signUp(req:Request,res:Response){
         console.log('entering the auth controller in the doctor side');
@@ -54,6 +60,7 @@ class AuthController {
             }
 
             const response= await authService.docSignIn(req.body)
+            // const response=await this.authServiceUse.docSignIn(req.body)
             console.log(response,'res in the authController');
             
             if(!response.success){
@@ -76,7 +83,7 @@ class AuthController {
 
 
         } catch (error) {
-           console.log('error int signin authcontroller doc side');
+           console.log('error int signin authcontroller doc side',error);
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"Internal server error"})
         }
         
