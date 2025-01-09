@@ -1,4 +1,4 @@
-import IOtp from "../../interfaces/IOtp";
+import IOtp from "../../interfaces/Iotp";
 
 export default interface IOtpRepository {
 

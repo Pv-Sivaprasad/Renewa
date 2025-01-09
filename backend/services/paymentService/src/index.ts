@@ -5,7 +5,7 @@ import connectMongoDb from './config/dbConfig'
 import { rabbitMqConnect } from './config/rabbitmq'
 import paymentRoute from './routes/paymentRoute'
 import { errorHandler } from './middleware/errorHandler'
-// import receiveDocSlotData from './events/consumers/docSlotConsumer'
+import receiveDocSlotData from './events/consumers/docSlotConsumer'
 
 
 dotenv.config()
@@ -28,7 +28,7 @@ connectMongoDb();
 (async()=>{
     const channel=await rabbitMqConnect()
     if(channel){
-        // await receiveDocSlotData()
+        await receiveDocSlotData()
     }
 })()
 

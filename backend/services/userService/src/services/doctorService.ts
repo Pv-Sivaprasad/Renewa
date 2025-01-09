@@ -18,13 +18,14 @@ export class DoctorService{
     async saveDoctorDetails(doctorData:Partial<IUserDoctor>): Promise<IUserDoctor>{
         return userDoctorRepository.saveDoctor(doctorData)
     }
-
+    
     async allDoctorsList(){
         let doctors= await userDoctorRepository.getAllDoctors()
-        return   doctors.filter((doctor: any) => !doctor.isBlocked);
+        return   doctors.filter((doctor) => !doctor.isBlocked);
        
     }
 
+    
     async updateDocStatus(docId:string,isBlocked:boolean){
         let data= await userDoctorRepository.updateStatus(docId,isBlocked)
         

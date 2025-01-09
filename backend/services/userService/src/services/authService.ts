@@ -13,6 +13,7 @@ import { hashPassword, randomPassword } from "../utils/password.util";
 import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult, ResendOtpResult } from "../types/authTypes";
 import { addMinutes, isAfter } from 'date-fns';
 import { sendUserData } from "../events/rabbitmq/userPublisher";
+import { UserDataDto } from "../dto/queueDto";
 
 const mailService = new MailService()
 
@@ -87,11 +88,28 @@ export class AuthService {
             username: newUser.username,
             email: newUser.email,
         };
-        await sendUserData(userData).then(()=>{   
-        }).catch((err)=>{
-            console.log('not send',err);
+        console.log('the user data to be sent ================== ',userData);
+        console.log(typeof userData.userId,'the type is ')
+        
+        // await sendUserData(userData).then(()=>{   
+        // }).catch((err)=>{
+        //     console.log('not send',err);
             
-        })
+        // }) 
+        // const userData: UserDataDto = {
+        //     userId: String(newUser.id), // Explicitly cast to string
+        //     username: newUser.username ?? '', // Provide default values if undefined
+        //     email: newUser.email ?? '',
+        // };
+        
+        await sendUserData(userData)
+            .then(() => {
+                console.log('User data sent successfully');
+            })
+            .catch((err) => {
+                console.log('Failed to send user data', err);
+            });
+        
 
 
         const otp = generateOtp();

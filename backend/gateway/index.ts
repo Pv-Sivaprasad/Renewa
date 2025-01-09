@@ -26,7 +26,7 @@ app.use(morgan('combined',{stream:accessLogStream}))
 const limiter = rateLimit({
   windowMs:15*60*1000,
   max:100,
-  message:'Too many requests, please try again later'
+  message:'Too much requests, please try again later'
 })
 
 const targets = {

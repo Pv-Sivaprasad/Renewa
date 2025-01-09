@@ -15,6 +15,7 @@ export interface SlotDTO {
 export interface UpdateSlotDto{
     docId:string,
     date:String,
-    slotId:string,
+    // slotId:string,
+    startTime:string,
     isAvailable:boolean
 }

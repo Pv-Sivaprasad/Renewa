@@ -20,13 +20,13 @@ export class PaymentController {
         try {
             const user = req.user as JwtPayload
             const userId = user.id
-            const { docId, slotId ,date} = req.body
-            console.log(`docId ${docId}, slotId ${slotId} in payment controller `)
+            const { docId, startTime ,date} = req.body
+            console.log(`docId ${docId}, startTime ${startTime} in payment controller `)
 
             const data = {
                 userId,
                 docId,
-                slotId,
+                startTime,
                 date
             }
             console.log('data to send is ',data);

@@ -25,15 +25,17 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
 
     async getAllDoctors(): Promise<any[]> { 
         try {
-            const users = await AdminDoctorModel.find(); 
-            return users; 
+            const doctors = await AdminDoctorModel.find(); 
+            console.log('the doctors are ',doctors);
+            
+            return doctors; 
         } catch (error) {
             console.error('Error fetching all users from admin DB:', error);
             throw new Error('Failed to fetch users');
         }
     }
    
-    async findDoctor(docId:any) : Promise <IAdminDoctor | null>{    
+    async findDoctor(docId:string) : Promise <IAdminDoctor | null>{    
         let result = await AdminDoctorModel.findById(docId) 
         return result
     }

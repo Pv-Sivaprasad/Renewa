@@ -29,7 +29,7 @@ class AdminController {
     async getAllUser(req:Request,res:Response,next:NextFunction) {
        
         try {
-            console.log('in here');
+            console.log('in here',req.body);
            
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 5;

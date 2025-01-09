@@ -1,3 +1,4 @@
+import { UserDataDto } from "../dto/queueDto";
 import { SlotDTO } from "../dto/slotDto";
 import { UpdateProfileDto } from "../dto/userDto";
 import { sendUserData } from "../events/rabbitmq/userPublisher";
@@ -31,7 +32,7 @@ export class UserService {
         userId:data?._id
     }
 
-    await sendUserData(sendData)
+    await sendUserData(sendData as UserDataDto)
       
       return data
     }

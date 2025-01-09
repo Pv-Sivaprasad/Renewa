@@ -8,10 +8,10 @@ export class DoctorRepository implements IDoctorRepository{
 
     async findDocById(docId:string) {
         let docData= await Doctor.findOne({docId})
-        console.log(docData,'+++++++++');
+    
         return docData
         
-    }
+    } 
 
     async updateDoctor(docId:string,updateData:any){
         return await Doctor.findOneAndUpdate(
@@ -25,7 +25,7 @@ export class DoctorRepository implements IDoctorRepository{
         return await Doctor.create(doctorData);
     }
 
-    async getAllDoctors() {
+    async getAllDoctors():Promise<IUserDoctor[]> {
         return await Doctor.find()
     }
     

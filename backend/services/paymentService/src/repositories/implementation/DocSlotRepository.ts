@@ -47,26 +47,27 @@ export class DocSlotRepository implements IDocSlotRepository{
         return await DocSlotModel.findOne({docId})
     }
 
-    async updateSlotAvailability(updateData: UpdateSlotDto): Promise<any> {
-        const slotId=updateData.slotId
-        const docId=updateData.docId
-        const date=updateData.date
-        const isAvailable=updateData.isAvailable
-        return await DocSlotModel.updateOne(
-            { 
-                docId, 
-                'dates.date': date, 
-                'dates.slots._id': new Types.ObjectId(slotId) 
+    
+    async updateSlotAvailability(updateData: UpdateSlotDto): Promise<void> {
+        const { docId, date, startTime, isAvailable } = updateData;
+        
+        let data= await DocSlotModel.updateOne(
+            {
+                docId,
+                'dates.date': date,
+                'dates.slots.startTime': startTime
             },
-            { 
-                $set: { 'dates.$[date].slots.$[slot].isAvailable': isAvailable } 
+            {
+                $set: { 'dates.$[date].slots.$[slot].isAvailable': isAvailable }
             },
-            { 
+            {
                 arrayFilters: [
                     { 'date.date': date },
-                    { 'slot._id': new Types.ObjectId(slotId) }
+                    { 'slot.startTime': startTime }
                 ]
             }
-        )
-    }
+        );
+        console.log(data,'the updated is ')
+         
+    } 
 }

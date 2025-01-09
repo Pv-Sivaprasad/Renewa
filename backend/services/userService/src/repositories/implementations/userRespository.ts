@@ -38,7 +38,7 @@ export class UserRepository  extends BaseRepository<IUser> {
     }
     
 
-    async UpdatePassword(email:string,field:string,value:any) :Promise<IUser | null>{
+    async UpdatePassword(email:string,field:string,value:string) :Promise<IUser | null>{
         const update={$set:{[field]:value}}
         return await User.findOneAndUpdate({email},update,{new:true})
     }

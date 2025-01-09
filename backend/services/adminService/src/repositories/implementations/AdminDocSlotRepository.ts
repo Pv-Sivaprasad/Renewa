@@ -1,5 +1,5 @@
 import { UserDataDto } from "../../dto/authDto";
-import { SlotDTO } from "../../dto/slotDto";
+import { IDoctorWithSlots, SlotDTO } from "../../dto/slotDto";
 import { IAdminDocSlotRepository } from "../interfaces/IAdminDocSlotRepository";
 import { AdminDocSlotModel } from "../../models/slotModel";
 import mongoose from "mongoose";
@@ -74,7 +74,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
         
         let result= await AdminDocSlotModel.findOne({docId})
         console.log('the result is',result);
-        return result
+        return result 
         
     }
 

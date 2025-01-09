@@ -29,9 +29,10 @@ export const logout = async () => {
 }
 
 export const getAllUsers = async (data:any) => {
-    console.log('the get all users before sending to backend');
     
-    const response = await api.get('/users')
+    console.log('the get all users before sending to backend',data);
+    
+    const response = await api.get(`/users?page=${data.page}&limit=${data.limit}`)
     console.log('response from get all users from backend is',response);
     
     return response

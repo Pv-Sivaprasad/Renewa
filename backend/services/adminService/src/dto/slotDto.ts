@@ -12,4 +12,18 @@ export interface SlotDTO {
         }[];
     }[];
 }
+
+export interface IDoctorSlot {
+    date: string;
+    slots: string[]; 
+    _id: string; 
+  }
+  
+  export interface IDoctorWithSlots {
+    _id: string; 
+    docId: string; 
+    docName: string;
+    dates: IDoctorSlot[]; 
+    __v: number; 
+  }
  
