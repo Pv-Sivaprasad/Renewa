@@ -62,8 +62,12 @@ class AdminController {
         console.log('entering the get all doctor in admin controller');
         
         try {
+
+            const page=parseInt(req.query.page as string) || 1;
+            const limit=parseInt(req.query.limit as string) | 5
+
             // const doctors=await adminService.getAllDoctors()
-            const doctors=await this.adminServiceUse.getAllDoctors()
+            const doctors=await this.adminServiceUse.getAllDoctors(page,limit)
             console.log('the doctors in admin controller',doctors);
             res.status(HttpStatus.CREATED).json(doctors)
             return

@@ -107,11 +107,11 @@ private adminDocRepo:AdminDoctorRepository
      *
      * @memberof AdminService
      */
-    getAllDoctors=async()=>{
+    getAllDoctors=async(page:number,limit:number)=>{
         try {
             console.log('enteing th get all doctor in admin service');
             // const doctors=await adminDoctorRepository.getAllDoctors()
-            const doctors=await this.adminDocRepo.getAllDoctors()
+            const doctors=await this.adminDocRepo.getAllDoctors(page,limit)
             return doctors
             
         } catch (error) {

@@ -2,7 +2,7 @@ import { IAdminDoctorRepository } from "../interfaces/IAdminDoctorRepository";
 import AdminDoctorModel, { IAdminDoctor } from '../../models/doctorModel'
 import { Doctor } from "../../types/User";
 import  { updatedDocDto } from '../../dto/authDto'
-
+import { PaginateType } from "../../types/authTypes";
 
 export class AdminDoctorRepository implements IAdminDoctorRepository {
 
@@ -23,12 +23,25 @@ export class AdminDoctorRepository implements IAdminDoctorRepository {
         }
     }
 
-    async getAllDoctors(): Promise<any[]> { 
+    async getAllDoctors(page:number,limit:number): Promise<PaginateType> { 
         try {
-            const doctors = await AdminDoctorModel.find(); 
-            console.log('the doctors are ',doctors);
+            const skip=(page-1)*limit
+
+            // const doctors = await AdminDoctorModel.find(); 
+            // console.log('the doctors are ',doctors);
+
+            const [users,total]=await Promise.all([
+                AdminDoctorModel.find().skip(skip).limit(limit),
+                AdminDoctorModel.countDocuments()
+            ])
             
-            return doctors; 
+            return {
+                users,
+                total,
+                page,
+                limit,
+                totalPages:Math.ceil(total/limit)
+            } 
         } catch (error) {
             console.error('Error fetching all users from admin DB:', error);
             throw new Error('Failed to fetch users');

@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react';
 import { Check, X, Users, UserCog, LogOut, Menu, Home, ChevronDown, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +14,14 @@ const DoctorList = () => {
   const [activeMenu, setActiveMenu] = useState('Doctors');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [users, setUsers] = useState([]);
-  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState(null);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    limit: 5
+  });
   const [editForm, setEditForm] = useState({
     username: '',
     email: '',
@@ -23,24 +29,34 @@ const DoctorList = () => {
   });
 
   useEffect(() => {
-    const fetchDoctors = async () => {
-      try {
-        const response = await getAllDoctors();
-        setUsers(response.data);
-        setFilteredDoctors(response.data);
-      } catch (error) {
-        console.error('Error fetching doctors:', error);
-      }
-    };
-    fetchDoctors();
-  }, []);
+
+    fetchDoctors(pagination.currentPage);
+  }, [pagination.currentPage])
+
+  const fetchDoctors = async (page) => {
+    try {
+      const response = await getAllDoctors({ page, limit: pagination.limit });
+      const { users, totalPages, currentPage } = response.data;
+      setUsers(response.data);
+      setFilteredDoctors(users);
+      setPagination(prev => ({
+        ...prev,
+        totalPages,
+        currentPage
+      }));
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+    }
+  };
+
+
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    
-    const filtered = users.filter((doctor) => 
-      doctor.docname?.toLowerCase().includes(query) || 
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+    const filtered = users.filter((doctor) =>
+      doctor.docname?.toLowerCase().includes(query) ||
       doctor.email?.toLowerCase().includes(query) ||
       doctor.speciality?.toLowerCase().includes(query)
     );
@@ -135,9 +151,8 @@ const DoctorList = () => {
     <div className="min-h-screen bg-blue-300">
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full bg-white shadow-lg transition-all duration-300 ${
-          isSidebarOpen ? 'w-64' : 'w-20'
-        }`}
+        className={`fixed left-0 top-0 h-full bg-white shadow-lg transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-20'
+          }`}
       >
         <div className="flex h-16 items-center justify-between px-4">
           <h1 className={`font-bold text-blue-600 ${!isSidebarOpen && 'hidden'}`}>
@@ -153,11 +168,10 @@ const DoctorList = () => {
             <button
               key={item.title}
               onClick={() => handleMenuClick(item)}
-              className={`flex w-full items-center px-4 py-3 transition-colors ${
-                activeMenu === item.title
+              className={`flex w-full items-center px-4 py-3 transition-colors ${activeMenu === item.title
                   ? 'bg-blue-50 text-blue-600'
                   : 'text-gray-600 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <item.icon size={20} />
               <span className={`ml-4 ${!isSidebarOpen && 'hidden'}`}>{item.title}</span>
@@ -250,11 +264,10 @@ const DoctorList = () => {
                       <td className="px-6 py-4 text-sm text-gray-900">{user.speciality}</td>
                       <td className="px-6 py-4 text-sm">
                         <span
-                          className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                            user.isBlocked
+                          className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${user.isBlocked
                               ? 'bg-red-100 text-red-800'
                               : 'bg-green-100 text-green-800'
-                          }`}
+                            }`}
                         >
                           {user.isBlocked ? 'Blocked' : 'Active'}
                         </span>
@@ -262,9 +275,8 @@ const DoctorList = () => {
                       <td className="px-6 py-4 text-sm">
                         <button
                           onClick={() => toggleBlockStatus(user._id)}
-                          className={`rounded-xl ${
-                            user.isBlocked ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'
-                          } px-4 py-2 text-white`}
+                          className={`rounded-xl ${user.isBlocked ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'
+                            } px-4 py-2 text-white`}
                         >
                           {user.isBlocked ? 'Unblock' : 'Block'}
                         </button>
@@ -282,7 +294,49 @@ const DoctorList = () => {
                 </tbody>
               </table>
             </div>
+
+            <div className="mt-4 flex justify-between items-center">
+              <span className="text-sm text-gray-600">
+                Page {pagination.currentPage} of {pagination.totalPages}
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage - 1 }))}
+                  disabled={pagination.currentPage === 1}
+                  className="rounded-lg bg-blue-500 px-4 py-2 text-white disabled:opacity-50"
+                >
+                  Previous
+                </button>
+
+                <div className="flex items-center gap-2">
+                  {[...Array(pagination.totalPages)].map((_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => setPagination(prev => ({ ...prev, currentPage: index + 1 }))}
+                      className={`rounded-lg px-4 py-2 ${pagination.currentPage === index + 1
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-white text-blue-600'
+                        }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage + 1 }))}
+                  disabled={pagination.currentPage === pagination.totalPages}
+                  className="rounded-lg bg-blue-500 px-4 py-2 text-white disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+
+
           </div>
+
         </main>
       </div>
     </div>
