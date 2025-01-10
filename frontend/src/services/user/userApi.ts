@@ -1,13 +1,12 @@
 import axios from 'axios'
-import { publicAxiosInstance, userAxiosInstance } from '../axiosInstance/userInstance';
+import {  publicAxiosInstance, userAxiosInstance } from '../axiosInstance/userInstance';
+import { paymentAxiosInstance } from '../axiosInstance/paymentInstance';
 
 
-// const api= axios.create({
-//     baseURL: import.meta.env.VITE_USER_API_URL
-// })
+
 const api=userAxiosInstance
 const publicApi=publicAxiosInstance
-
+const payApi=paymentAxiosInstance
 
 export const signInRequest=async(email:string,password:string)=>{
     console.log(email,password);
@@ -121,7 +120,7 @@ export const availableDocslots=async(docId:string)=>{
 
 export const slotPayment=async(payload: any)=>{
     console.log('goinf to do payment to the backend',payload);
-    let response =await api.post('/create-checkout-session',payload)
+    let response =await payApi.post('/create-checkout-session',payload)
     return response
 }
 

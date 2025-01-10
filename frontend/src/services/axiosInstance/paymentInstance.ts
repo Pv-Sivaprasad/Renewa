@@ -1,29 +1,24 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import store from '../../redux/store';
-import { resetDoc } from "../../redux/slices/doctorSlice";
+// import { resetDoc } from "../../redux/slices/doctorSlice";
+import { resetUser } from "../../redux/slices/authSlice";
 import { HttpStatus } from "../../enums/HttpStatus";
 
 
-const API_URL=import.meta.env.VITE_DOCTOR_API_URL
-
-export const publicAxiosInstance = axios.create({
-    baseURL: API_URL,
-    withCredentials: true,
-  });
+const API_URL=import.meta.env.VITE_PAYMENT_API_URL
 
 
-export const doctorAxiosInstance = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-});
-
+export const paymentAxiosInstance=axios.create({
+    baseURL:API_URL,
+    withCredentials:true
+})
 
 const controllerMap = new Map();
 
 
 
-doctorAxiosInstance.interceptors.request.use(async (config) => {
+paymentAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
  
   
@@ -43,7 +38,7 @@ doctorAxiosInstance.interceptors.request.use(async (config) => {
 });
 
 
-doctorAxiosInstance.interceptors.response.use(
+paymentAxiosInstance.interceptors.response.use(
   (response) => {
     controllerMap.delete(response.config.url);
     return response;
@@ -59,10 +54,10 @@ doctorAxiosInstance.interceptors.response.use(
           const newAccessToken = await getNewAccessToken();
           localStorage.setItem("accessToken", newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          return doctorAxiosInstance(originalRequest);
+          return paymentAxiosInstance(originalRequest);
         } catch (err) {
           toast.error("Session expired");
-          store.dispatch(resetDoc())
+          store.dispatch(resetUser())
           return Promise.reject(err);
         }
       }

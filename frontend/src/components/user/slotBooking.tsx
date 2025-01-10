@@ -82,13 +82,13 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
         };
         const stripe=await stripePromise
 
-        let slotId=payload.slot.slotId
+        let startTime=payload.slot.startTime
         let date=payload.date
         try {
           const payload={
             docId:doctorId,
             date,
-            slotId
+            startTime
           }
           console.log('payload before sending', payload);
           const response = await slotPayment(payload)
@@ -105,22 +105,29 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
       }
         } catch (error) {
           console.log('eror',error);
-          
+          toast.error(error.response.data.message)
         }
 
       } catch (error) {
         
-        console.error('Payment error:', error.message);
+        console.error('Payment error:',error);
+        
       }
     }
   };
   const getTodayDate = () => {
     return new Date().toISOString().split('T')[0];
   };
-  // Get slots for the selected date
-  const filteredSlots =
-    selectedDate &&
-    slotsData.find((slot) => slot.date === selectedDate)?.slots;
+  
+  // const filteredSlots =
+  //   selectedDate &&
+  //   slotsData.find((slot) => slot.date === selectedDate)?.slots;
+// Get slots for the selected date, filtering only available slots
+const filteredSlots =
+  selectedDate &&
+  slotsData
+    .find((slot) => slot.date === selectedDate)
+    ?.slots.filter((slot) => slot.isAvailable && !slot.slotHasBooked);
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-custom-log shadow-lg rounded-lg">

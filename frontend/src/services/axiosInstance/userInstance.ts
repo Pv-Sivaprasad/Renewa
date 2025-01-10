@@ -5,7 +5,7 @@ import { resetUser } from "../../redux/slices/authSlice";
 import { HttpStatus } from "../../enums/HttpStatus";
 // const API_URL = import.meta.env.VITE_BASE_API_URL
 const API_URL=import.meta.env.VITE_USER_API_URL
-
+const PAY_URL=import.meta.env.VITE_PAYMENT_API_URL
 
 
 
@@ -19,6 +19,8 @@ export const userAxiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
 });
+
+
 
 
 const controllerMap = new Map();

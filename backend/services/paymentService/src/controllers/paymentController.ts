@@ -32,7 +32,7 @@ export class PaymentController {
             console.log('data to send is ',data);
             
             const response = await this.paymentService.createSession(data)
-            console.log('the response is',response);
+            console.log('the response is=======',response);
             if(response.success){
 
                  res.status(HttpStatus.CREATED).json(response)

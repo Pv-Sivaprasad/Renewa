@@ -17,7 +17,7 @@ class AdminController {
 
     
 /**
- * 
+ *  getting user
  *
  * @param {Request} req
  * @param {Response} res
@@ -81,8 +81,15 @@ class AdminController {
 
 
 
-
-    async updateUserStatus(req:Request,res:Response,next:NextFunction){
+/**
+ *
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @memberof AdminController
+ */
+async updateUserStatus(req:Request,res:Response,next:NextFunction){
       
         const {id}=req.params
       
