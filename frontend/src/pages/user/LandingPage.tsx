@@ -2,6 +2,9 @@ import React from 'react'
 import banner from '../../assets/user/banner.jpeg'
 import UserHeader from '../../components/user/UserHeader'
 import UserFooter from '../../components/user/UserFooter'
+import DoctorGrid from '../../components/user/DocListLanding'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
 
 
 const LandingPage = () => {
@@ -11,6 +14,9 @@ const LandingPage = () => {
     <div>
       <UserHeader/>
 
+    <div>
+     <DoctorGrid/>
+    </div>
       <div className="flex justify-center items-center h-screen bg-blue-600">
       <img src={banner} alt="User Home" className="w-full h-auto object-cover" />
     </div>

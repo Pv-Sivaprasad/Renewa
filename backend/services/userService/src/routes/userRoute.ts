@@ -23,6 +23,7 @@ const upload=multer({storage:storage})
 user_route.get('/profiledata',authenticateToken,checkUserStatus,userController.getProfile)
 user_route.patch('/profile',authenticateToken,checkUserStatus,upload.single('image'),userController.updateProfile)
 user_route.get('/doctorlist',authenticateToken,checkUserStatus,doctorController.getAllDoctors)
+user_route.get('/alldocs',doctorController.getAllDoctors)
 user_route.get('/docslot/:id',authenticateToken,checkUserStatus,docSlotController.getDoctorSlotById)
 // user_route.post('/payment-intent',authenticateToken,checkUserStatus,paymentController.createPayment)
 

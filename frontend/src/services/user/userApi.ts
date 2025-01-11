@@ -111,6 +111,14 @@ export const allDoctors=async()=>{
     
 }
 
+export const allDocs=async()=>{
+    console.log('going to fetch the doctorlist');
+    const response=await publicApi.get('/alldocs')
+    return  response
+    
+}
+
+
 export const availableDocslots=async(docId:string)=>{
     console.log('going to backend to check slots',docId);
     const response=await api.get(`/docslot/${docId}`)

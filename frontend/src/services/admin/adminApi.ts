@@ -47,9 +47,10 @@ export const updateUserStatus=async(userId:string)=>{
 
 }
 
-export const getAllDoctors=async({page,limit})=>{
-    console.log('to get all doctors before sending to backend');
-    const response=await api.get(`/doctors?page=${page}&limit=${limit}`)
+export const getAllDoctors=async(data)=>{
+
+    console.log('to get all doctors before sending to backend',data);
+    const response=await api.get(`/doctors?page=${data.page}&limit=${data.limit}`)
     console.log('response from get all doctors from backend is ',response);
     
     return response

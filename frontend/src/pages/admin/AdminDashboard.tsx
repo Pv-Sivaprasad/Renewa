@@ -3,7 +3,10 @@ import { Users, UserCog, LogOut, Menu, X, Home, ChevronDown } from 'lucide-react
 import { useNavigate } from 'react-router-dom'; // Updated import
 import {logout} from '../../services/admin/adminApi'
 import { resetAdmin } from '../../redux/slices/adminSlice';
-import { useDispatch, UseDispatch } from 'react-redux';
+import { useDispatch, UseDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+
+
 const AdminDashboard = () => {
   const navigate = useNavigate(); 
   const dispatch=useDispatch()
@@ -11,6 +14,9 @@ const AdminDashboard = () => {
   const [activeMenu, setActiveMenu] = useState('Dashboard');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   
+
+  const docNum=useSelector((state:RootState)=>state.admin.docNum)
+  const userNum=useSelector((state:RootState)=>state.admin.userNum)
 
   // Updated menu items with route
   const menuItems = [
@@ -118,11 +124,11 @@ const AdminDashboard = () => {
               <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-6">
                   <h3 className="mb-2 font-semibold">Total Doctors</h3>
-                  <p className="text-2xl font-bold">24</p>
+                  <p className="text-2xl font-bold">{docNum || 12}</p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-6">
                   <h3 className="mb-2 font-semibold">Total Users</h3>
-                  <p className="text-2xl font-bold">156</p>
+                  <p className="text-2xl font-bold">{userNum || 10}</p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-6">
                   <h3 className="mb-2 font-semibold">Active Sessions</h3>

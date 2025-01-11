@@ -1,10 +1,11 @@
 
 
+
 import React, { useEffect, useState } from 'react';
 import { Check, X, Users, UserCog, LogOut, Menu, Home, ChevronDown, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { logout, updateDoctorStatus, getAllDoctors } from '../../services/admin/adminApi';
-import { resetAdmin } from '../../redux/slices/adminSlice';
+import { resetAdmin ,docNum} from '../../redux/slices/adminSlice';
 import { useDispatch } from 'react-redux';
 
 const DoctorList = () => {
@@ -33,23 +34,40 @@ const DoctorList = () => {
     fetchDoctors(pagination.currentPage);
   }, [pagination.currentPage])
 
+  // const fetchDoctors = async (page) => {
+  //   try {
+  //     const response = await getAllDoctors({ page, limit: pagination.limit });
+  //     const { users, totalPages, currentPage } = response.data;
+  //     setUsers(response.data);
+  //     setFilteredDoctors(users);
+  //     setPagination(prev => ({
+  //       ...prev,
+  //       totalPages,
+  //       currentPage
+  //     }));
+  //   } catch (error) {
+  //     console.error('Error fetching doctors:', error);
+  //   }
+  // };
+
   const fetchDoctors = async (page) => {
     try {
       const response = await getAllDoctors({ page, limit: pagination.limit });
-      const { users, totalPages, currentPage } = response.data;
-      setUsers(response.data);
-      setFilteredDoctors(users);
-      setPagination(prev => ({
+      const { users, totalPages, currentPage,total } = response.data;
+      console.log('taotal',total);
+      dispatch(docNum(total))
+      setUsers(users); // This should be the array of doctors
+      setFilteredDoctors(users); // Set the filtered doctors as well
+      setPagination((prev) => ({
         ...prev,
         totalPages,
-        currentPage
+        currentPage,
       }));
     } catch (error) {
       console.error('Error fetching doctors:', error);
     }
   };
-
-
+  
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -124,6 +142,7 @@ const DoctorList = () => {
     try {
       const response = await updateDoctorStatus(userId);
       if (response) {
+       
         const updatedUsers = users.map((user) =>
           user._id === userId ? { ...user, isBlocked: !user.isBlocked } : user
         );

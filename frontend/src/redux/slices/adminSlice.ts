@@ -5,7 +5,9 @@ interface AdminState {
   token: string | null;
   error: string | null;
   isAuthenticated:boolean
-  role:string | null
+  role:string | null;
+  docNum:string | null;
+  userNum:string| null
  
 }
 
@@ -14,7 +16,9 @@ const initialState: AdminState = {
   token: null,
   error: null,
   isAuthenticated:false,
-  role:null
+  role:null,
+  docNum:null,
+  userNum:null,
 };
 
 const adminSlice = createSlice({
@@ -34,6 +38,12 @@ const adminSlice = createSlice({
       
     },
     
+    docNum:(state,action:PayloadAction<string>)=>{
+      state.docNum=action.payload
+    },
+    userNum:(state,action:PayloadAction<string>)=>{
+      state.userNum=action.payload
+    },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
@@ -57,7 +67,7 @@ const adminSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, resetAdmin } = adminSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logout, resetAdmin,docNum,userNum } = adminSlice.actions;
 export default adminSlice.reducer;
 
 

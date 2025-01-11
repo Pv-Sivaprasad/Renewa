@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Check, X, Users, UserCog, LogOut, Menu, Home, ChevronDown, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { logout, getAllUsers, updateUserStatus } from '../../services/admin/adminApi';
-import { resetAdmin } from '../../redux/slices/adminSlice';
+import { resetAdmin, userNum } from '../../redux/slices/adminSlice';
 import { useDispatch } from 'react-redux';
 
 const UserTable = () => {
@@ -43,7 +43,8 @@ const UserTable = () => {
       const response = await getAllUsers({ page, limit: pagination.limit }); 
       console.log('respmse is',response);
       
-      const { users, totalPages, page: currentPage } = response.data;
+      const { users,total,totalPages, page: currentPage } = response.data;
+      dispatch(userNum(total))
       setUsers(users);
       setFilteredUsers(users);
       setPagination(prev => ({
@@ -130,6 +131,8 @@ const UserTable = () => {
       console.error('Error toggling block status:', error);
     }
   };
+
+  
 
   return (
     <div className="min-h-screen bg-blue-300">
