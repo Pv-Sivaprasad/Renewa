@@ -1,5 +1,5 @@
 import { getChannel } from "../../config/rabbitmq";
-import { DocSlotController } from "../../controllers/slotController";
+import { DocSlotController } from "../../controllers/implementations/slotController";
 import { DocSlotService } from "../../services/implementation/DocSlotService";
 import { DocSlotRepository } from "../../repositories/implementation/DocSlotRepository";
 import { QUEUE_NAMES } from "../../constants/queueConstants";

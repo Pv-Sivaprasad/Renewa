@@ -6,8 +6,10 @@ import { rabbitMqConnect } from './config/rabbitmq'
 import paymentRoute from './routes/paymentRoute'
 import { errorHandler } from './middleware/errorHandler'
 import receiveDocSlotData from './events/consumers/docSlotConsumer'
-
-
+import webhookRoute from './routes/webHookRoute'
+import morgan from 'morgan'
+import path = require('path')
+import { createStream } from 'rotating-file-stream'
 dotenv.config()
 
 const app=express()
@@ -15,13 +17,21 @@ const PORT=process.env.PORT
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
+const accessLogStream = createStream('access.log', {
+    interval: '1d', 
+    path: path.join(__dirname, 'logs'),
+  });
+  
+  app.use(morgan('combined', { stream: accessLogStream })); 
+  app.use(morgan('dev')); 
 app.use(cors({
     origin:'http://localhost:5173',
     credentials:true
 }))
-
 app.use('/',paymentRoute)
+app.use('/webhook',express.raw({ type: 'application/json' }));
+
+app.use('/webhook',webhookRoute)
 app.use(errorHandler);
 
 connectMongoDb();
@@ -33,5 +43,4 @@ connectMongoDb();
 })()
 
 
-app.listen(PORT,()=>{console.log('PaymentService running on http://localhost:4004');
-})
+app.listen(PORT,()=>{console.log('PaymentService running on http://localhost:4004')})

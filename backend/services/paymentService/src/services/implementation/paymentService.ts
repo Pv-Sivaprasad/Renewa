@@ -103,107 +103,24 @@ export class PaymentService implements IPaymentService{
             throw error;
         }
     }
-// async createSession(paymentDataDto: PaymentDataDto): Promise<PaymentServiceDto> {
-//     console.log('Payment DTO:', JSON.stringify(paymentDataDto, null, 2));
-//     const { docId, slotId, date,userId } = paymentDataDto;
-    
-//     console.log('Extracted values:', { docId, slotId, date });
-    
-//     try {
-//         const docSlot = await this.docSlotRepostory.findSlot(docId);
-//         console.log('Doc Slot found:', JSON.stringify(docSlot, null, 2));
-        
-//         const price=docSlot?.consultationFee || 300;
 
-
-//         const slotDate = docSlot?.dates.find(d => d.date === paymentDataDto.date);
-//         console.log('Slot Date found:', JSON.stringify(slotDate, null, 2));
-        
-//         if (!slotDate) {
-//             throw new Error('No slots found for the selected date');
-//         }
-
-//         console.log('Searching for slot with ID:', slotId);
-//         console.log('Available slots:', JSON.stringify(slotDate.slots, null, 2));
-        
-//         // Check if slotId is valid ObjectId
-//         const isValidObjectId = Types.ObjectId.isValid(slotId);
-//         console.log('Is valid ObjectId:', isValidObjectId);
-
-//         const slot = slotDate.slots.find(s => {
-//             const slotIdStr = s._id.toString();
-//             const inputIdStr = slotId.toString();
-//             console.log('Comparing:', { slotIdStr, inputIdStr });
-//             return slotIdStr === inputIdStr;
-//         });
-        
-//         console.log('Found slot:', JSON.stringify(slot, null, 2));
-
+    async webhookHandleSave(event: Stripe.Event): Promise<null> {
+      try {
+        console.log('inside the payment service');
         
 
-//         if (!slot) {
-//             return {success:false,message:'Slot not available'}
-//         }else if (!slot.isAvailable) {
-//             return {success:false,message:'Slot already booked'}
-//         }else if(slot){
-//             slot.isAvailable=false
+        if(event.type='payment_intent.succeeded'){
+            const session=event.data.object 
 
-            
-//             const session = await this.stripe.checkout.sessions.create({
-//                 payment_method_types: ['card'],
-//                 line_items: [{
-//                     price_data: {
-//                         currency: 'inr',
-//                         product_data: {
-//                             name: `slotId: ${slotId}`,
-//                         },
-//                         unit_amount: price * 100, 
-//                     },
-//                     quantity: 1
-//                 }],
-//                 mode: 'payment',
-//                 metadata: { 
-//                     slotId, 
-//                     userId 
-//                 },
-//                 success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-//                 cancel_url: 'http://localhost:5173/cancel',
-//             });
-            
-//             const update={
-//                 docId,
-//                 date,
-//                 slotId,
-//                 isAvailable:false
-//             }
-    
-//             let modifiedSlot=await this.docSlotRepostory.updateSlotAvailability(update)
-//             console.log(modifiedSlot,'***********');
-            
-//             const paymentData :Partial<IPayment> ={
-//                 userId,
-//                 doctorId:docId,
-//                 slotId,
-//                 amount:price,
-//                 status:'pending',
-//                stripeSessionId:session.id
-                
-                
-//             }
+            // const response=await this.paymentRepository.findOneAndUpdate(session.id)
+        }
+       
+        
 
-//             const response=await this.paymentRepository.create(paymentData)
-//             console.log(response,'the actual response');
-            
-//             return { success: true, message: "payment session created", id: session.id }
-//         }else{
-//             return {success:false,message:"Something wernt wrong in the service booking"}
-//         }
+        return null
+      } catch (error) {
+        return null
+      }
+    }
 
-
-      
-//     } catch (error) {
-//         console.log('Error details:', error);
-//         throw error;
-//     }
-// }
 }

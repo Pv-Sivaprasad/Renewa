@@ -1,4 +1,4 @@
-import PaymentController from "../controllers/paymentController";
+import PaymentController from "../controllers/implementations/paymentController";
 import Payment from "../models/paymentModel";
 import { DocSlotRepository } from "../repositories/implementation/DocSlotRepository";
 import { PaymentRepository } from "../repositories/implementation/PaymentRepository";

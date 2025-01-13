@@ -245,9 +245,10 @@ const DoctorList = () => {
                 value={searchQuery}
                 onChange={handleSearch}
                 placeholder="Search by doctor name, email or speciality"
-                className="w-full rounded-md border border-gray-300 px-4 py-2 pr-10 focus:border-blue-500 focus:outline-none"
+                // className="w-full rounded-md border border-gray-300 px-4 py-2 pr-10 focus:border-blue-500 focus:outline-none"
+                className="w-1/3 rounded-2xl border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
               />
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500" />
             </div>
           </div>
           <div className="w-full rounded-lg bg-white p-6 shadow-md">

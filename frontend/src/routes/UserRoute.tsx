@@ -11,6 +11,7 @@ import UserProfile  from '../pages/user/UserProfile'
 import DoctorPage from '../pages/user/DoctorPage'
 import SlotBook from '../pages/user/SlotBook'
 import PaymentPage from '../pages/user/PaymentPage'
+import Success from '../pages/user/Success'
 const userRoute = () => {
   return (
     <Routes>
@@ -26,6 +27,7 @@ const userRoute = () => {
     <Route path='/doctorslot' element={<PrivateRoute><SlotBook/></PrivateRoute>} />
     {/* <Route path='/payment' element={<PrivateRoute><PaymentPage/></PrivateRoute>} /> */}
     <Route path='/checkout' element={<PrivateRoute><PaymentPage/></PrivateRoute>} />
+    <Route path='/success' element={<PrivateRoute><Success/></PrivateRoute>}/>
 
 
 

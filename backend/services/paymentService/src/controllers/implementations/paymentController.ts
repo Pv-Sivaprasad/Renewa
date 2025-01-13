@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import { HttpStatus } from "../enums/httpStatus";
-import { IPaymentService } from "../services/interface/IPaymentService";
+import { HttpStatus } from "../../enums/httpStatus";
+import { IPaymentService } from "../../services/interface/IPaymentService";
 
 interface CustomeRequest extends Request {
     user?: string | JwtPayload,

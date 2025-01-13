@@ -1,7 +1,7 @@
-import { IDocSlotService } from "../services/interface/IDocSlotService";
-import { IDocSlot } from "../models/slotModel";
+import { IDocSlotService }from "../../services/interface/IDocSlotService";
+import { IDocSlot} from "../../models/slotModel";
 import { Request,Response,NextFunction } from "express";
-import { HttpStatus } from "../enums/httpStatus";
+import { HttpStatus } from "../../enums/httpStatus";
 
 
 export class DocSlotController {

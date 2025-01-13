@@ -118,11 +118,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
   const getTodayDate = () => {
     return new Date().toISOString().split('T')[0];
   };
-  
-  // const filteredSlots =
-  //   selectedDate &&
-  //   slotsData.find((slot) => slot.date === selectedDate)?.slots;
-// Get slots for the selected date, filtering only available slots
+
 const filteredSlots =
   selectedDate &&
   slotsData

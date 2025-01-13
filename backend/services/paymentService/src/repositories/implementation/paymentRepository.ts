@@ -2,6 +2,8 @@ import Payment,{IPayment} from "../../models/paymentModel";
 import { IPaymentRepository } from "../interface/IPaymentRepository";
 import { IBaseRepository } from "../interface/IBaseRepository";
 import BaseRepository from "./BaseRepository";
+import { FilterQuery } from "mongoose";
+
 
 
 export class PaymentRepository extends BaseRepository<IPayment> implements IPaymentRepository{
@@ -15,5 +17,9 @@ export class PaymentRepository extends BaseRepository<IPayment> implements IPaym
             console.log('error in findign',error);
             
         }
+    }
+
+    async findOneAndUpdate(){
+
     }
 }
