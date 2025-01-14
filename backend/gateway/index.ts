@@ -19,22 +19,22 @@ const app = express();
 
 const accessLogStream = createStream('access.log', {
   interval: '1d',
-  path: path.join(__dirname, 'logs') 
+  path: path.join(__dirname, 'logs')
 });
 
-app.use(morgan('combined',{stream:accessLogStream}))
+app.use(morgan('combined', { stream: accessLogStream }))
 const limiter = rateLimit({
-  windowMs:15*60*1000,
-  max:100,
-  message:'Too much requests, please try again later'
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too much requests, please try again later'
 })
 
 const targets = {
   userService: process.env.USER_SERVICE_URL,
   adminService: process.env.ADMIN_SERVICE_URL,
   doctorService: process.env.DOCTOR_SERVICE_URL,
-  paymentService: process.env.PAYMENT_SERVICE_URL
-
+  paymentService: process.env.PAYMENT_SERVICE_URL,
+  chatservice: process.env.CHAT_SERVICE_URL,
 };
 
 
@@ -45,60 +45,29 @@ app.use(cors({
 }))
 
 app.use(cookieparser())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-  origin:'http://localhost:5173',
-  credentials:true
-})); 
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 
 
-app.use(
-  '/user',
-  createProxyMiddleware({
-    target: targets.userService,
-    changeOrigin: true,
-    pathRewrite: {
-      '^/user': '/', 
-    }
-  })
-);
+app.use('/user', createProxyMiddleware({ target: targets.userService, changeOrigin: true, pathRewrite: { '^/user': '/', } }));
+
+app.use('/admin', createProxyMiddleware({ target: targets.adminService, changeOrigin: true, pathRewrite: { '^/admin': '/', } }));
+
+app.use('/doctor', createProxyMiddleware({ target: targets.doctorService, changeOrigin: true, pathRewrite: { '^/doctor': '/', } }));
+
+app.use('/payment', createProxyMiddleware({ target: targets.paymentService, changeOrigin: true, pathRewrite: { '^/payment': '/', } }));
+
+app.use('/chat', createProxyMiddleware({ target: targets.chatservice, changeOrigin: true, pathRewrite: { '^/chat': '/', } }));
 
 
-app.use(
-  '/admin',
-  createProxyMiddleware({
-    target: targets.adminService,
-    changeOrigin: true,
-    pathRewrite: {
-      '^/admin': '/', 
-    }
-  })
-);
 
 
-app.use(
-  '/doctor',
-  createProxyMiddleware({
-    target: targets.doctorService,
-    changeOrigin: true,
-    pathRewrite: {
-      '^/doctor': '/', 
-    }
-  })
-);
-app.use(
-  '/payment',
-  createProxyMiddleware({
-    target: targets.paymentService,
-    changeOrigin: true,
-    pathRewrite: {
-      '^/payment': '/', 
-    }
-  })
-);
 
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`API Gateway is running on port ${PORT}`);
 });
