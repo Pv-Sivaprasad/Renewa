@@ -4,20 +4,37 @@ import Chat,{ IChat } from "../../models/chatModel";
 export class ChatRepository implements IChatRepository{
    
    
-    getChat(docId: string, userId: string): Promise<IChat | null> {
-        throw new Error("Method not implemented.");
-    }
+   async  getChat(docId: string, userId: string): Promise<IChat | null> {
+    console.log('in the repo');
+    
+        let data= await Chat.findOne({docId,userId})
+        console.log('the data is',data);
+        
+        return data
+      }
    
   
    
-    addMessage(chatId: string, senderId: string, text: string): Promise<IChat> {
-        throw new Error("Method not implemented.");
+    async addMessage(chatId: string, senderId: string, text: string): Promise<IChat | null> {
+      console.log('ooohoooo');
+      
+      const updatedChat= await Chat.findByIdAndUpdate(
+        chatId,
+        {$push:{messages:{senderId,text,timeStamp:new Date()}}},
+        {new:true}
+      )
+      if(!updatedChat){
+        throw new Error('Chat not found')
+      }
+      return  updatedChat
     }
    
    
     async createChat(data: Partial<IChat>): Promise<IChat> {
+    console.log('inside the repository');
     
-        throw new Error(" aksjd");
+       const chat = new Chat(data)
+       return await chat.save()
         
     }
 
