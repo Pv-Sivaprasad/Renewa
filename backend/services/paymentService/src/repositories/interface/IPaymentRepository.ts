@@ -6,6 +6,6 @@ export interface IPaymentRepository extends IBaseRepository<IPayment>{
 
     findOne(id:string): Promise<void>
     // findOneAndUpdate(filter: FilterQuery<IPayment>, data: Partial<IPayment>): Promise<IPayment | null>;
-    
+    updatePaymentStatus(sessionId: string): Promise<IPayment | null>;
 
 }

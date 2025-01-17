@@ -127,58 +127,10 @@ export class SlotRepository {
   
 
 
-  
-  // async editDocSlots(date:string,docSlotDto:DocSlotDto) : Promise<DocSlot> {
-
-  //   try {
-     
-  //     const { docId, dates,docName } = docSlotDto;
-  //     console.log(docId,'as',docName,'of',dates);
-  //     const updatedDoc = await DocSlotModel.findOneAndUpdate(
-  //       { docId },
-        
-  //       { 
-  //         $set: { docName },
-  //         $setOnInsert: { docId }
-  //     },
-  //       { upsert: true, new: true }
-  //     );
-  // console.log('the updatedDoc is at new version',updatedDoc);
-  
-  //     for (const dateSlot of dates) {
-     
-  //       const existingDate = updatedDoc.dates.find((d: DateSlot) => d.date === dateSlot.date);
-  
-  //       if (existingDate) {
-         
-  //         const newSlots = dateSlot.slots.filter(newSlot => 
-  //           !existingDate.slots.some(existingSlot => 
-  //             existingSlot.startTime === newSlot.startTime && 
-  //             existingSlot.endTime === newSlot.endTime
-  //           )
-  //         );
-  //         existingDate.slots.push(...newSlots);
-  //       } else {
-          
-  //         updatedDoc.dates.push(dateSlot);
-  //       }
-  //     }
-      
-  //     await updatedDoc.save();
-  //     console.log('the updatedDoc is ',updatedDoc);
-  //     return updatedDoc;
-
-  //   } catch (error) {
-  //     console.log();
-      
-  //     throw error
-  //   }
-
-  // }
-  
-  
-  
-  
+  async updatingSlots(docId:string,date:string,updatedSlot:any){
+      console.log('the updatesSlot inside updaeing slotof the slotREpository is',updatedSlot);
+      // const result=await
+  }
   
 
 }

@@ -91,7 +91,7 @@ export class DocSlotRepository implements IDocSlotRepository{
                 ]
             }
         );
-        console.log(data,'the updated is ')
+        console.log(data,'the changed slot is is ')
          
     } 
 }

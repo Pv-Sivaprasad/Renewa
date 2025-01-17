@@ -5,7 +5,7 @@ import { PaymentRepository } from "../repositories/implementation/PaymentReposit
 import { PaymentService } from "../services/implementation/paymentService";
 
 const docSlotRepository= new DocSlotRepository()
-const paymentRepository=new PaymentRepository(Payment)
+const paymentRepository=new PaymentRepository()
 const paymentService=new PaymentService(paymentRepository,docSlotRepository)
 const paymentController= new PaymentController(paymentService)
 

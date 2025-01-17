@@ -7,6 +7,26 @@ import { FilterQuery } from "mongoose";
 
 
 export class PaymentRepository extends BaseRepository<IPayment> implements IPaymentRepository{
+  
+    constructor(){
+        super(Payment)
+    }
+
+    async updatePaymentStatus(sessionId: string): Promise<IPayment | null> {
+        try {
+            const response = await Payment.findOneAndUpdate(
+                { stripeSessionId: sessionId },
+                { status: 'success' },
+                { new: true }
+            );
+            console.log(response,'_+_++++++++++++++_+_+_+_+_+_+_+_+_+_+_');
+            
+            return response;
+        } catch (error) {
+            console.log('error updating payment status', error);
+            return null;
+        }
+    }
 
     async findOne(id: string): Promise<void> {
 
@@ -19,7 +39,6 @@ export class PaymentRepository extends BaseRepository<IPayment> implements IPaym
         }
     }
 
-    async findOneAndUpdate(){
-
-    }
+  
+   
 }

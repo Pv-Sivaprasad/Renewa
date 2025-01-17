@@ -57,5 +57,8 @@ export class SlotService {
         }
     }
 
+    async updateSlots(docId:string,date:string,updatedSlot:any){
+        const result=await this.slotRepository.updatingSlots(docId,date,updatedSlot)
+    }
 
 }
