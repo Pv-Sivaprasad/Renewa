@@ -43,13 +43,15 @@ export class PaymentService implements IPaymentService{
             
             const slot = slotDate.slots.find(s => s.startTime === startTime);
             console.log('Found slot:', JSON.stringify(slot, null, 2));
-    
+             if (!slot?.isAvailable) {
+                return { success: false, message: 'Slot already booked' };
+            }
             if (!slot) {
                 return { success: false, message: 'Slot not available' };
-            } else if (!slot.isAvailable) {
-                return { success: false, message: 'Slot already booked' };
-            } else if (slot) {
-                slot.isAvailable = false;
+            }else if (slot.isBlocked) {
+                return { success: false, message: 'Slot is temporarily unavailable' };
+            }  else if (slot) {
+                slot.isBlocked = true;
                 
                 const session = await this.stripe.checkout.sessions.create({
                     payment_method_types: ['card'],
@@ -66,7 +68,9 @@ export class PaymentService implements IPaymentService{
                     mode: 'payment',
                     metadata: { 
                         startTime,
-                        userId 
+                        userId ,
+                        docId,
+                        date,
                     },
                     success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
                     cancel_url: 'http://localhost:5173/cancel',
@@ -76,7 +80,7 @@ export class PaymentService implements IPaymentService{
                     docId,
                     date,
                     startTime,
-                    isAvailable: false
+                    isBlocked: true
                 };
         
                 let modifiedSlot = await this.docSlotRepostory.updateSlotAvailability(update);

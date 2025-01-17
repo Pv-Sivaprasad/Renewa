@@ -23,13 +23,14 @@ export const recieveDocSlotData = async () => {
     
     channel.consume(queueName, async (msg) => {
         if (msg) {
-            console.log('User consumer triggered, processing message...');
+            console.log(' ✅  ✅ User consumer triggered, processing message...');
             const slotData = JSON.parse(msg.content.toString());
-            console.log('The slotData received in user side is:', slotData);
+            console.log(' ✅  ✅ The slotData received in user side is:', slotData);
             console.log(SUCCESS_MESSAGES.SLOT_DATA_SAVED);
             
             let docSlotinUser= await userService.upsertSlot(slotData)
-
+            console.log(docSlotinUser, '✅  ✅' );
+            
             // Acknowledge the message
             channel.ack(msg);
         }

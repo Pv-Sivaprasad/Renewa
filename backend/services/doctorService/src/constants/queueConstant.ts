@@ -2,7 +2,7 @@
 export const  QUEUE_NAMES={
     ADMIN_TO_DOC_QUEUE:  'AdminToDoctorQueue',
     EXCHANGE_NAME:'DocSlotExchange',
-    DOC_STATUS_TO_USER_QUEUE:'DocStatusToUserQueue',
+    DOC_STATUS_TO_USER_QUEUE:'DocStatusToUserQueue', 
     DOC_TO_ADMIN_QUEUE:'doctorToAdminQueue',
     DOC_TO_USER_QUEUE:'DocToUserQueue'
 }

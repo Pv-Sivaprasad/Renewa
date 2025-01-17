@@ -38,12 +38,10 @@ class AuthController {
   }
 
   async otpverify(req: Request, res: Response) {
-    console.log('entering the otp verify in authcontriller');
+ 
 
     try {
       const data = req.body
-      console.log('the otp recieved in the body in the otpverfiy authcontroller', data);
-      console.log(typeof data);
 
       const response = await authService.verifyOtpUser(data)
       if (typeof response === 'string') {
@@ -63,12 +61,12 @@ class AuthController {
 
 
   async resendOtp(req:Request,res:Response) {
-    console.log('entering the resend otp');
+   
     
     try {
         const email=req.body
         const resposne=await authService.resendTheOtp(email)
-        console.log('response in authcontroller ',resposne);
+      
         if (typeof resposne === 'string') {
           return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: resposne });
         }
@@ -83,11 +81,9 @@ class AuthController {
   }
 
   async signin(req: Request, res: Response) {
-    console.log('Entering user sign in authcontroller');
+   
     try {
-      console.log('the req.body is ',req.body);
-
-
+      
       const validationResult= userSignInSchema.safeParse(req.body)
       console.log(validationResult,'the validation result');
       
@@ -98,21 +94,13 @@ class AuthController {
       }
 
       const { email, password } = req.body
-      console.log(email, password, 'in the auth controller sign in before auth service ')
-
       const result = await authService.loginUser(req.body)
-      console.log('token recieved back from authservice for controller is ', result);
-      
-      console.log(typeof result);
 
       if (typeof result === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: result });
       }
       if (result?.success) {
-        console.log('the refreshtoken recieved is ', result.refreshToken);
-
         const refreshToken = result.refreshToken || ''
-    
     
           res.status(HttpStatus.CREATED).cookie('reffToken', result.refreshToken, {
           httpOnly: true,
@@ -147,12 +135,10 @@ class AuthController {
 
 
   async googleSignin(req: Request, res: Response) {
-    console.log('entering the googlesignin authcontroller ');
     try {
       const { email, username } = req.body
       const result = await authService.SignInWithGoogle(req.body)
-      console.log(result,'the result in googlesign in');
-      
+  
       if (typeof result === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: result });
       }
@@ -184,8 +170,6 @@ class AuthController {
 
 
   async forgetPassword(req: Request, res: Response) {
-    console.log('entering the forget password in the auth controller');
-
     const { email } = req.body
 
     const validationResult=forgetPassword.safeParse(req.body)
@@ -210,9 +194,6 @@ class AuthController {
 
 
   async resetPassword(req: Request, res: Response) {
-    console.log('entering the reset password in the auth controller');
-      console.log(req.body,'req.body fot the resetpassword');
-
       const validationResult=resetPassword.safeParse(req.body)
       if(!validationResult.success){
         return res.status(HttpStatus.BAD_REQUEST)
@@ -220,8 +201,7 @@ class AuthController {
       }
 
       const response=await authService.resetPassword(req.body)
-      console.log(response,'response from authservice');
-      
+  
       if (typeof response === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: response });
       }
@@ -239,13 +219,9 @@ class AuthController {
 
   async setNewToken(req:Request,res:Response){
     
-    console.log('entering the setnew token auth controller');
-      console.log('req.body');
-      
     try {
       const refreshToken=req.cookies.reffToken
-      console.log('refreshtokke ',refreshToken);
-      
+
       if(!refreshToken){
         return res.status(HttpStatus.FORBIDDEN)
         .json({message:"No refresh token is available"})
@@ -256,11 +232,9 @@ class AuthController {
       if(!SECRET) return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"internal server error"})
 
         const decoded= jwt.verify(refreshToken,SECRET)
-        console.log(decoded,'][][][][][]');
-        
       
     } catch (error) {
-      console.log('error in the setnew token controller');
+      console.log('error in the setnew token controller',error);
       
     }
   }
@@ -268,7 +242,7 @@ class AuthController {
 
   async logout(req:Request,res:Response) {
     try {
-      console.log('this is the logout in the auth controller');
+    
       res.clearCookie('refreshToken')
       return res.json({message:"Logged out successfully"})
       

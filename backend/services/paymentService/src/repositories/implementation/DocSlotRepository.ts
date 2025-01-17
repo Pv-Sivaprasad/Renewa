@@ -1,6 +1,6 @@
 import { IDocSlotRepository } from "../interface/IDocSlotRepository";
 import { DocSlotModel,IDocSlot } from "../../models/slotModel";
-import { UpdateSlotDto } from "../../dto/slotDto";
+import { ChangeeSlotDto, UpdateSlotDto } from "../../dto/slotDto";
 import { Types } from "mongoose";
 export class DocSlotRepository implements IDocSlotRepository{
     
@@ -49,6 +49,30 @@ export class DocSlotRepository implements IDocSlotRepository{
 
     
     async updateSlotAvailability(updateData: UpdateSlotDto): Promise<void> {
+        const { docId, date, startTime, isBlocked } = updateData;
+        
+        let data= await DocSlotModel.updateOne(
+            {
+                docId,
+                'dates.date': date,
+                'dates.slots.startTime': startTime
+            },
+            {
+                $set: { 'dates.$[date].slots.$[slot].isBlocked': isBlocked }
+            },
+            {
+                arrayFilters: [
+                    { 'date.date': date },
+                    { 'slot.startTime': startTime }
+                ]
+            }
+        );
+        console.log(data,'the updated is ')
+         
+    } 
+
+
+    async changeSlotAvailability(updateData: ChangeeSlotDto): Promise<void> {
         const { docId, date, startTime, isAvailable } = updateData;
         
         let data= await DocSlotModel.updateOne(
@@ -58,7 +82,7 @@ export class DocSlotRepository implements IDocSlotRepository{
                 'dates.slots.startTime': startTime
             },
             {
-                $set: { 'dates.$[date].slots.$[slot].isAvailable': isAvailable }
+                $set: { 'dates.$[date].slots.$[slot].isAvailable':  isAvailable}
             },
             {
                 arrayFilters: [

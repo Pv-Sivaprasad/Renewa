@@ -17,5 +17,15 @@ export interface UpdateSlotDto{
     date:String,
     // slotId:string,
     startTime:string,
+    isBlocked:boolean
+   
+}
+
+export interface ChangeeSlotDto{
+    docId:string,
+    date:String,
+    // slotId:string,
+    startTime:string,
     isAvailable:boolean
+   
 }

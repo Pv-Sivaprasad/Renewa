@@ -46,7 +46,7 @@ connectMongoDb();
         console.log('RabbitMQ connected in admin service');
         await recieveUserData(); 
         await recieveDoctorData()
-        await recieveDocSlotData()
+        // await recieveDocSlotData()
         console.log('Admin consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');

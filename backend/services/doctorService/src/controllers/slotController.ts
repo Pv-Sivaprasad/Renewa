@@ -10,7 +10,7 @@ import { DoctorService } from "../services/doctorService";
 const slotService = new SlotService()
 const doctorService = new DoctorService()
 class SlotController {
-
+ 
 
   async getDocSlots(req: CustomeRequest, res: Response) {
 

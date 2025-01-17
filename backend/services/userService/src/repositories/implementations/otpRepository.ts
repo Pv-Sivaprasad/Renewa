@@ -10,7 +10,7 @@ export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepositor
     }
 
     async createOtp(otpData: IOtp): Promise<IOtp> {
-        const newOtp = new this.model(otpData); // Create a new instance using the model
+        const newOtp = new this.model(otpData); 
         return await newOtp.save(); 
     }
 
@@ -25,17 +25,17 @@ export class OtpRepository extends BaseRepository<IOtp> implements IOtpRepositor
 
 
     async updateOtpByEmail(email: string, otp: string): Promise<void> {
-        await Otp.updateOne({ email }, { otp, createdAt: new Date() });  // Update the OTP and reset creation time
+        await Otp.updateOne({ email }, { otp, createdAt: new Date() });  
     }
     
     async saveOtp(email: string, otp: string): Promise<void> {
         const newOtp = new Otp({ email, otp });
-        await newOtp.save();  // Save the OTP with expiration time
+        await newOtp.save();  
     }
 
-    // In your OtpRepository
+   
     async deleteOtpByEmail(email: string): Promise<void> {
-    await Otp.deleteOne({ email });  // Correctly find and delete based on email
+    await Otp.deleteOne({ email });  
     }
 
     async findOneByEmail(email: string): Promise<IOtp | null> {

@@ -8,12 +8,20 @@ import { errorHandler } from './middleware/errorHandler'
 import receiveDocSlotData from './events/consumers/docSlotConsumer'
 import webhookRoute from './routes/webHookRoute'
 import morgan from 'morgan'
+import bodyParser from 'body-parser'
 import path = require('path')
 import { createStream } from 'rotating-file-stream'
 dotenv.config()
+import WebHookController from './controllers/implementations/webHookController'
 
+import { IWebHookServices } from './services/interface/IWebHookService'
+import { WebHookService } from './services/implementation/webHookService'
 const app=express()
 const PORT=process.env.PORT
+const webHook=new WebHookService()
+const webHookController=new WebHookController()
+
+app.post('/webhook',bodyParser.raw({ type: 'application/json' }),webHookController.webHookHandle);
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -29,9 +37,9 @@ app.use(cors({
     credentials:true
 }))
 app.use('/',paymentRoute)
-app.use('/webhook',express.raw({ type: 'application/json' }));
 
-app.use('/webhook',webhookRoute)
+
+
 app.use(errorHandler);
 
 connectMongoDb();

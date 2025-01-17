@@ -11,16 +11,13 @@ export class PaymentController {
   
     async createPayment(req:IncomingReques,res:Response,next:NextFunction){
 
-        console.log('entering th create payment in the payment controller');
- 
-        console.log('req.body',req.body);
-
+  
         const user=req.user as JwtPayload
         const userId=user.id
         const data=req.body
         const {amount}=req.body
         const slotId=data.slot.slotId
-        console.log(`amount : ${amount} slotId ${slotId} the userId ${userId}  `);
+        // console.log(`amount : ${amount} slotId ${slotId} the userId ${userId}  `);
         
         const paymentDetails={
             docId: data.doctorId,

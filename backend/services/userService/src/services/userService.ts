@@ -23,7 +23,7 @@ export class UserService {
 
     async updateUserProfile(userId:string,updateProfileDto:UpdateProfileDto){
       let data=await this.userRepository.updateProfile(userId,updateProfileDto)
-      console.log('the data in the userService after updatiojn is ',data);
+      // console.log('the data in the userService after updatiojn is ',data);
 
       
       let sendData={
@@ -39,7 +39,7 @@ export class UserService {
 
 
     async upsertSlot(slotData:SlotDTO) {
-      console.log('reached here in user service for slot');
+      // console.log('reached here in user service for slot');
       return await this.userdocRepository.saveDocSlot(slotData)
     }
 

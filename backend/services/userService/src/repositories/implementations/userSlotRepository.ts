@@ -14,10 +14,11 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
       const dates = slotData.dates || []; 
       const docName=slotData.docName
       const consultationFee=slotData.consultationFee
-      // console.log('The slot data is:', JSON.stringify(slotData, null, 2));
-      // console.log('docId:', docId, 'dates:', dates);
-      // console.log('docName',docName);
-       // console.log('fee',consultationFee);
+    
+    //   console.log('The slot data is:', JSON.stringify(slotData, null, 2));
+    //   console.log('docId:', docId, 'dates:', dates);
+    //   console.log('docName',docName);
+    //    console.log('fee',consultationFee);
       
       
       
@@ -39,12 +40,13 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
           // console.log('ertyui',exisitingRecord);
           if (exisitingRecord) {
               
-              console.log('Updating existing record for date:', date);
+            //   console.log('Updating existing record for date:', date);
               await DocSlotModel.updateOne(
                   { docId,'dates.date': date },
                   { 
                       $set: { 
                           docName,
+                          consultationFee,
                           'dates.$.slots': slots 
                       } 
                   } 
@@ -54,7 +56,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
               await DocSlotModel.updateOne(
                   { docId },
                   {
-                      $set: { docName }, 
+                      $set: { docName,consultationFee }, 
                       $push: { dates: { date, slots } },
                   },
                   { upsert: true }
@@ -67,7 +69,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
 
     async getDocSlotData(docId:string):Promise<SlotDTO>{
         let result=  await DocSlotModel.findOne({docId})
-        console.log('the result in the getDocSlotData for*/////////////',result);
+      
         if (!result) {
             throw new Error(`DocSlot data not found for docId: ${docId}`);
         }

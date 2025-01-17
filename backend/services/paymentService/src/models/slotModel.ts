@@ -6,6 +6,7 @@ interface ISlot {
     startTime: string;
     endTime: string;
     isAvailable: boolean;
+    isBlocked:boolean;
 }
 
 
@@ -25,7 +26,8 @@ export interface IDocSlot extends Document {
 const SlotSchema = new Schema<ISlot>({
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    isBlocked:{type:Boolean,default:false}
 });
 
 
