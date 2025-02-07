@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import BookIcon from '@mui/icons-material/Book';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -62,7 +63,7 @@ const iconMapping = {
   Profile: <AccountCircleIcon />,
   Doctors: <MedicationTwoToneIcon />,
   Appointments: <MeetingRoomIcon />,
-  Payments: <MonetizationOnTwoToneIcon />,
+  Bookings: <MonetizationOnTwoToneIcon />,
 };
 
 interface AppBarProps extends MuiAppBarProps {
@@ -124,7 +125,7 @@ export default function MiniDrawer() {
     Profile: '/profile',
     Appointments: '/appointments',
     Doctors: '/doctors',
-    Payments: '/payments',
+    Bookings: '/bookings',
   };
 
   return (

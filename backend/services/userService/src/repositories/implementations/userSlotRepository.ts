@@ -1,8 +1,10 @@
 
-import { DocSlotDto, SlotDTO } from "../../dto/slotDto";
+import { DocSlotDto, SlotDTO, UpdateSlotDto } from "../../dto/slotDto";
 import { IUserDocSlotRepository } from "../interface/IUserDocSlotRepository";
 import DocSlotModel,{ DateSlot, DocSlot } from "../../models/slotModel";
 import mongoose from "mongoose";
+
+// import { UpdateDocData } from "../../dto/userDto";
 
 export class UserDocSlotRepository implements IUserDocSlotRepository {
 
@@ -91,6 +93,44 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
         return slotData;
     }
     
+    async updateSlotAvailability(updateData:UpdateSlotDto):Promise<{ success: boolean; message: string; data?: any }>{
+        const userId=updateData.userId
+        const docId=updateData.docId
+        const date=updateData.date
+        const startTime=updateData.startTime
+        const isAvailable=updateData.isAvailable
+
+        console.log('the update data in the repository is ',updateData);
+
+        try {
+            const result = await DocSlotModel.findOneAndUpdate(
+                {
+                  docId,
+                  "dates.date": date,
+                  "dates.slots.startTime": startTime,
+                },
+                {
+                  $set: {
+                    "dates.$.slots.$[slot].isAvailable": false,
+                  },
+                },
+                {
+                  arrayFilters: [{ "slot.startTime": startTime }],
+                  new: true,
+                }
+              );
+              if (result) {
+                return { success: true, message: "Successful", data: result };
+              } else {
+                return { success: false, message: "No matching slot found", data: null };
+              }
+        } catch (error) {
+            console.log('error in the rpos of ',error);
+            return { success: false, message: "Error updating slot availability", data: null };
+        }
+           
+        
+    }
 
 
 }

@@ -16,6 +16,7 @@ import WebHookController from './controllers/implementations/webHookController'
 
 import { IWebHookServices } from './services/interface/IWebHookService'
 import { WebHookService } from './services/implementation/webHookService'
+import { recieveUserData } from './events/consumers/userToPaymentConsumer'
 const app=express()
 const PORT=process.env.PORT
 const webHook=new WebHookService()
@@ -47,6 +48,7 @@ connectMongoDb();
     const channel=await rabbitMqConnect()
     if(channel){
         await receiveDocSlotData()
+        await recieveUserData()
     }
 })()
 

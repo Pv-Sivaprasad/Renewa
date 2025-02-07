@@ -1,3 +1,4 @@
+import { UpdateSlotDto } from "../dto/slotDto";
 import { UserDocSlotRepository } from "../repositories/implementations/userSlotRepository";
 
 
@@ -25,5 +26,12 @@ export class DocSlotService{
         }
         
 
+    }
+
+    async updateSlot(updateData:UpdateSlotDto){
+        console.log('the data to be updated is ',updateData);
+        let updation= await this.userDocSlotRepository.updateSlotAvailability(updateData)
+        console.log('the update is in docslot service is',updation)
+        
     }
 }

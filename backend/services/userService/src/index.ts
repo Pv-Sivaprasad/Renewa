@@ -13,6 +13,7 @@ import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
 import { listenForDocDetails } from './events/consumers/doctorConsumer'
 import { recieveDocSlotData } from './events/consumers/docSlotConsumer'
 import { listenForDocStatusUpdate } from './events/consumers/docStatusConsumer'
+import { getPaymentData } from './events/consumers/paymentStatusConsumer'
 
 dotenv.config()
 
@@ -51,6 +52,7 @@ connectMongoDb();
         await listenForDocDetails(); 
         await recieveDocSlotData()
         await listenForDocStatusUpdate()
+        await getPaymentData()
         console.log('User consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');

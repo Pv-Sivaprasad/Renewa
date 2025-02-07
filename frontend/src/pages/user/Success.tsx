@@ -4,14 +4,15 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 import { Card, CardHeader, CardContent, Typography } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const Success = () => {
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/dashboard');
+      navigate('/bookings');
     }, 5000);
 
     return () => clearTimeout(timer);

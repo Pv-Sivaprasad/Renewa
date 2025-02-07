@@ -54,3 +54,12 @@ export interface DocSlotDto{
     consultationFee: number;
     dates:DateSlotDto[],
 }
+
+
+export interface UpdateSlotDto{
+    userId:string,
+    docId:string,
+    date:string,
+    startTime:string,
+    isAvailable:string
+}

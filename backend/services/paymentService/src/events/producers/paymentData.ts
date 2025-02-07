@@ -18,7 +18,7 @@ export const sendPaymentInfo=async(data:Updatedata)=>{
         throw new Error('Error connecting to rabbit mq')
     }
 
-    const paymentData=QUEUE_NAMES.PAYMENT_EXCHANGE_NAME
+    const paymentData=QUEUE_NAMES.PAYMENT_EXCHANGE_NAME 
 
 
     await channel.assertExchange(paymentData, 'fanout', { durable: true });

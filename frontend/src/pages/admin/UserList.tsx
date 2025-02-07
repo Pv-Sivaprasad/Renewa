@@ -199,7 +199,7 @@ const UserTable = () => {
                 placeholder="Search by username or email"
                 className="w-1/3 rounded-2xl border border-gray-300 px-4 py-2 pr-10 focus:border-blue-500 focus:outline-none"
               />
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              {/* <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" /> */}
             </div>
           </div>
 

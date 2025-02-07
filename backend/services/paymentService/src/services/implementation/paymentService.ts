@@ -108,24 +108,5 @@ export class PaymentService implements IPaymentService{
         }
     }
 
-    // async webhookHandleSave(event: Stripe.Event): Promise<null> {
-    //   try {
-    //     console.log('inside the payment service');
-        
-
-    //     if(event.type='payment_intent.succeeded'){
-    //         const session=event.data.object 
-
-    //         // const response=await this.paymentRepository.findOneAndUpdate(session.id)
-    //     }
-       
-        
-
-    //     return null
-    //   } catch (error) {
-    //     return null
-    //   }
-    // }
-    
 
 }

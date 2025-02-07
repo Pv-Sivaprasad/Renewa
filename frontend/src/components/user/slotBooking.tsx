@@ -102,6 +102,8 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
       })
       if (result?.error) {
           toast.error('Payment failed')
+      }else{
+        toast.success('Payament successfull ')
       }
         } catch (error) {
           console.log('eror',error);
