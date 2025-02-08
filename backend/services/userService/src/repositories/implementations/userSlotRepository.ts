@@ -3,6 +3,8 @@ import { DocSlotDto, SlotDTO, UpdateSlotDto } from "../../dto/slotDto";
 import { IUserDocSlotRepository } from "../interface/IUserDocSlotRepository";
 import DocSlotModel,{ DateSlot, DocSlot } from "../../models/slotModel";
 import mongoose from "mongoose";
+import UserBookingModel from "../../models/bookingModel";
+import doctorModel from "../../models/doctorModel";
 
 // import { UpdateDocData } from "../../dto/userDto";
 
@@ -119,17 +121,58 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
                   new: true,
                 }
               );
-              if (result) {
-                return { success: true, message: "Successful", data: result };
-              } else {
+              if (!result) {
                 return { success: false, message: "No matching slot found", data: null };
               }
+              const bookingUpdate=await UserBookingModel.findOneAndUpdate(
+                {userId},
+                {
+                  $setOnInsert:{userId},
+                  $push:{
+                    bookings:{
+                      docId,
+                      date,
+                      startTime
+                    }
+                  }
+                },
+                {upsert:true,new:true}
+              )
+              
+                return { success: true, message: "Successful", data: bookingUpdate };
+
+             
         } catch (error) {
             console.log('error in the rpos of ',error);
             return { success: false, message: "Error updating slot availability", data: null };
         }
            
         
+    }
+
+
+    async getUserBookings(userId:string){
+
+      try {
+        
+        const userBooking=await UserBookingModel.findOne({userId})
+        console.log('the userbooking data is',userBooking);
+
+        if(!userBooking){
+          return { success: false, message: "No bookings found for this user", data: [] };
+        }
+        
+        // const bookingDataWithDoc=await Promise.all(
+        //   userBooking.bookings.map(async(booking)=>{
+        //     const doctor=await doctorModel.fin
+        //   })
+        // )
+
+        
+      } catch (error) {
+        
+      }
+
     }
 
 

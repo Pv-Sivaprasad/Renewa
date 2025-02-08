@@ -29,6 +29,7 @@ export const getPaymentData=async()=>{
 
             const updateData={userId,docId,date,startTime,isAvailable}
             let update=await docSlotService.updateSlot(updateData)
+            channel.ack(msg);
         }
     })
 

@@ -34,4 +34,15 @@ export class DocSlotService{
         console.log('the update is in docslot service is',updation)
         
     }
+
+    async getBookingData(userId:string) {
+        try {
+            const data=await this.userDocSlotRepository.getUserBookings(userId)
+        } catch (error) {
+            console.log('error in get data ',error);
+            
+        }
+    }
+
+
 }

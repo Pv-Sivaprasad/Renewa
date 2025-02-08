@@ -1,7 +1,8 @@
 import { NextFunction, Request,Response } from "express"
 import { HttpStatus } from "../enums/http.status";
 import { DocSlotService } from "../services/docSlotService";
-
+import { JwtPayload } from "jsonwebtoken";
+import { IncomingReques } from "../middleware/auth.middleware";
 
 
 const docSlotService= new DocSlotService()
@@ -30,6 +31,18 @@ export class DocSlotController{
         }
         
 
+    }
+
+    async getBookedData(req:IncomingReques,res:Response,next:NextFunction){
+
+        const user = req.user as JwtPayload
+        const userId = user.id
+        console.log('the User id is',userId);
+       
+        
+        
+        const response=await docSlotService.getBookingData(userId)
+                    
     }
 
 }
