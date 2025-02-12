@@ -94,7 +94,7 @@ class AuthController {
 
         } catch (error) {
             console.log('error in the setnew token',error);
-            
+             
         }
     }
 

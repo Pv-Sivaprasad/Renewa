@@ -25,7 +25,6 @@ user_route.patch('/profile',authenticateToken,checkUserStatus,upload.single('ima
 user_route.get('/doctorlist',authenticateToken,checkUserStatus,doctorController.getAllDoctors)
 user_route.get('/alldocs',doctorController.getAllDoctors)
 user_route.get('/docslot/:id',authenticateToken,checkUserStatus,docSlotController.getDoctorSlotById)
-// user_route.post('/payment-intent',authenticateToken,checkUserStatus,paymentController.createPayment)
 user_route.get('/bookings',authenticateToken,checkUserStatus,docSlotController.getBookedData)
 
 export default user_route

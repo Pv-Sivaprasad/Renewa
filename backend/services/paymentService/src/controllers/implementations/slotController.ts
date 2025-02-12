@@ -17,7 +17,7 @@ export class DocSlotController {
             const result = await this.slotService.upsertSlot(req.body);
             return res.status(200).json({ success: true, data: result });
         } catch (error) {
-            next(error);
+            next(error); 
         }
     }
 

@@ -162,14 +162,33 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
           return { success: false, message: "No bookings found for this user", data: [] };
         }
         
-        // const bookingDataWithDoc=await Promise.all(
-        //   userBooking.bookings.map(async(booking)=>{
-        //     const doctor=await doctorModel.fin
-        //   })
-        // )
-
+        const bookingsWithDoctorDetails = await Promise.all(
+          userBooking.bookings.map(async (booking) => {
+            const doctor = await DocSlotModel.findOne({ docId: booking.docId });
+            const docData= await doctorModel.findOne({docId:booking.docId})
+            console.log('the docData in the userSlot is',docData);
+            
+            console.log(doctor,'in the repos is /*/*/*/');
+            
+            let data= {
+              doctorName: doctor?.docName || "Unknown Doctor",
+              specialization: docData?.speciality || "Not specified",
+              image:docData?.image,
+              date: booking.date,
+              time: booking.startTime,
+              amount: doctor?.consultationFee || 0,
+              status: "Completed", 
+            };
+          console.log('the *//*/*/*/*/*/*/*/*/*',data);
+          
+            return data
+          })
+        );
+  console.log('the booking details with doctor is the',bookingsWithDoctorDetails);
+    return bookingsWithDoctorDetails
         
       } catch (error) {
+        console.log('error in the booking userslot repo checking ',error);
         
       }
 

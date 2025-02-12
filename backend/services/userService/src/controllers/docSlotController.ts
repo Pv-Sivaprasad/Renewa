@@ -42,7 +42,9 @@ export class DocSlotController{
         
         
         const response=await docSlotService.getBookingData(userId)
-                    
+            console.log('the response is in the controller',response);
+              
+            return res.status(HttpStatus.CREATED).json(response)
     }
 
 }

@@ -38,6 +38,8 @@ export class DocSlotService{
     async getBookingData(userId:string) {
         try {
             const data=await this.userDocSlotRepository.getUserBookings(userId)
+            console.log('data is ',data,'************************')
+            return data
         } catch (error) {
             console.log('error in get data ',error);
             
