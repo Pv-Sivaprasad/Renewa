@@ -14,6 +14,7 @@ import { listenForDocDetails } from './events/consumers/doctorConsumer'
 import { recieveDocSlotData } from './events/consumers/docSlotConsumer'
 import { listenForDocStatusUpdate } from './events/consumers/docStatusConsumer'
 import { getPaymentData } from './events/consumers/paymentStatusConsumer'
+import ratingRoute from './routes/ratingRoute'
 
 dotenv.config()
 
@@ -41,6 +42,7 @@ app.use(cors({
 
 app.use('/',authRoute)
 app.use('/',userRoute)
+app.use('/',ratingRoute)
 
 connectMongoDb();
 
