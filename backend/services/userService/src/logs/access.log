@@ -659,3 +659,4 @@
 ::ffff:127.0.0.1 - - [13/Feb/2025:07:17:13 +0000] "POST /addrating HTTP/1.1" 401 47 "-" "PostmanRuntime/7.43.0"
 ::ffff:127.0.0.1 - - [13/Feb/2025:07:18:01 +0000] "POST /signin HTTP/1.1" 201 289 "-" "PostmanRuntime/7.43.0"
 ::ffff:127.0.0.1 - - [13/Feb/2025:07:19:39 +0000] "GET /addrating HTTP/1.1" 404 148 "-" "PostmanRuntime/7.43.0"
+::ffff:127.0.0.1 - - [13/Feb/2025:07:22:56 +0000] "POST /addrating HTTP/1.1" 201 226 "-" "PostmanRuntime/7.43.0"
