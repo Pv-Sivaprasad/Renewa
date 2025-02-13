@@ -29,4 +29,21 @@ export class  RatingController {
             
         }
     }
+
+
+    async getDocRating(req:IncomingReques,res:Response){
+
+        try {
+            const {id}=req.params
+            console.log('the doc id',id);
+            
+            const ratings=await ratingService.getDocReviews(id)
+            return res.status(HttpStatus.CREATED).json(ratings)
+        } catch (error) {
+            console.log('error in getting single doc reviews',error);
+            
+        }
+    }
+
+
 }

@@ -133,10 +133,21 @@ export const slotPayment=async(payload: any)=>{
 }
 
 export const myBookings=async()=>{
-    let response= api.get('/bookings')
+    let response= await api.get('/bookings')
     return response
 }
 
+export const addRating=async(data:any)=>{
+    console.log('the data before sending rating is',data);
+    
+    let response=await api.post('/addrating',data)
+    return response
+}
+
+export const allPayments=async()=>{
+    let response=await payApi.get('/mypayments')
+    return response
+}
 
 export const logout=async()=>{
 

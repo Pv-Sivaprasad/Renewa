@@ -7,8 +7,11 @@ export  class RatingRepository implements IRatingRepository{
         return await Rating.create(ratingData)
     }
    
-    async getDoctorRatings(doctorId: string): Promise<IRating[]> {
-        throw new Error("Method not implemented.");
+    async getDoctorRatings(docId: string): Promise<IRating[]> {
+        let data=await Rating.find({docId}).select("userId rating review");
+        console.log('data',data);
+        return data
+        
     }
     
     async getUserRatings(userId: string): Promise<IRating[]> {

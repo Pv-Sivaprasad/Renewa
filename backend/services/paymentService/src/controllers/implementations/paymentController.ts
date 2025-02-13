@@ -50,6 +50,24 @@ export class PaymentController {
     }
 
 
+    async allPayments(req:CustomeRequest,res:Response,next:NextFunction){
+        const user = req.user as JwtPayload
+        const userId = user.id
+        console.log('reached here');
+        
+        // const response =await this.paymentService.allPaymentData(userId)
+        try {
+            const payments = await this.paymentService.getUserPayments(userId);
+            console.log('payments',payments);
+            
+             res.status(HttpStatus.CREATED).json(payments)
+             return
+        } catch (error) {
+            console.log('error in controller',error);
+            
+        }
+    }
+
 
 }
 

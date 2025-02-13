@@ -177,7 +177,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
               date: booking.date,
               time: booking.startTime,
               amount: doctor?.consultationFee || 0,
-              status: "Completed", 
+              // status: "Completed", 
             };
           console.log('the *//*/*/*/*/*/*/*/*/*',data);
           

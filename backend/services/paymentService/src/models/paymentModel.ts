@@ -5,6 +5,7 @@ export interface IPayment extends Document {
   doctorId: string;
   startTime:string
   amount: number;
+  date:string
   status: 'pending' | 'completed' | 'failed';
   
   createdAt?: Date;
@@ -17,6 +18,7 @@ const paymentSchema: Schema = new Schema({
   doctorId: { type: String, required: true },
   // slotId: { type: String, required: true },
   amount: { type: Number, required: true },
+  date: { type: String },
   status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
   stripeSessionId: { type: String },
   stripePaymentIntentId: { type: String },

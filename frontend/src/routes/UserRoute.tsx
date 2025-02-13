@@ -13,6 +13,7 @@ import SlotBook from '../pages/user/SlotBook'
 import PaymentPage from '../pages/user/PaymentPage'
 import Success from '../pages/user/Success'
 import BookingPage from '../pages/user/Booking'
+import BookingPayments from '../pages/user/Payment'
 const userRoute = () => {
   return (
     <Routes>
@@ -30,6 +31,8 @@ const userRoute = () => {
     <Route path='/checkout' element={<PrivateRoute><PaymentPage/></PrivateRoute>} />
     <Route path='/success' element={<PrivateRoute><Success/></PrivateRoute>}/>
     <Route path='/bookings' element={<PrivateRoute><BookingPage/></PrivateRoute>}/>
+    <Route path='/payments' element={<PrivateRoute><BookingPayments/></PrivateRoute>}/>
+
 
 
 

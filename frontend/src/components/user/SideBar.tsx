@@ -62,8 +62,8 @@ const iconMapping = {
   Dashboard: <DashboardIcon />,
   Profile: <AccountCircleIcon />,
   Doctors: <MedicationTwoToneIcon />,
-  Appointments: <MeetingRoomIcon />,
-  Bookings: <MonetizationOnTwoToneIcon />,
+  Payments: <MonetizationOnTwoToneIcon />,
+  Bookings: < MeetingRoomIcon/>,
 };
 
 interface AppBarProps extends MuiAppBarProps {
@@ -123,7 +123,7 @@ export default function MiniDrawer() {
   const routes = {
     Dashboard: '/dashboard',
     Profile: '/profile',
-    Appointments: '/appointments',
+    Payments: '/payments',
     Doctors: '/doctors',
     Bookings: '/bookings',
   };

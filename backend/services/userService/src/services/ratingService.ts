@@ -20,4 +20,8 @@ constructor(){
 
 
     }
+
+    async  getDocReviews(docId:string):Promise<IRating[]> {
+        return await this.ratingRepository.getDoctorRatings(docId)
+    }
 }

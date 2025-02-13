@@ -28,17 +28,23 @@ export class PaymentRepository extends BaseRepository<IPayment> implements IPaym
         }
     }
 
-    async findOne(id: string): Promise<void> {
+    // async findData(id: string) :Promise<IPayment[]> {
 
-        try {
-                const response=await Payment.findOne({id})
-                 response
-        } catch (error) {
-            console.log('error in findign',error);
+    //     try {
+    //             const response=await Payment.findOne({id})
+    //             if(response){
+
+    //                 return response
+    //             }
+    //     } catch (error) {
+    //         console.log('error in findign',error);
             
-        }
-    }
+    //     }
+    // }
 
-  
+    async getUserPayments(userId: string): Promise<IPayment[]> {
+        return await Payment.find({ userId }).select("date status amount").sort({date:-1});
+
+    }
    
 }

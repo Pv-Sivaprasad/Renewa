@@ -4,9 +4,10 @@ import authenticateToken from '../middleware/authMiddleware'
 import {paymentController} from '../config/container'
 const payment_route=express.Router()
 
+console.log('rached');
 
 payment_route.post('/create-checkout-session',authenticateToken,paymentController.createSessionForStripe.bind(paymentController))
 // payment_route.post('/create-checkout-session',authenticateToken,paymentController.createSessionForStripe)
-
+payment_route.get('/mypayments',authenticateToken,paymentController.allPayments.bind(paymentController))
 
 export default payment_route

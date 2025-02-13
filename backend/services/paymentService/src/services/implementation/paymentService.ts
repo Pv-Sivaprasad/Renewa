@@ -18,6 +18,10 @@ export class PaymentService implements IPaymentService{
         this.paymentRepository=paymentRepository
         this.docSlotRepostory=docSlotRepository
     }
+    allPaymentData(id: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+  
 
     async createSession(paymentDataDto: PaymentDataDto): Promise<PaymentServiceDto> {
         console.log('Payment DTO:', JSON.stringify(paymentDataDto, null, 2));
@@ -90,6 +94,7 @@ export class PaymentService implements IPaymentService{
                     userId,
                     doctorId: docId,
                     startTime,
+                    date,
                     amount: price,
                     status: 'pending',
                     stripeSessionId: session.id
@@ -108,5 +113,21 @@ export class PaymentService implements IPaymentService{
         }
     }
 
+
+    // async allPaymentData(id:string){
+    //     console.log('inisde the payment service for data');
+        
+    //     try {
+    //         const response=await this.paymentRepository.findData(id)
+    //         console.log('the response is ',response);
+            
+    //     } catch (error) {
+    //         console.log('error in the payment sevice all data checking',error);
+            
+    //     }
+    // }
+    async getUserPayments(userId: string): Promise<IPayment[]> {
+        return await this.paymentRepository.getUserPayments(userId);
+      }
 
 }

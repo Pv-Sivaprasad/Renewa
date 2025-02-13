@@ -9,7 +9,11 @@ const rating_route=express.Router()
 const ratingController=new RatingController()
 
 
+console.log('reached');
+
+
 rating_route.post('/addrating',authenticateToken,checkUserStatus,ratingController.addRating)
+rating_route.get('/doc/:id',authenticateToken,checkUserStatus,ratingController.getDocRating)
 
 
 export default rating_route
