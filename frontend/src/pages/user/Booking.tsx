@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, Clock, DollarSign, Star, X } from 'lucide-react';
+import { Calendar, Clock, DollarSign, FileText, Star, X } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SideBar from '../../components/user/SideBar';
 import { addRating, myBookings } from '../../services/user/userApi';
+import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const BookingPage = () => {
+
+  const navigate=useNavigate()
+  const userName=useSelector((state:RootState)=>state.user.userName)
   const [bookings, setBookings] = useState([]);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
@@ -36,6 +42,24 @@ const BookingPage = () => {
       return 'Completed';
     }
   };
+
+  const handleDownloadInvoice = (booking) => {
+    // Prepare invoice data
+    const invoiceData = {
+      doctorName: booking.doctorName,
+      specialization: booking.specialization,
+      appointmentDate: booking.date,
+      appointmentTime: booking.time,
+      amount: booking.amount,
+      status: booking.status,
+      patientName: userName, // Assuming this exists in your booking data
+      bookingId: booking.id
+    };
+
+    // Navigate to invoice page with data
+    navigate('/invoice', { state: { invoiceData } });
+  }
+
 
   const sortBookings = (bookings) => {
     const statusPriority = {
@@ -175,13 +199,31 @@ const BookingPage = () => {
                       <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(booking.status)}`}>
                         {booking.status}
                       </span>
-                      {booking.status === 'Completed' && (
+                      {/* {booking.status === 'Completed' && (
                         <button
                           onClick={() => openRatingModal(booking)}
                           className="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors"
                         >
                           Add Review
                         </button>
+
+                      )} */}
+                       {booking.status === 'Completed' && (
+                        <>
+                          <button
+                            onClick={() => openRatingModal(booking)}
+                            className="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors"
+                          >
+                            Add Review
+                          </button>
+                          <button
+                            onClick={() => handleDownloadInvoice(booking)}
+                            className="p-2 text-blue-600 hover:text-blue-800 transition-colors"
+                            title="Download Invoice"
+                          >
+                            <FileText className="w-5 h-5" />
+                          </button>
+                        </>
                       )}
                     </div>
                   </div>
