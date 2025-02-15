@@ -1228,3 +1228,7 @@
 ::1 - - [15/Feb/2025:05:01:10 +0000] "OPTIONS /user/bookings HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
 ::1 - - [15/Feb/2025:05:01:10 +0000] "GET /user/bookings HTTP/1.1" 201 2695 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
 ::1 - - [15/Feb/2025:05:01:10 +0000] "GET /user/bookings HTTP/1.1" 201 2695 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+::1 - - [15/Feb/2025:05:07:56 +0000] "OPTIONS /user/bookings HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+::1 - - [15/Feb/2025:05:07:56 +0000] "OPTIONS /user/bookings HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+::1 - - [15/Feb/2025:05:07:57 +0000] "GET /user/bookings HTTP/1.1" 201 2695 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+::1 - - [15/Feb/2025:05:07:58 +0000] "GET /user/bookings HTTP/1.1" 201 2695 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
