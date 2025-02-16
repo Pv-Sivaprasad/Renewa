@@ -15,6 +15,9 @@ import Success from '../pages/user/Success'
 import BookingPage from '../pages/user/Booking'
 import BookingPayments from '../pages/user/Payment'
 import InvoicePage from '../pages/user/Invoice'
+import ChatInterface from '../pages/user/Chat'
+import DoctorProfile from '../pages/user/SingleDoc'
+
 const userRoute = () => {
   return (
     <Routes>
@@ -22,6 +25,7 @@ const userRoute = () => {
     <Route path='/' element={<PublicRoute><LandingPage/></PublicRoute>} />
     <Route path='/login' element={<PublicRoute><UserLogin/></PublicRoute> } />
     <Route path='/register' element={<PublicRoute><UserRegistration/></PublicRoute> } />
+    <Route path='/singledoc' element={<PublicRoute><DoctorProfile/></PublicRoute> } />
     <Route path='/forgot-password' element={ <NewPassword/> } />
     <Route path='/userhome' element={<PrivateRoute><UserHome/></PrivateRoute>} />
     <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>} />
@@ -34,6 +38,8 @@ const userRoute = () => {
     <Route path='/bookings' element={<PrivateRoute><BookingPage/></PrivateRoute>}/>
     <Route path='/payments' element={<PrivateRoute><BookingPayments/></PrivateRoute>}/>
     <Route path='/invoice' element={<PrivateRoute><InvoicePage/></PrivateRoute>}/>
+    <Route path='/chat' element={<PrivateRoute><ChatInterface/></PrivateRoute>}/>
+
 
 
 

@@ -7,10 +7,16 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import connectMongoDb from './config/dbConfig'
 import chatRoute from './routes/chatRoute'
+import  http from 'http'
+import {Server} from 'socket.io'
+import socketHandler from './socket/socketHandler'
+
 
 dotenv.config()
 
 const app=express()
+const server=http.createServer(app)
+const io=new Server(server,{cors:{origin:"*"}})
 const PORT=process.env.PORT
 
 const accessLogStream=createStream('access.log',{
@@ -34,7 +40,7 @@ connectMongoDb()
 
 
 app.use('/',chatRoute)
-
+socketHandler(io)
 
 
 app.listen(PORT,()=>{console.log(`chat service running on http://localhost:${PORT}`);

@@ -2,7 +2,7 @@ import { IChatService } from "../interface/IChatService";
 import { IChatRepository } from "../../repositories/interface/IChatRepository";
 import { ChatRepository } from "../../repositories/implementations/ChatRepository";
 import { IChat } from "../../models/chatModel";
-
+import { InitiateChat } from "../../dto/chatData";
 
 export class ChatService implements IChatService{
     private chatRepository:ChatRepository
@@ -12,9 +12,12 @@ export class ChatService implements IChatService{
     }
 
 
-    async  initiateChat(docId: string, docName: string, userId: string, userName: string): Promise<IChat> {
+    async  initiateChat(data:InitiateChat): Promise<IChat> {
         console.log('inisde the service');
-        
+        const docId=data.docId
+        const docName=data.docName
+        const userId=data.userId
+        const userName=data.userName
         return this.chatRepository.createChat({docId,docName,userId,userName,messages:[]})
     }
 

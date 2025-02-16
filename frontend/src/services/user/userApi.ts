@@ -31,6 +31,11 @@ export const signUpRequest=async(formData)=>{
 }
 
 
+export const singleDocData=async(id:string)=>{
+    let response=await  publicApi.get(`/singledoc/${id}`,)
+    return response
+}
+
 export const otpSignup=async(otp: string,email: string)=>{
     console.log('the otp before forwarding to backend in user api',otp);
     const response=await publicApi.post('/otpverify',{otp,email})

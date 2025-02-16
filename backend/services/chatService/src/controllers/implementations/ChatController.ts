@@ -25,8 +25,12 @@ export class ChatController implements IChatController{
         if (!docId || !userId || !docName || !userName) {
             throw new Error("Invalid data provided for initiating chat.");
         }
+        const data={
+            docId,docName,userId,userName
+        }
         // const chat =  await this.chatService.initiateChat(docId,docName,userId,userName)
-        const chat =await this.chatService.initiateChat(docId,docName,userId,userName)
+        // const chat =await this.chatService.initiateChat(docId,docName,userId,userName)
+           const chat=await this.chatService.initiateChat(data)
         console.log('the initiated chat is ',chat);
         res.status(HttpStatus.CREATED).json(chat)
         return

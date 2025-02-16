@@ -44,7 +44,7 @@ const BookingPage = () => {
   };
 
   const handleDownloadInvoice = (booking) => {
-    // Prepare invoice data
+   
     const invoiceData = {
       doctorName: booking.doctorName,
       specialization: booking.specialization,
@@ -52,11 +52,9 @@ const BookingPage = () => {
       appointmentTime: booking.time,
       amount: booking.amount,
       status: booking.status,
-      patientName: userName, // Assuming this exists in your booking data
+      patientName: userName, 
       bookingId: booking.id
     };
-
-    // Navigate to invoice page with data
     navigate('/invoice', { state: { invoiceData } });
   }
 
@@ -90,8 +88,7 @@ const BookingPage = () => {
           id: index + 1,
           status: getBookingStatus(booking.date, booking.time)
         }));
-        
-        // Sort the bookings
+
         const sortedBookings = sortBookings(processedBookings);
         setBookings(sortedBookings);
       } catch (error) {
@@ -100,7 +97,6 @@ const BookingPage = () => {
     };
 
     fetchBookingData();
-    // Refresh status every minute
     const intervalId = setInterval(fetchBookingData, 60000);
     return () => clearInterval(intervalId);
   }, []);
@@ -125,7 +121,6 @@ const BookingPage = () => {
           draggable: true,
         });
 
-        // Reset form and close modal
         setRating(0);
         setReview('');
         setShowRatingModal(false);

@@ -14,7 +14,7 @@ const ChatInterface = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isConnected, setIsConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [userRole] = useState<'doctor' | 'patient'>('patient'); // This would come from auth
+  const [userRole] = useState<'doctor' | 'patient'>('patient'); 
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,7 +37,7 @@ const ChatInterface = () => {
 
     setMessages(prev => [...prev, message]);
     setNewMessage('');
-    // Socket emit would go here
+   
   };
 
   return (
