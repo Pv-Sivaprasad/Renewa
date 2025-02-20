@@ -1,11 +1,18 @@
 import express,{Request,Response} from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import morgan from 'morgan'
+import path from 'path'
 import connectMongoDb from './config/dbConfig'
 import authRoute from './routes/authRoute'
+import userRoute from './routes/userRoute'
 import cookieparser from 'cookie-parser'
+import { createStream } from 'rotating-file-stream'
 import { rabbitMqConnect } from './config/rabbitMq'
 import { listenForUserStatusUpdate } from './events/consumers/userConsumer'
+import { listenForDocDetails } from './events/consumers/doctorConsumer'
+import { recieveDocSlotData } from './events/consumers/docSlotConsumer'
+import { listenForDocStatusUpdate } from './events/consumers/docStatusConsumer'
 
 dotenv.config()
 
@@ -13,24 +20,38 @@ dotenv.config()
 const app=express()
 const PORT=process.env.PORT;
 app.use(cookieparser())
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+
+const accessLogStream = createStream('access.log', {
+    interval: '1d', 
+    path: path.join(__dirname, 'logs'),
+  });
+  
+  app.use(morgan('combined', { stream: accessLogStream })); 
+  app.use(morgan('dev')); 
 
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:process.env.CLIENT_URI,
     credentials:true
 
 }))
-app.use(express.json())
 
 app.use('/',authRoute)
+app.use('/',userRoute)
 
 connectMongoDb();
 
 (async () => {
     const channel = await rabbitMqConnect();
     if (channel) {
-        console.log('RabbitMQ connected in admin service');
-        await listenForUserStatusUpdate(); // Start consuming messages
-        console.log('Admin consumer setup initiated');
+        console.log('RabbitMQ connected in User service');
+        await listenForUserStatusUpdate(); 
+        await listenForDocDetails(); 
+        await recieveDocSlotData()
+        await listenForDocStatusUpdate()
+        console.log('User consumer setup initiated');
     } else {
         console.error('Failed to connect to RabbitMQ');
     }

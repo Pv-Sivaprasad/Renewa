@@ -13,6 +13,7 @@ import { hashPassword, randomPassword } from "../utils/password.util";
 import { SignInResult, OtpVerfiyResult, ForgetResult, ResetResult, ResendOtpResult } from "../types/authTypes";
 import { addMinutes, isAfter } from 'date-fns';
 import { sendUserData } from "../events/rabbitmq/userPublisher";
+import { UserDataDto } from "../dto/queueDto";
 
 const mailService = new MailService()
 
@@ -87,11 +88,28 @@ export class AuthService {
             username: newUser.username,
             email: newUser.email,
         };
-        await sendUserData(userData).then(()=>{   
-        }).catch((err)=>{
-            console.log('not send',err);
+        console.log('the user data to be sent ================== ',userData);
+        console.log(typeof userData.userId,'the type is ')
+        
+        // await sendUserData(userData).then(()=>{   
+        // }).catch((err)=>{
+        //     console.log('not send',err);
             
-        })
+        // }) 
+        // const userData: UserDataDto = {
+        //     userId: String(newUser.id), // Explicitly cast to string
+        //     username: newUser.username ?? '', // Provide default values if undefined
+        //     email: newUser.email ?? '',
+        // };
+        
+        await sendUserData(userData)
+            .then(() => {
+                console.log('User data sent successfully');
+            })
+            .catch((err) => {
+                console.log('Failed to send user data', err);
+            });
+        
 
 
         const otp = generateOtp();
@@ -123,11 +141,9 @@ export class AuthService {
             await this.userRespository.verifyUser(email, true)
             await this.otpRepository.deleteOtpByEmail(email)
 
-            const accessToken = generateAccessToken({ id: validuser.id.toString() })
-            const refreshToken = generateRefreshToken({ id: validuser.id.toString() })
-            console.log(accessToken, 'the token created for the user');
-            console.log(refreshToken, 'the refresh token created for the user');
-            return { success: true, message: "Verification complete", accessToken, refreshToken }
+           
+         
+            return { success: true, message: "Verification complete" }
         } else {
             return { success: false, message: "the otp verfication failed" }
         }
@@ -216,40 +232,44 @@ export class AuthService {
 
 
         try {
-            let userData = await this.userRespository.findUserByEmail(email)
-            console.log(userData, 'userData in try');
+            let userDat = await this.userRespository.findUserByEmail(email)
+            console.log(userDat, 'userData in try');
 
-            if (userData) {
-                const accessToken = generateAccessToken({ id: userData.id.toString() })
-                const refreshToken = generateRefreshToken({ id: userData.id.toString() })
+            if (userDat) {
+                const accessToken = generateAccessToken({ id: userDat.id.toString() })
+                const refreshToken = generateRefreshToken({ id: userDat.id.toString() })
                 console.log(accessToken, 'the token created for the user with google sign in');
                 console.log(refreshToken, 'the refresh token created for the user google sign in');
-                console.log('the userData exist in authservice is ',userData);
+                console.log('the userData exist in authservice is ',userDat);
                 return { success: true,
                      message: "successfully signed with google",
                       accessToken, 
                       refreshToken, 
-                    username:userData.username,
-                    email:userData.email
+                    username:userDat.username,
+                    email:userDat.email
                 }
             }
-            
-
-            const password = randomPassword
-            console.log('random password is ', password);
-
-            const hashedPassword = await hashPassword(password)
-            console.log(hashedPassword, 'hashedPassword');
 
 
             let newUser = await this.userRespository.createUser({
                 username: username,
                 email: email,
-                password: hashedPassword,
+              
                 isVerified: true
             } as IUser)
 
+
             console.log(newUser, 'the new user that was created');
+            const userData = {
+                userId: newUser.id.toString(),  
+                username: newUser.username,
+                email: newUser.email,
+            };
+            await sendUserData(userData).then(()=>{   
+            }).catch((err)=>{
+                console.log('not send',err);
+                
+            })
 
             const accessToken = generateAccessToken({ id: newUser.id.toString() })
             const refreshToken = generateRefreshToken({ id: newUser.id.toString() })

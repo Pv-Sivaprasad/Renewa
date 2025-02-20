@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { RootState } from "../../redux/store";
-import { logout } from "../../services/userApi";
+import { logout } from "../../services/user/userApi";
 import React from 'react';
 import {
   Navbar,
@@ -15,7 +15,7 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { toast } from "react-toastify";
-
+import { resetUser } from "../../redux/slices/authSlice";
 export default function NavbarComponent() {
   const dispatch=useDispatch()
 
@@ -28,6 +28,7 @@ const handleLogout=async()=>{
   let result= await logout()
   console.log('result in loggin out',result);
   localStorage.removeItem('accessToken')
+  dispatch(resetUser())
   navigate('/login')
   toast.success('Logged out successfully')
   
@@ -73,7 +74,7 @@ const handleLogout=async()=>{
               <Link to="/dashboard" className="text-current">Dashboard</Link>
             </DropdownItem>
             <DropdownItem key="team_settings">
-              <Link to="/team-settings" className="text-current">Team Settings</Link>
+              <Link to="/profile" className="text-current">Profile</Link>
             </DropdownItem>
             <DropdownItem key="analytics">
               <Link to="/analytics" className="text-current">Analytics</Link>

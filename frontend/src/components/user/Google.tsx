@@ -2,7 +2,7 @@ import React from 'react'
 import google from '../../assets/user/googleLogo.jpeg';
 import { signInWithPopup } from 'firebase/auth';
 import {auth,googleProvider} from '../../config/firebase'
-import {googleSignIn} from '../../services/userApi'
+import {googleSignIn} from '../../services/user/userApi'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router';
 import UserLogout from './UserLogout';

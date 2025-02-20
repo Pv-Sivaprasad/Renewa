@@ -1,0 +1,74 @@
+import { IAdminDoctorRepository } from "../interfaces/IAdminDoctorRepository";
+import AdminDoctorModel, { IAdminDoctor } from '../../models/doctorModel'
+import { Doctor } from "../../types/User";
+import  { updatedDocDto } from '../../dto/authDto'
+import { PaginateType } from "../../types/authTypes";
+
+export class AdminDoctorRepository implements IAdminDoctorRepository {
+
+    async updateDoctor(docId:string,data:updatedDocDto){
+        await AdminDoctorModel.findOneAndUpdate({
+           docId},
+           {$set:data},{new:true}
+        )
+    }
+
+    async saveDoctor(data: { docId:string;docname:string;email:string;speciality:string }): Promise<void> {
+        try {
+            const newDoc= await AdminDoctorModel.create(data)
+            await newDoc.save() 
+        } catch (error) {
+            console.error('Error saving doctor to admin database:', error);
+            throw new Error('Failed to save user in admin database');
+        }
+    }
+
+    async getAllDoctors(page:number,limit:number): Promise<PaginateType> { 
+        try {
+            const skip=(page-1)*limit
+
+            // const doctors = await AdminDoctorModel.find(); 
+            // console.log('the doctors are ',doctors);
+
+            const [users,total]=await Promise.all([
+                AdminDoctorModel.find().skip(skip).limit(limit),
+                AdminDoctorModel.countDocuments()
+            ])
+            
+            return {
+                users,
+                total,
+                page,
+                limit,
+                totalPages:Math.ceil(total/limit)
+            } 
+        } catch (error) {
+            console.error('Error fetching all users from admin DB:', error);
+            throw new Error('Failed to fetch users');
+        }
+    }
+   
+    async findDoctor(docId:string) : Promise <IAdminDoctor | null>{    
+        let result = await AdminDoctorModel.findById(docId) 
+        return result
+    }
+
+    async findDoctorById(docId:string) : Promise <IAdminDoctor | null >{
+       
+
+        return await AdminDoctorModel.findOne({docId})
+        
+    }
+
+    async save(docData:Doctor) {
+        const updateDoctorStatus=await AdminDoctorModel.findOneAndUpdate(
+         {docId:docData.docId},
+         {$set:{isBlocked:docData.isBlocked}},
+         {new:true}
+        )
+        return updateDoctorStatus ? (updateDoctorStatus.toObject() as Doctor) : null;
+       }
+
+
+       
+}

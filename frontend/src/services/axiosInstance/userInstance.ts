@@ -2,13 +2,25 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import store from '../../redux/store';
 import { resetUser } from "../../redux/slices/authSlice";
+import { HttpStatus } from "../../enums/HttpStatus";
+// const API_URL = import.meta.env.VITE_BASE_API_URL
+const API_URL=import.meta.env.VITE_USER_API_URL
+const PAY_URL=import.meta.env.VITE_PAYMENT_API_URL
 
-const API_URL = import.meta.env.VITE_USER_API_URL;
+
+
+export const publicAxiosInstance = axios.create({
+    baseURL: API_URL,
+    withCredentials: true,
+  });
+
 
 export const userAxiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
 });
+
+
 
 
 const controllerMap = new Map();
@@ -17,8 +29,13 @@ const controllerMap = new Map();
 
 userAxiosInstance.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("accessToken");
+  console.log('toen',token);
+  
+  
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.authorization = `Bearer ${token}`;
+   
+    
   }
 
  
@@ -42,10 +59,12 @@ userAxiosInstance.interceptors.response.use(
     const url = originalRequest.url;
 
     if (error.response) {
-      if (error.response.status === 401 && !originalRequest._retry) {
+      if (error.response.status === HttpStatus.UNAUTHORIZED && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
           const newAccessToken = await getNewAccessToken();
+          console.log('newtok',newAccessToken);
+          
           localStorage.setItem("accessToken", newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return userAxiosInstance(originalRequest);
@@ -56,11 +75,11 @@ userAxiosInstance.interceptors.response.use(
         }
       }
 
-      if (error.response.status >= 500) {
+      if (error.response.status >= HttpStatus.INTERNAL_SERVER_ERROR) {
         toast.error("Server error, please try again later.");
       }
 
-      if (error.response.status >= 400 && error.response.status < 500 && error.response.status !== 401) {
+      if (error.response.status >= HttpStatus.BAD_REQUEST && error.response.status < HttpStatus.INTERNAL_SERVER_ERROR && error.response.status !== HttpStatus.UNAUTHORIZED) {
         toast.error(`${error.response.data.error || 'An error occurred'}`);
       }
     } else if (error.request) {
@@ -78,5 +97,5 @@ async function getNewAccessToken() {
   const response = await axios.get(`${API_URL}/refresh-token`, {
     withCredentials: true,
   });
-  return response.data.data.accessToken;
+  return response.data.accessToken;
 }

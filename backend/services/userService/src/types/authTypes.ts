@@ -11,8 +11,7 @@ export type SignInResult = {
 export type OtpVerfiyResult = {
     success: boolean;
     message: string;
-    accessToken?: string;
-    refreshToken?: string;
+  
 }
 
 export type ForgetResult={
@@ -29,4 +28,10 @@ export type ResetResult={
 export type ResendOtpResult={
     success:boolean,
     message:string
+}
+
+export type UploadType={
+    fileContent:Buffer,
+    fullFileName:string,
+    fileType:string
 }

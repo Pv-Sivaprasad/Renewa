@@ -1,0 +1,25 @@
+
+import { rabbitMqConnect } from "../../config/rabbitmq";
+import { DocStatusDto } from "../../dto/statusDto";
+
+async function PublishDoctorStatusUpdate(message:DocStatusDto) {
+    const channel=await rabbitMqConnect()
+    if(!channel){
+        console.log('rabbit mq might not be connected');
+        
+    }
+    
+    const queueName='AdminToDoctorQueue'
+  
+    
+
+    await channel?.assertQueue(queueName,{durable:true})
+    channel?.sendToQueue(queueName,Buffer.from(JSON.stringify(message)),{persistent:true})
+
+    console.log(`Published message to queue ${queueName}:`, message);
+    await channel?.close()
+
+
+}
+
+export default PublishDoctorStatusUpdate

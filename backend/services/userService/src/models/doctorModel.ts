@@ -1,0 +1,45 @@
+import mongoose,{Document,Schema} from "mongoose";
+
+export interface IUserDoctor extends Document{
+    docId:string ,
+    docName:string,
+    speciality:string,
+    experience:number,
+    image:string,
+    consultationFee:number,
+    isBlocked:boolean
+    
+}
+
+
+const UserDoctorSchema : Schema = new Schema({
+
+    docId:{
+        type:String,
+        
+    },
+    docName:{
+        type:String,
+       
+    },
+    speciality:{
+        type:String
+    },
+    experience:{
+        type:Number
+    },
+    image:{
+        type:String
+    },
+    consultationFee:{
+        type:Number
+    },
+    isBlocked:{
+        type:Boolean,
+        default:false
+    }
+
+})
+
+
+export default mongoose.model<IUserDoctor>('UserDoctor',UserDoctorSchema)

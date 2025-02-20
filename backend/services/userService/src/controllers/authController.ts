@@ -104,6 +104,7 @@ class AuthController {
       console.log('token recieved back from authservice for controller is ', result);
       
       console.log(typeof result);
+
       if (typeof result === 'string') {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: result });
       }
@@ -113,9 +114,10 @@ class AuthController {
         const refreshToken = result.refreshToken || ''
     
     
-        return  res.status(HttpStatus.CREATED).cookie('refreshToken', result.refreshToken, {
+          res.status(HttpStatus.CREATED).cookie('reffToken', result.refreshToken, {
           httpOnly: true,
           secure: false,
+          sameSite:'none',
           maxAge: 7 * 24 * 60 * 60 * 1000
         })
         .json({
@@ -123,6 +125,7 @@ class AuthController {
           accessToken: result.accessToken,username:result.username
           ,email:result.email
         })
+        return
       }
       if(!result.success){
         console.log(result.message,'sdhfkjhsdafksf');
@@ -155,10 +158,10 @@ class AuthController {
       }
 
       if (result?.success) {
-        res.cookie('refreshToken', result.refreshToken, {
+        res.cookie('reffToken', result.refreshToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
+          secure:true,
+          sameSite: 'none',
           maxAge: 7 * 24 * 60 * 60 * 1000
 
         })
@@ -240,7 +243,7 @@ class AuthController {
       console.log('req.body');
       
     try {
-      const refreshToken=req.cookies.refreshToken
+      const refreshToken=req.cookies.reffToken
       console.log('refreshtokke ',refreshToken);
       
       if(!refreshToken){
@@ -274,6 +277,9 @@ class AuthController {
       
     }
   }
+
+
+
 
 }
 

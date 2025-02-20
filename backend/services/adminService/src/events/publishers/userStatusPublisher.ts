@@ -1,13 +1,16 @@
 import { rabbitMqConnect } from "../../config/rabbitmq";
+import { UserStatusDto } from "../../dto/statusDto";
 
-async function publishUserStatusUpdate(message:any) {
+
+
+async function publishUserStatusUpdate(message:UserStatusDto) {
     const channel=await rabbitMqConnect()
     if(!channel){
         throw new Error ('Failed to connect to rabbit mq')
     }
 
     const queueName='AdminToUserQueue'
-    console.log('going to send the data');
+  
     
 
     await channel.assertQueue(queueName,{durable:true})

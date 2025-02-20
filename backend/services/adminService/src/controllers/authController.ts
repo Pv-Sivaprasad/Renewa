@@ -1,6 +1,3 @@
-
-
-
 import { Request,Response } from "express";
 import { HttpStatus } from "../enums/HttpStatus";
 import { adminSignInSchema } from "../utils/validationUtil";
@@ -15,10 +12,10 @@ class AuthController {
 
 
     async signin(req:Request,res:Response){
-        console.log('entering the auth controller in admin side');
+     
 
         try {
-            console.log('the req.body',req.body);
+          
 
             const validationResult=adminSignInSchema.parse(req.body)
 
@@ -28,7 +25,7 @@ class AuthController {
             }
 
             const response=await authService.loginAdmin(req.body)
-            console.log('response in authcontroller back from authservice is ',response);
+          
 
             if(typeof response==='string'){
                  res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:response})
@@ -46,12 +43,14 @@ class AuthController {
             }
             
             if(!response?.success){
-                res.status(HttpStatus.NOT_FOUND).json({success:false,message:"Credentials issue"})
+               
+                
+                res.status(HttpStatus.BAD_REQUEST).json({message:response.message})
             }
             
             
         } catch (error) {
-            console.log('error in auth controlller',error);
+          
              res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({success:false,message:"error in auth controller"})
             
         }
@@ -60,8 +59,7 @@ class AuthController {
 
 
     async logout(req:Request,res:Response){
-        console.log('entering the logout  controller admin');
-        
+          
         try {
             
             res.clearCookie('refreshToken').json({message:"Logged out successfully"})
@@ -72,6 +70,33 @@ class AuthController {
         }
     }
 
+    async setNewToken(req:Request,res:Response){
+       
+        
+        const token=req.cookies?.refrToken;
+       
+        if(!token){
+            res.status(HttpStatus.FORBIDDEN).json({message:'Internal Server Error'})
+        }
+        try {
+          
+          const response=await authService.checkToken({token})
+         
+
+          if(response?.success){
+            res.json({accessToken:response.accessToken})
+            return
+          }else{
+            res.clearCookie('refrToken')
+            res.status(HttpStatus.FORBIDDEN).json({message:response?.message})
+          }
+          
+
+        } catch (error) {
+            console.log('error in the setnew token',error);
+            
+        }
+    }
 
 }
 

@@ -8,9 +8,6 @@ export const rabbitMqConnect = async (): Promise<Channel | null> => {
   try {
     connection = await amqplib.connect('amqp://localhost:5672');
     channel = await connection.createChannel();
-   
-    
-    console.log('RabbitMQ connected in adminside');
     return channel; 
   } catch (error) {
     console.error('RabbitMQ connection failed:', error);
