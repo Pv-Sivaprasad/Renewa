@@ -19,7 +19,7 @@ export class PaymentRepository extends BaseRepository<IPayment> implements IPaym
                 { status: 'success' },
                 { new: true }
             );
-            console.log(response,'_+_++++++++++++++_+_+_+_+_+_+_+_+_+_+_');
+            // console.log(response,'_+_++++++++++++++_+_+_+_+_+_+_+_+_+_+_');
             
             return response;
         } catch (error) {

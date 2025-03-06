@@ -23,18 +23,18 @@ export class DoctorRepository implements IDoctorRepository{
 
     async updateDocStatus(docId:string,isBlocked:boolean) : Promise<boolean>{
         try {
-            console.log(docId,'userId to find in db');
-            console.log(isBlocked,'for changing to');
+            // console.log(docId,'userId to find in db');
+            // console.log(isBlocked,'for changing to');
 
             const result = await Doctor.findOneAndUpdate(
                 { _id:docId },               
                 { isBlocked },            
                 { new: true }            
             );
-            console.log('the result is',result);
+            // console.log('the result is',result);
             
             if (result) {
-                console.log(`User ${docId} status updated to isBlocked: ${isBlocked}`);
+                // console.log(`User ${docId} status updated to isBlocked: ${isBlocked}`);
 
                 const message : DoctorStatusMessage ={
                     docId:docId,
@@ -56,11 +56,11 @@ export class DoctorRepository implements IDoctorRepository{
 
     
     async updateProfile(userId: string, updateProfileDto: UpdateprofileDto): Promise<IDoctor | null> {
-        console.log('imhere');
+        // console.log('imhere');
         
         let doc=await Doctor.findById(userId)
-        console.log('the doc is ',doc);
-        console.log(updateProfileDto,'+++++++++++++++++++++++++++');
+        // console.log('the doc is ',doc);
+        // console.log(updateProfileDto,'+++++++++++++++++++++++++++');
         
       
         let response= await Doctor.findByIdAndUpdate(
@@ -68,7 +68,7 @@ export class DoctorRepository implements IDoctorRepository{
             { $set: updateProfileDto },
             { new: true } 
         );
-        console.log('the response in the doctor repo is ',response);
+        // console.log('the response in the doctor repo is ',response);
         
         return response
     }

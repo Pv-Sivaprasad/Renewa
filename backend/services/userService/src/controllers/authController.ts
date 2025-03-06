@@ -85,7 +85,7 @@ class AuthController {
     try {
       
       const validationResult= userSignInSchema.safeParse(req.body)
-      console.log(validationResult,'the validation result');
+      // console.log(validationResult,'the validation result');
       
       if(!validationResult.success){
 

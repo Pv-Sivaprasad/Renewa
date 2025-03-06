@@ -1,6 +1,7 @@
 export interface AddRating{
+    userName:string
     userId:string,
-    docId:string,
+    docName:string,
     rating:number,
     review:string
 }

@@ -37,12 +37,12 @@ export class DocSlotController{
 
         const user = req.user as JwtPayload
         const userId = user.id
-        console.log('the User id is',userId);
+        // console.log('the User id is',userId);
        
         
         
         const response=await docSlotService.getBookingData(userId)
-            console.log('the response is in the controller',response);
+            // console.log('the response is in the controller',response);
               
             return res.status(HttpStatus.CREATED).json(response)
     }

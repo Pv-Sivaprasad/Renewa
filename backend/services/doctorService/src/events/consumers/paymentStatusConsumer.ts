@@ -7,7 +7,7 @@ const slotService=new SlotService()
 export const getPaymentData=async()=>{
     const channel= await getChannel()
     if(!channel){
-        console.log('failed to get channeel');
+        console.log('failed to get channel');
         
     }
 

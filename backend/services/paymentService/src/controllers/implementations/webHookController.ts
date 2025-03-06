@@ -25,7 +25,7 @@ export class WebHookController {
 
 
     async webHookHandle(req: Request, res: Response) {
-        console.log('inside the webHook controller');
+        // console.log('inside the webHook controller');
 
         let event;
 
@@ -39,7 +39,7 @@ export class WebHookController {
 
 
         try {
-            console.log(process.env.STRIPE_WEBHOOK_SECRET, 'process.env.STRIPE_WEBHOOK_SECRET');
+            // console.log(process.env.STRIPE_WEBHOOK_SECRET, 'process.env.STRIPE_WEBHOOK_SECRET');
             event = stripe.webhooks.constructEvent(
                 req.body,
                 signature,

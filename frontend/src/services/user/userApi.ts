@@ -154,6 +154,11 @@ export const allPayments=async()=>{
     return response
 }
 
+export const   fetchDoctorReviews=async(docName:string)=>{
+    let response=await publicApi.get(`/doc/${docName}`)
+    return response
+}
+
 export const logout=async()=>{
 
     const response=await publicApi.get('/logout')

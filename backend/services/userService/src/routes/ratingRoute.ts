@@ -13,7 +13,7 @@ console.log('reached');
 
 
 rating_route.post('/addrating',authenticateToken,checkUserStatus,ratingController.addRating)
-rating_route.get('/doc/:id',authenticateToken,checkUserStatus,ratingController.getDocRating)
+rating_route.get('/doc/:docName',ratingController.getDocRating)
 
 
 export default rating_route

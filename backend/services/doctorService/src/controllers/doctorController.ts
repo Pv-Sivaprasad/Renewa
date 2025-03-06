@@ -15,16 +15,16 @@ const   doctorService= new DoctorService()
 class DoctorController {
 
 async getProfile(req:CustomeRequest,res:Response){
-    console.log('entering the get profile in doctor controller');
+    // console.log('entering the get profile in doctor controller');
 
     try {
         const doc=req.user as JwtPayload
-        console.log(doc,'the doc  from the middleware is');
+        // console.log(doc,'the doc  from the middleware is');
         const docId=doc.id
-        console.log(docId,'the doc id from the middleware is');
+        // console.log(docId,'the doc id from the middleware is');
 
         const data=await doctorService.getProfileData(docId)
-        console.log('data from the controller is',data);
+        // console.log('data from the controller is',data);
         
         const response={
             username:data?.username,
@@ -44,7 +44,7 @@ async getProfile(req:CustomeRequest,res:Response){
 
 
 async updateProfile(req:CustomeRequest,res:Response){
-    console.log('entering the profile in the doctor controller');
+    // console.log('entering the profile in the doctor controller');
 
     try {
         const doc=req.user as JwtPayload
@@ -77,10 +77,10 @@ async updateProfile(req:CustomeRequest,res:Response){
             ...req.body,
             image:imageUrl
         }
-        console.log('the updates  in doc controller ',updateData);
+        // console.log('the updates  in doc controller ',updateData);
         
         const updatedData=await doctorService.updateDoctorProfile(docId,updateData)
-        console.log('the updated doc data is ',updateData);
+        // console.log('the updated doc data is ',updateData);
         
         const data={
             username:updateData.username,
@@ -89,7 +89,7 @@ async updateProfile(req:CustomeRequest,res:Response){
             experience:updateData.experience,
             image:updateData.image
         }
-        console.log('the data is',data);
+        // console.log('the data is',data);
         
         const docData={
             docId:docId,
@@ -102,7 +102,7 @@ async updateProfile(req:CustomeRequest,res:Response){
         }
 
         const docDetails=await doctorService.getProfileData(docId)
-        console.log(docDetails,'##########');
+        // console.log(docDetails,'##########');
         const sendDocData={
             docId:docId,
             docname:docDetails?.username,
@@ -110,7 +110,7 @@ async updateProfile(req:CustomeRequest,res:Response){
             speciality:updateData.speciality,
             isBlocked:docDetails?.isBlocked
         }
-        console.log(sendDocData,'#@%^%#%$^%$^%$^');
+        // console.log(sendDocData,'#@%^%#%$^%$^%$^');
         
 
         await sendDocDataToUser(docData)

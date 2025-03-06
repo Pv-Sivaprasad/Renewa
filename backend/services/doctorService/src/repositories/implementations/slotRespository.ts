@@ -11,7 +11,7 @@ export class SlotRepository {
       const docDatas = await DocSlotModel.findOne({ docId }); 
       const dataNeeded = docDatas?.dates;
       if (dataNeeded) {
-        console.log('Data from dates field:', dataNeeded);
+        // console.log('Data from dates field:', dataNeeded);
       
       }
   
@@ -37,11 +37,11 @@ export class SlotRepository {
   async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {
     try {
       const { docId, dates, docName, consultationFee } = docSlotDto;
-      console.log(
-        `docId: ${docId}, dates: ${JSON.stringify(
-          dates
-        )}, docName: ${docName}, consultationFee: ${consultationFee}`
-      );
+      // console.log(
+      //   `docId: ${docId}, dates: ${JSON.stringify(
+      //     dates
+      //   )}, docName: ${docName}, consultationFee: ${consultationFee}`
+      // );
   
       // Update doctor document
       const updatedDoc = await DocSlotModel.findOneAndUpdate(
@@ -76,7 +76,7 @@ export class SlotRepository {
       }
   
       await updatedDoc.save();
-      console.log('Updated Doc:', updatedDoc);
+      // console.log('Updated Doc:', updatedDoc);
       return updatedDoc;
     } catch (error) {
       console.error('Error upserting slots:', error);
@@ -88,7 +88,7 @@ export class SlotRepository {
   async editDocSlots(date: string, docSlotDto: DocSlotDto): Promise<DocSlot> {
     try {
       const { docId, dates, docName } = docSlotDto;
-      console.log(docId, 'as', docName, 'of', dates);
+      // console.log(docId, 'as', docName, 'of', dates);
   
       // Find or create the document
       const updatedDoc = await DocSlotModel.findOneAndUpdate(
@@ -100,7 +100,7 @@ export class SlotRepository {
         { upsert: true, new: true }
       );
   
-      console.log('The updatedDoc before slot updates:', updatedDoc);
+      // console.log('The updatedDoc before slot updates:', updatedDoc);
   
       for (const dateSlot of dates) {
         const existingDateIndex = updatedDoc.dates.findIndex(
@@ -117,7 +117,7 @@ export class SlotRepository {
       }
   
       await updatedDoc.save();
-      console.log('The updatedDoc after slot updates:', updatedDoc);
+      // console.log('The updatedDoc after slot updates:', updatedDoc);
       return updatedDoc;
     } catch (error) {
       console.error('Error in editDocSlots:', error);
@@ -128,8 +128,7 @@ export class SlotRepository {
 
 
   async updatingSlots(docId:string,date:string,updatedSlot:any){
-      console.log('the updatesSlot inside updaeing slotof the slotREpository is',updatedSlot);
-      // const result=await
+      
   }
   
 

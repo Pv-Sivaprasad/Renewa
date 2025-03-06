@@ -25,6 +25,7 @@ user_route.get('/doctorlist',authenticateToken,checkUserStatus,doctorController.
 user_route.get('/alldocs',doctorController.getAllDoctors)
 user_route.get('/docslot/:id',authenticateToken,checkUserStatus,docSlotController.getDoctorSlotById)
 user_route.get('/bookings',authenticateToken,checkUserStatus,docSlotController.getBookedData)
+user_route.get('/singledoc/:id',doctorController.getSingleDoctor)
 
 export default user_route
 

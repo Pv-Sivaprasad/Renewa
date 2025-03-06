@@ -18,7 +18,7 @@ private authServiceUse:AuthService
     }
 
     async signUp(req:Request,res:Response){
-        console.log('entering the auth controller in the doctor side');
+        // console.log('entering the auth controller in the doctor side');
         
         try {
             console.log(req.body,'the data in the body ')
@@ -30,12 +30,12 @@ private authServiceUse:AuthService
             }
             
             const response=await authService.docSignUp(req.body) 
-            console.log(response,'res in authcontroller');
+            // console.log(response,'res in authcontroller');
             
             if(!response.success){
                 res.status(HttpStatus.BAD_REQUEST).json(response)
             }else{
-                console.log('sending the repsonse',response);
+                // console.log('sending the repsonse',response);
                 
                 return res.status(HttpStatus.CREATED).json({success:true,message:"Doctor registered successfully"})
             }
@@ -48,8 +48,8 @@ private authServiceUse:AuthService
 
 
     async signIn(req:Request,res:Response){
-        console.log('entering the signin authcontroller doc side');
-        console.log(req.body,'signin authcontroller doc side');
+        // console.log('entering the signin authcontroller doc side');
+        // console.log(req.body,'signin authcontroller doc side');
         
         try {
             
@@ -61,7 +61,7 @@ private authServiceUse:AuthService
 
             const response= await authService.docSignIn(req.body)
             // const response=await this.authServiceUse.docSignIn(req.body)
-            console.log(response,'res in the authController');
+            // console.log(response,'res in the authController');
             
             if(!response.success){
               return  res.status(HttpStatus.BAD_REQUEST).json({response})

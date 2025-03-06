@@ -50,7 +50,7 @@ export class PaymentController {
                 cancel_url: 'http://localhost:4242/cancel',
               });
 
-              console.log(session);
+              // console.log(session);
               
 
               res.json({session: session.url});

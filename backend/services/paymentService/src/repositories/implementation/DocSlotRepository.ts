@@ -36,7 +36,7 @@ export class DocSlotRepository implements IDocSlotRepository{
                 return await DocSlotModel.create(slotData);
             }
         } catch (error) {
-            console.error('❌ Repository Upsert Error:', error);
+            console.error('❌ Repository Upsert Error:');
             throw error;
         }
     }
@@ -67,7 +67,7 @@ export class DocSlotRepository implements IDocSlotRepository{
                 ]
             }
         );
-        console.log(data,'the updated is ')
+        // console.log(data,'the updated is ')
          
     } 
 
@@ -91,7 +91,7 @@ export class DocSlotRepository implements IDocSlotRepository{
                 ]
             }
         );
-        console.log(data,'the changed slot is is ')
+        // console.log(data,'the changed slot is is ')
          
     } 
 }

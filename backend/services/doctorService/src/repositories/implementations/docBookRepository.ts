@@ -1,0 +1,24 @@
+import { IDocBookingRepository } from "../interfaces/IDocBookRepository";
+import { IDoctorBooking,IUserBooking,DoctorBookingModel } from "../../models/bookModel";
+
+export class DoctorBookingRepository implements IDocBookingRepository{
+    
+    async findDoctorById(docId: string): Promise<IDoctorBooking | null> {
+        return DoctorBookingModel.findOne({docId})
+    }
+
+    async addBooking(docId: string, UserBooking: IUserBooking): Promise<IDoctorBooking> {
+        
+        let docBooking=await DoctorBookingModel.findOne({docId})
+
+        if(!docBooking){
+            docBooking=new DoctorBookingModel({docId,bookings:[UserBooking]})
+        }else{
+            docBooking.bookings.push(UserBooking)
+        }
+
+        await docBooking.save()
+        return docBooking.toObject()
+    }
+
+}

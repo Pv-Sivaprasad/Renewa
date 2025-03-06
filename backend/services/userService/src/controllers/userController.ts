@@ -76,7 +76,6 @@ class UserController {
             const updateData: UpdateProfileDto = {
                 ...req.body,
                 image: imageUrl,
-                // Parse address string into an object, if necessary
                 address: typeof req.body.address === 'string' ? JSON.parse(req.body.address) : req.body.address,
             };
 

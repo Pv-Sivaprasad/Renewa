@@ -21,7 +21,7 @@ constructor(){
 
     }
 
-    async  getDocReviews(docId:string):Promise<IRating[]> {
-        return await this.ratingRepository.getDoctorRatings(docId)
+    async  getDocReviews(docName:string):Promise<IRating[]> {
+        return await this.ratingRepository.getDoctorRatings(docName)
     }
 }

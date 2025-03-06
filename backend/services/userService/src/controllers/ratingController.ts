@@ -10,18 +10,20 @@ export class  RatingController {
 
 
     async addRating(req:IncomingReques,res:Response){
-        console.log('entering the rating controller in the user');
+        // console.log('entering the rating controller in the user');
            const user = req.user as JwtPayload
                     const userId = user.id
 
         try {
-            const {docId,rating,review}=req.body
-            console.log('the body data is ',docId,rating,review);
+            const {userName,docName,rating,review}=req.body
+            // console.log('the body data is ',docName,rating,review);
             
-            const data={userId,docId,rating,review}
+          
+
+            const data={userName,userId,docName,rating,review}
 
             const newRating=await ratingService.addRating(data)
-            console.log('data recived',newRating)
+            // console.log('data recived',newRating)
             return res.status(HttpStatus.CREATED).json(newRating)
 
         } catch (error) {
@@ -34,16 +36,18 @@ export class  RatingController {
     async getDocRating(req:IncomingReques,res:Response){
 
         try {
-            const {id}=req.params
-            console.log('the doc id',id);
+            const {docName}=req.params
+            // console.log('the doc id',docName);
             
-            const ratings=await ratingService.getDocReviews(id)
+            const ratings=await ratingService.getDocReviews(docName)
             return res.status(HttpStatus.CREATED).json(ratings)
         } catch (error) {
             console.log('error in getting single doc reviews',error);
             
         }
     }
+
+ 
 
 
 }

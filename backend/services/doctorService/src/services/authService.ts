@@ -22,14 +22,14 @@ export class AuthService{
 
     async docSignUp(signupDto: SignUpDto): Promise<SignupResult> {
         try {
-            console.log('Entering the docSignUp');
-            console.log(signupDto, 'signupDto');
+            // console.log('Entering the docSignUp');
+            // console.log(signupDto, 'signupDto');
             
             const { username, email, password } = signupDto;
     
            
             const existingDoc = await this.doctorRepository.findUserByEmail(email);
-            console.log(existingDoc, 'existingDoc');
+            // console.log(existingDoc, 'existingDoc');
            
             if (existingDoc ) {
                 return { success: false, message: "Doctor already exists" };
@@ -37,13 +37,13 @@ export class AuthService{
     
 
             const hashedPassword=await hashPassword(password)
-            console.log('hashedpassword',hashedPassword);
+            // console.log('hashedpassword',hashedPassword);
             
             const savedDoc = await this.doctorRepository.createUser({
                 ...signupDto,
                 password:hashedPassword
             });
-            console.log(savedDoc,'the saved doc is');
+            // console.log(savedDoc,'the saved doc is');
             
             const userData={
                 docId:savedDoc?.id.toString(),
@@ -51,7 +51,7 @@ export class AuthService{
                 email:savedDoc?.email,
                 speciality:savedDoc?.speciality
             }
-            console.log('the userData before sending is ',userData);
+            // console.log('the userData before sending is ',userData);
             
             await sendDoctorData(userData).then(()=>{
                 console.log('successully send the data to admin ');  
@@ -70,13 +70,13 @@ export class AuthService{
     
 
     async docSignIn(signInDto:signInDto) : Promise <SignInResult>{
-        console.log('entering the docsign in in authservice');
+        // console.log('entering the docsign in in authservice');
         
         const {email,password}=signInDto
-        console.log('the email and password',email,password);
+        // console.log('the email and password',email,password);
 
         const doc= await this.doctorRepository.findUserByEmail(email)
-        console.log('the doc in the authservice',doc);
+        // console.log('the doc in the authservice',doc);
         
         if(!doc) {
             return {success:false,message:"invalid doctor Credentials"}

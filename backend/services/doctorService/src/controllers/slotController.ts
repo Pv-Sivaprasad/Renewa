@@ -62,7 +62,7 @@ class SlotController {
 
     try {
       const result = await slotService.upsertSlots(slotDto)
-    console.log('the result is ===========================',result);
+    // console.log('the result is ===========================',result);
       
       await sendDocSlotData(slotDto)
       if (result) {
@@ -107,7 +107,7 @@ class SlotController {
     }
 
     try {
-      console.log('the data to backend is ',slotDto);
+      // console.log('the data to backend is ',slotDto);
       
       const editedData= await slotService.editSlots(date,slotDto)
       await sendDocSlotData(slotDto)

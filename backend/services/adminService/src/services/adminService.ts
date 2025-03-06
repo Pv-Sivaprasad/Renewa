@@ -22,11 +22,11 @@ private adminDocRepo:AdminDoctorRepository
 
     getAllUsers = async (page:number,limit:number) => { 
         try {
-            console.log('entering the get all users in admin servie');
+            // console.log('entering the get all users in admin servie');
             
             // const users = await adminUserRepository.getAllUsers()
             const users=await this.adminUserRepo.getAllUsers(page,limit)
-            console.log('the uiser in servuce',users);
+            // console.log('the uiser in servuce',users);
             
             return users
         } catch (error) {
@@ -51,7 +51,7 @@ private adminDocRepo:AdminDoctorRepository
      updateUserDetails=async(userId:string,userData:{userId:string,username:string,email:string})=>{
 
         try {
-            console.log('moww');
+            // console.log('moww');
             
             // let updatedData=await adminUserRepository.updateuser(userId,userData)
             let updatedData=await this.adminUserRepo.updateuser(userId,userData)
@@ -62,11 +62,11 @@ private adminDocRepo:AdminDoctorRepository
      }
 
      toggleBlockStatus=async(userid:string)=>{
-        console.log('the id is in toggle',userid);
+        // console.log('the id is in toggle',userid);
         
         try {
-            console.log('entering the toggle status');
-            
+            // console.log('entering the toggle status');
+            // 
             // const dataaa=await adminUserRepository.findUser(userid)
             const dataaa=await this.adminUserRepo.findUser(userid)
             console.log(dataaa,'this is the data of the user');
@@ -80,16 +80,16 @@ private adminDocRepo:AdminDoctorRepository
                     return null;
             }
 
-            console.log('the userData is ',userData);
+            // console.log('the userData is ',userData);
            
             if(userData){
                 userData.isBlocked = !userData.isBlocked
               }
               
-              console.log('the userdata after',userData);
+            //   console.log('the userdata after',userData);
             //   const response =await adminUserRepository.save(userData)
               const response =await this.adminUserRepo.save(userData)
-              console.log('the updated user is ',response);
+            //   console.log('the updated user is ',response);
               return response
             }
             

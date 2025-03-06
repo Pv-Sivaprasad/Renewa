@@ -1,9 +1,3 @@
-export interface UserDataDto{
-    userId: string
-    username: string,
-    email: string,
-}
-
 export interface BookDataDto{
     docId:string,
     userId:string,

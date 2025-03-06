@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express";
+import {Request, NextFunction, Response } from "express";
 import { IncomingReques } from "../middleware/auth.middleware";
 import { DoctorService } from "../services/doctorService";
 import { HttpStatus } from "../enums/http.status";
@@ -23,6 +23,21 @@ export class DoctorController{
    }
   
 
+  }
+
+  async getSingleDoctor(req:Request,res:Response,next:NextFunction){
+   
+    const {id}=req.params
+    try {
+      const singleDoc=await doctorService.singleDoc(id)
+
+      return  res.status(HttpStatus.OK).json(singleDoc) 
+       
+    } catch (error) {
+      console.log('error in the doccontroller of the get single doc');
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error)
+      
+    }
   }
     
 

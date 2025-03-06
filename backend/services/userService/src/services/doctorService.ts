@@ -25,6 +25,11 @@ export class DoctorService{
        
     }
 
+    async singleDoc(id:string){
+        let doc=await userDoctorRepository.findDocById(id)
+        return doc
+    }
+
     
     async updateDocStatus(docId:string,isBlocked:boolean){
         let data= await userDoctorRepository.updateStatus(docId,isBlocked)

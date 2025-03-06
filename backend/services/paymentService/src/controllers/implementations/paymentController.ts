@@ -15,13 +15,13 @@ export class PaymentController {
 
     async createSessionForStripe(req: CustomeRequest, res: Response, next: NextFunction) {
 
-        console.log('entering the payment createsessionfor Stripe');
+        // console.log('entering the payment createsessionfor Stripe');
 
         try {
             const user = req.user as JwtPayload
             const userId = user.id
             const { docId, startTime ,date} = req.body
-            console.log(`docId ${docId}, startTime ${startTime} in payment controller `)
+            // console.log(`docId ${docId}, startTime ${startTime} in payment controller `)
 
             const data = {
                 userId,
@@ -29,10 +29,10 @@ export class PaymentController {
                 startTime,
                 date
             }
-            console.log('data to send is ',data);
+            // console.log('data to send is ',data);
             
             const response = await this.paymentService.createSession(data)
-            console.log('the response is=======',response);
+            // console.log('the response is=======',response);
             if(response.success){
 
                  res.status(HttpStatus.CREATED).json(response)
@@ -53,12 +53,12 @@ export class PaymentController {
     async allPayments(req:CustomeRequest,res:Response,next:NextFunction){
         const user = req.user as JwtPayload
         const userId = user.id
-        console.log('reached here');
+        // console.log('reached here');
         
         // const response =await this.paymentService.allPaymentData(userId)
         try {
             const payments = await this.paymentService.getUserPayments(userId);
-            console.log('payments',payments);
+            // console.log('payments',payments);
             
              res.status(HttpStatus.CREATED).json(payments)
              return

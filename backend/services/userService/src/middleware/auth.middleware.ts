@@ -27,10 +27,10 @@ export const authenticateToken = (req: IncomingReques, res: Response, next: Next
             }
         
         const newToken = token?.split(' ')[1]
-        console.log(newToken, 'token in user auth middleware ');
+        // console.log(newToken, 'token in user auth middleware ');
 
         const secret = process.env.ACCESS_TOKEN_SECRET
-        console.log(secret,'secret in ');
+        // console.log(secret,'secret in ');
         
         const decodedToken = jwt.decode(newToken, { complete: true });
         
@@ -39,7 +39,7 @@ export const authenticateToken = (req: IncomingReques, res: Response, next: Next
             throw new Error('Access token secret is not defined')
         }
         jwt.verify(newToken, secret, (err, user) => {
-            console.log('verify done in herre');
+            // console.log('verify done in herre');
 
             if (err) {
                 return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid token' });

@@ -8,7 +8,8 @@ export const QUEUE_NAMES = {
     DOC_SLOT_TO_USER_QUEUE:'DocSlotToUserQueue',
     USER_TO_ADMIN_QUEUE:'userToAdminQueue',
     PAYMENT_EXCHANGE_NAME:'PaymentInfoExchange',
-    PAY_EXC_NAME:'f'
+    PAY_EXC_NAME:'f',
+    USER_BOOK_TO_DOC:'UserBookingDataToDoctor'
 };
 
 export const ERROR_MESSAGES = {

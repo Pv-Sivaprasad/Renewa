@@ -1,7 +1,8 @@
 import { IChatRepository } from "../interface/IChatRepository";
 import Chat,{ IChat } from "../../models/chatModel";
 
-export class ChatRepository implements IChatRepository{
+
+export class ChatRepository  implements IChatRepository {
    
    
    async  getChat(docId: string, userId: string): Promise<IChat | null> {

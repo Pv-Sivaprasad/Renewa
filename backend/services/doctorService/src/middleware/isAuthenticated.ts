@@ -40,12 +40,12 @@ const authenticateToken = (req: CustomeRequest, res: Response, next: NextFunctio
                 return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid token' });
             }
             req.user = decodedToken?.payload as JwtPayload;
-            console.log(req.user);
+            // console.log(req.user);
             
             // req.userId = (decodedToken as JwtPayload).id; 
             // console.log(req.userId);
             
-            console.log(req.user,'the user before next');
+            // console.log(req.user,'the user before next');
             
             next()
         })

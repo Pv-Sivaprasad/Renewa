@@ -43,7 +43,7 @@ export class WebHookService implements IWebHookServices {
 
         try {
           const docSlot = await this.docSlotRepository.findSlot(docId);
-          console.log('Doc Slot found:', JSON.stringify(docSlot, null, 2));
+          // console.log('Doc Slot found:', JSON.stringify(docSlot, null, 2));
          
           const slotDate = docSlot?.dates.find(d => d.date === date);
           if (!slotDate) {
@@ -67,7 +67,7 @@ export class WebHookService implements IWebHookServices {
             
             //  const updatedSlot = await this.docSlotRepository.updateSlotAvailability(update);
             const updatedSlot=await this.docSlotRepository.changeSlotAvailability(update)
-             console.log('Slot updated:', updatedSlot);
+            //  console.log('Slot updated:', updatedSlot);
             
           let isAvailable=false
              let data={
@@ -81,7 +81,7 @@ export class WebHookService implements IWebHookServices {
              await sendPaymentInfo(data)
 
              const updatedPayment = await this.paymentRepository.updatePaymentStatus(session.id);
-             console.log('Payment updated:', updatedPayment);
+            //  console.log('Payment updated:', updatedPayment);
 
              if (!updatedPayment) {
                  throw new Error('Failed to update payment status');

@@ -21,15 +21,15 @@ export class AuthService{
 
     async loginAdmin(loginDto:LoginDto) : Promise<SignInResult|string>{
 
-        console.log('entering the loginadmin in authservice of admin');
+        // console.log('entering the loginadmin in authservice of admin');
         const email=loginDto.email
         const password=loginDto.password
-        console.log('the email and password in auth service of admin',email,password);
+        // console.log('the email and password in auth service of admin',email,password);
         
 
         try {
             const admin=await adminRepository.findByEmail(email)
-            console.log('the admin from db in authservice',admin);
+            // console.log('the admin from db in authservice',admin);
             
             if(!admin){
                 return {success:false,message:"This admin data is not enabled"}
@@ -41,11 +41,11 @@ export class AuthService{
             }
 
             const accessToken=generateAccessToken({id:admin.id})
-            console.log('the accesstoken is',accessToken);
+            // console.log('the accesstoken is',accessToken);
             const refreshToken=generateRefreshToken({id:admin.id})
-            console.log('the accesstoken is',refreshToken);
+            // console.log('the accesstoken is',refreshToken);
             
-            console.log('it is going to  frontend ');
+            // console.log('it is going to  frontend ');
             
 
             return {success:true,message:"login Successfull",accessToken,refreshToken}
@@ -62,23 +62,23 @@ export class AuthService{
     }
 
     async checkToken(refreshDto:RefreshDto) {
-        console.log(refreshDto,'refreshDtor');
+        // console.log(refreshDto,'refreshDtor');
         
-        console.log('entered the checktoken in authservice admin');
+        // console.log('entered the checktoken in authservice admin');
         
         try {
 
             const token = refreshDto.token;
-            console.log('Token received in checkToken:', token);
+            // console.log('Token received in checkToken:', token);
             
             const secret=process.env.REFRESH_TOKEN_SECRET
-            console.log(secret),'sec in the service';
+            // console.log(secret),'sec in the service';
             
             if(!secret){
                 return {success:false,message:'nternal Server Error'}
             }
             const decoded=jwt.verify(token,secret)
-            console.log('decoed in the  service',decoded);
+            // console.log('decoed in the  service',decoded);
 
             if(typeof decoded === 'object' && decoded !== null && 'id' in decoded){
                 const newAccessToken=generateAccessToken({id:decoded.id})

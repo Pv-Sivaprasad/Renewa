@@ -29,16 +29,16 @@ export class DocSlotService{
     }
 
     async updateSlot(updateData:UpdateSlotDto){
-        console.log('the data to be updated is ',updateData);
+        // console.log('the data to be updated is ',updateData);
         let updation= await this.userDocSlotRepository.updateSlotAvailability(updateData)
-        console.log('the update is in docslot service is',updation)
+        // console.log('the update is in docslot service is',updation)
         
     }
 
     async getBookingData(userId:string) {
         try {
             const data=await this.userDocSlotRepository.getUserBookings(userId)
-            console.log('data is ',data,'************************')
+            // console.log('data is ',data,'************************')
             return data
         } catch (error) {
             console.log('error in get data ',error);

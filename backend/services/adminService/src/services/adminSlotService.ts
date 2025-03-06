@@ -24,7 +24,7 @@ class AdminSlotService implements IAdminDocSlotRepository {
 
 
     upsertSlot=async(slotData:SlotDTO)=>{
-        console.log('reached the upsertSlot in the adminService');
+        // console.log('reached the upsertSlot in the adminService');
 
         await this.adminDocSlotRepository.saveDocSlot(slotData)
         

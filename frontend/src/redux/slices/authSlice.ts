@@ -8,6 +8,7 @@ interface userState {
     email:string | null
     isAuthenticated: boolean |  null;
     role:string | null
+    docId:string | null
 }
 
 const initialState : userState={
@@ -17,7 +18,8 @@ const initialState : userState={
     userName:null,
     email:null, 
     isAuthenticated : false,
-    role:null
+    role:null,
+    docId:null,
 }
 
 const userSlice=createSlice ({
@@ -51,6 +53,9 @@ const userSlice=createSlice ({
         },
         setUserName:(state,action: PayloadAction<string>)=>{
             state.userName=action.payload
+        },
+        setDocId:(state,action: PayloadAction<string>)=>{
+            state.docId=action.payload
         },
         resetUser:(state)=>{
             state.loading=false,

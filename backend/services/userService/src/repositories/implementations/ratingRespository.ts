@@ -7,9 +7,9 @@ export  class RatingRepository implements IRatingRepository{
         return await Rating.create(ratingData)
     }
    
-    async getDoctorRatings(docId: string): Promise<IRating[]> {
-        let data=await Rating.find({docId}).select("userId rating review");
-        console.log('data',data);
+    async getDoctorRatings(docName: string): Promise<IRating[]> {
+        let data=await Rating.find({docName}).select("userName rating review");
+        // console.log('data',data);
         return data
         
     }

@@ -1,8 +1,9 @@
 import mongoose,{Schema,Document} from 'mongoose'
 
 export interface IRating extends Document{
+    userName:string,
     userId: string
-    doc: string
+    docName: string
     rating: number;
     review: string;
 }
@@ -10,12 +11,15 @@ export interface IRating extends Document{
 
 const RatingSchema : Schema = new Schema({
 
+    userName:{
+        type:String
+    },
     userId: 
     { 
         type: String, 
        
     },
-    docId: 
+    docName: 
     { 
         type: String, 
         

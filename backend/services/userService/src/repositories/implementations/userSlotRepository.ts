@@ -5,6 +5,7 @@ import DocSlotModel,{ DateSlot, DocSlot } from "../../models/slotModel";
 import mongoose from "mongoose";
 import UserBookingModel from "../../models/bookingModel";
 import doctorModel from "../../models/doctorModel";
+import { userBookData } from "../../events/publishers/bookDataToDocPublisher";
 
 // import { UpdateDocData } from "../../dto/userDto";
 
@@ -102,7 +103,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
         const startTime=updateData.startTime
         const isAvailable=updateData.isAvailable
 
-        console.log('the update data in the repository is ',updateData);
+        // console.log('the update data in the repository is ',updateData);
 
         try {
             const result = await DocSlotModel.findOneAndUpdate(
@@ -138,6 +139,12 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
                 },
                 {upsert:true,new:true}
               )
+              const sendData={
+                docId,userId,date,startTime
+              }
+              // console.log('the data for sending to the docService is ',sendData);
+              await userBookData(sendData)
+              
               
                 return { success: true, message: "Successful", data: bookingUpdate };
 
@@ -156,7 +163,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
       try {
         
         const userBooking=await UserBookingModel.findOne({userId})
-        console.log('the userbooking data is',userBooking);
+        // console.log('the userbooking data is',userBooking);
 
         if(!userBooking){
           return { success: false, message: "No bookings found for this user", data: [] };
@@ -166,9 +173,9 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
           userBooking.bookings.map(async (booking) => {
             const doctor = await DocSlotModel.findOne({ docId: booking.docId });
             const docData= await doctorModel.findOne({docId:booking.docId})
-            console.log('the docData in the userSlot is',docData);
+            // console.log('the docData in the userSlot is',docData);
             
-            console.log(doctor,'in the repos is /*/*/*/');
+            // console.log(doctor,'in the repos is /*/*/*/');
             
             let data= {
               doctorName: doctor?.docName || "Unknown Doctor",
@@ -179,12 +186,12 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
               amount: doctor?.consultationFee || 0,
               // status: "Completed", 
             };
-          console.log('the *//*/*/*/*/*/*/*/*/*',data);
+          // console.log('the *//*/*/*/*/*/*/*/*/*',data);
           
             return data
           })
         );
-  console.log('the booking details with doctor is the',bookingsWithDoctorDetails);
+  // console.log('the booking details with doctor is the',bookingsWithDoctorDetails);
     return bookingsWithDoctorDetails
         
       } catch (error) {

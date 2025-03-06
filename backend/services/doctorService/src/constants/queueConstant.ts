@@ -7,7 +7,9 @@ export const  QUEUE_NAMES={
     DOC_TO_USER_QUEUE:'DocToUserQueue',
     PAYMENT_EXCHANGE_NAME:'PaymentInfoExchange',
     PAY_EXC_NAME:'d',
-}
+    USER_BOOK_TO_DOC:'UserBookingDataToDoctor'
+
+};
 
 
 

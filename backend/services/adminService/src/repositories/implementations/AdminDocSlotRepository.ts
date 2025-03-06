@@ -41,7 +41,7 @@ export class AdminDocSlotRepository implements IAdminDocSlotRepository {
             // console.log('ertyui',exisitingRecord);
             if (exisitingRecord) {
                 
-                console.log('Updating existing record for date:', date);
+                // console.log('Updating existing record for date:', date);
                 await AdminDocSlotModel.updateOne(
                     { docId,'dates.date': date },
                     { 

@@ -29,14 +29,14 @@ class AdminController {
     async getAllUser(req:Request,res:Response,next:NextFunction) {
        
         try {
-            console.log('in here',req.body);
+            // console.log('in here',req.body);
            
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 5;
           
             // const users=await adminService.getAllUsers()
             const users=await this.adminServiceUse.getAllUsers(page,limit)
-           console.log('the users controller ******',users);
+        //    console.log('the users controller ******',users);
            
             res.status(HttpStatus.CREATED).json(users)
             return 
@@ -59,7 +59,7 @@ class AdminController {
      * @memberof AdminController
      */
     async getAllDoctor(req:Request,res:Response,next:NextFunction) {
-        console.log('entering the get all doctor in admin controller');
+        // console.log('entering the get all doctor in admin controller');
         
         try {
 
@@ -68,7 +68,7 @@ class AdminController {
 
             // const doctors=await adminService.getAllDoctors()
             const doctors=await this.adminServiceUse.getAllDoctors(page,limit)
-            console.log('the doctors in admin controller',doctors);
+            // console.log('the doctors in admin controller',doctors);
             res.status(HttpStatus.CREATED).json(doctors)
             return
             
