@@ -7,8 +7,11 @@ import {loadStripe} from '@stripe/stripe-js';
 import { date } from 'zod';
 import { Toast } from 'react-toastify/dist/components';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const DoctorSlotBooking = ({ doctorId }) => {
+  const userName=useSelector((state:RootState)=>state.user.userName)
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [slotsData, setSlotsData] = useState([]);
@@ -88,7 +91,8 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
           const payload={
             docId:doctorId,
             date,
-            startTime
+            startTime,
+            userName
           }
           console.log('payload before sending', payload);
           const response = await slotPayment(payload)

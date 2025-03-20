@@ -49,6 +49,52 @@ userAxiosInstance.interceptors.request.use(async (config) => {
 });
 
 
+// userAxiosInstance.interceptors.response.use(
+//   (response) => {
+//     controllerMap.delete(response.config.url);
+//     return response;
+//   },
+//   async (error) => {
+//     const originalRequest = error.config;
+//     const url = originalRequest.url;
+
+//     if (error.response) {
+//       if (error.response.status === HttpStatus.UNAUTHORIZED && !originalRequest._retry) {
+//         originalRequest._retry = true;
+//         try {
+//           const newAccessToken = await getNewAccessToken();
+//           console.log('newtok',newAccessToken);
+          
+//           localStorage.setItem("accessToken", newAccessToken);
+//           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+//           return userAxiosInstance(originalRequest);
+//         } catch (err) {
+//           toast.error("Session expired");
+//           store.dispatch(resetUser())
+//           return Promise.reject(err);
+//         }
+//       }
+
+//       if (error.response.status >= HttpStatus.INTERNAL_SERVER_ERROR) {
+//         toast.error("Server error, please try again later.");
+//       }
+
+//       if (error.response.status >= HttpStatus.BAD_REQUEST && error.response.status < HttpStatus.INTERNAL_SERVER_ERROR && error.response.status !== HttpStatus.UNAUTHORIZED) {
+//         toast.error(`${error.response.data.error || 'An error occurred'}`);
+//       }
+//     } else if (error.request) {
+//       toast.error("Network error, please check your connection.");
+//     } else {
+//       toast.error("An unexpected error occurred.");
+//     }
+
+//     controllerMap.delete(url);
+//     return Promise.reject(error);
+//   }
+// );
+
+
+
 userAxiosInstance.interceptors.response.use(
   (response) => {
     controllerMap.delete(response.config.url);
@@ -63,16 +109,25 @@ userAxiosInstance.interceptors.response.use(
         originalRequest._retry = true;
         try {
           const newAccessToken = await getNewAccessToken();
-          console.log('newtok',newAccessToken);
-          
           localStorage.setItem("accessToken", newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return userAxiosInstance(originalRequest);
         } catch (err) {
           toast.error("Session expired");
-          store.dispatch(resetUser())
+          store.dispatch(resetUser());
+          localStorage.removeItem("accessToken");
+          window.location.href = "/login"; 
           return Promise.reject(err);
         }
+      }
+
+     
+      if (error.response.status === HttpStatus.FORBIDDEN) {
+        toast.error("Your account has been blocked. Logging out...");
+        store.dispatch(resetUser());
+        localStorage.removeItem("accessToken");
+        window.location.href = "/login"; 
+        return Promise.reject(error);
       }
 
       if (error.response.status >= HttpStatus.INTERNAL_SERVER_ERROR) {
@@ -92,6 +147,8 @@ userAxiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+
 
 async function getNewAccessToken() {
   const response = await axios.get(`${API_URL}/refresh-token`, {

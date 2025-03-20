@@ -8,6 +8,7 @@ export interface Updatedata{
         date:string
         startTime:string
         isAvailable:boolean
+        userName:string
       
 }
 
@@ -23,7 +24,7 @@ export const sendPaymentInfo=async(data:Updatedata)=>{
 
     await channel.assertExchange(paymentData, 'fanout', { durable: true });
 
-    
+    console.log(data,'the data in the producer is')
     channel.publish(paymentData, '', Buffer.from(JSON.stringify(data)));
 
    

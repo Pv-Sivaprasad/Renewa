@@ -24,8 +24,9 @@ export const getPaymentData=async()=>{
             const slotData = JSON.parse(msg.content.toString());
 
             console.log(' ✅  ✅ The slotData received in user side is:', slotData);
-            const{userId,docId,date,startTime,isAvailable}=JSON.parse(msg.content.toString());
-            console.log(`userId ${userId} ,docId ${docId} ,date ${date} ,startTime ${startTime} ,isAvailable ${isAvailable}`)
+            const{userId,docId,date,startTime,isAvailable,userName}=JSON.parse(msg.content.toString());
+            console.log(`userId ${userId} ,docId ${docId} ,date ${date} ,startTime ${startTime} 
+                ,isAvailable ${isAvailable} ,userName${userName}`)
 
             const updateData={userId,docId,date,startTime,isAvailable}
             let update=await docSlotService.updateSlot(updateData)

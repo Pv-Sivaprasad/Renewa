@@ -10,7 +10,6 @@ import path from 'path'
 import cookieParser from 'cookie-parser';
 
 
-
 dotenv.config();
 
 
@@ -19,7 +18,8 @@ const app = express();
 
 const accessLogStream = createStream('access.log', {
   interval: '1d',
-  path: path.join(__dirname, 'logs')
+  path: path.join(__dirname, 'logs'),
+  maxFiles:30
 });
 
 app.use(morgan('combined', { stream: accessLogStream }))
@@ -38,16 +38,11 @@ const targets = {
 };
 
 
-// app.use(cookieParser())
-// app.use(cors({
-//   origin: 'http://localhost:5173',
-//   credentials: true
-// }))
 
 app.use(cookieparser())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CLIENT_URI,
   credentials: true
 }));
 
@@ -61,7 +56,7 @@ app.use('/doctor', createProxyMiddleware({ target: targets.doctorService, change
 
 app.use('/payment', createProxyMiddleware({ target: targets.paymentService, changeOrigin: true, pathRewrite: { '^/payment': '/', } }));
 
-app.use('/chat', createProxyMiddleware({ target: targets.chatservice, changeOrigin: true, pathRewrite: { '^/chat': '/', } }));
+app.use('/chat', createProxyMiddleware({ target: targets.chatservice, changeOrigin: true, ws: true, pathRewrite: { '^/chat': '/', } }));
 
 
 

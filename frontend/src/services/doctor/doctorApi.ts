@@ -72,4 +72,11 @@ export const updateBookedSlots=async(editData:any)=>{
     return response
 }
 
+export const allAppoinments=async()=>{
+    console.log('going to get all the appoinments in doc');
+    
+    let response=await api.get('/appoinments')
+    return response
+}
+
 

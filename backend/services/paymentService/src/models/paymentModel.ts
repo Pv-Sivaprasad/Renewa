@@ -5,6 +5,7 @@ export interface IPayment extends Document {
   doctorId: string;
   startTime:string
   amount: number;
+  userName:string;
   date:string
   status: 'pending' | 'completed' | 'failed';
   
@@ -16,7 +17,7 @@ export interface IPayment extends Document {
 const paymentSchema: Schema = new Schema({
   userId: { type: String, required: true },
   doctorId: { type: String, required: true },
-  // slotId: { type: String, required: true },
+   userName: { type: String },
   amount: { type: Number, required: true },
   date: { type: String },
   status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },

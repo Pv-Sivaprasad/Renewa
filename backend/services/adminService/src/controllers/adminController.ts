@@ -38,7 +38,7 @@ class AdminController {
             const users=await this.adminServiceUse.getAllUsers(page,limit)
         //    console.log('the users controller ******',users);
            
-            res.status(HttpStatus.CREATED).json(users)
+            res.status(HttpStatus.CREATED).json(users) 
             return 
 
         } catch (error) {

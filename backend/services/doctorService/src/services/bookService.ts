@@ -12,8 +12,15 @@ export class BookService{
     }
 
 
-    async processBooking(docId:string, userId: string, userName: string, date: string, startTime: string): Promise<IDoctorBooking>{
-        const userBooking={userId,userName,date,startTime}
+    async allAppoinments(docId:string){
+        const allBookings=await this.doctorBookingRepo.findDoctorById(docId)
+        console.log('all bookings',allBookings);
+        
+        return  allBookings
+    }
+
+    async processBooking(docId:string, userId: string, date: string, startTime: string,userName:string): Promise<IDoctorBooking>{
+        const userBooking={userId,date,startTime,userName}
         return this.doctorBookingRepo.addBooking(docId,userBooking)
     }
 

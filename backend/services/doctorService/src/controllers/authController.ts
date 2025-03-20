@@ -48,7 +48,7 @@ private authServiceUse:AuthService
 
 
     async signIn(req:Request,res:Response){
-        // console.log('entering the signin authcontroller doc side');
+        console.log('entering the signin authcontroller doc side');
         // console.log(req.body,'signin authcontroller doc side');
         
         try {

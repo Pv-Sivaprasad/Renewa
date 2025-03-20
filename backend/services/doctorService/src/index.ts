@@ -11,6 +11,7 @@ import doctorRoute from './routes/doctorRoute';
 import { rabbitMqConnect } from './config/rabbitmq';
 import { listenForAdminStatusUpdate } from './events/consumers/doctorConsumer';
 import { getPaymentData } from './events/consumers/paymentStatusConsumer';
+import { recivedBookData } from './events/consumers/userBookConsumer';
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ connectMongoDb();
     console.log('✅ RabbitMQ connected in doctor service');
     await listenForAdminStatusUpdate();
     await getPaymentData();
+    // await recivedBookData()
     console.log('✅ Doctor consumer setup initiated');
   } else {
     console.log('❌ Failed to connect to RabbitMQ in doctor service');

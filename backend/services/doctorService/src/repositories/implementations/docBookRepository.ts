@@ -3,10 +3,18 @@ import { IDoctorBooking,IUserBooking,DoctorBookingModel } from "../../models/boo
 
 export class DoctorBookingRepository implements IDocBookingRepository{
     
+    // async findDoctorById(docId: string): Promise<IDoctorBooking | null> {
+    //     return DoctorBookingModel.findOne({docId})
+    // }
     async findDoctorById(docId: string): Promise<IDoctorBooking | null> {
-        return DoctorBookingModel.findOne({docId})
+        return DoctorBookingModel.findOne({ docId })
+            .select({
+                'bookings.userName': 1,
+                'bookings.date': 1,
+                'bookings.startTime': 1,
+                '_id': 0
+            });
     }
-
     async addBooking(docId: string, UserBooking: IUserBooking): Promise<IDoctorBooking> {
         
         let docBooking=await DoctorBookingModel.findOne({docId})

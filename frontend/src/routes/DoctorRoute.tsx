@@ -7,6 +7,8 @@ import DoctorRegistration from '../pages/doctor/DoctorRegistration'
 import DoctorDashboard from '../pages/doctor/DoctorDashboard';
 import DoctorProfile from '../pages/doctor/DoctorProfile';
 import DoctorSlots from '../pages/doctor/DoctorSlots';
+import AppointmentDashboard from '../components/doctor/DocBooking';
+import DocAppoinment from '../pages/doctor/DocAppoinment';
 
 const DoctorRoute = () => {
   return (
@@ -19,7 +21,7 @@ const DoctorRoute = () => {
         <Route path='/dashboard' element={<PrivateRoute ><DoctorDashboard/></ PrivateRoute> } />
         <Route path='/profile' element={<PrivateRoute ><DoctorProfile/></PrivateRoute > } />
         <Route path='/slots' element={<PrivateRoute ><DoctorSlots/></PrivateRoute > } />
-        
+        <Route path='/appointments' element={<PrivateRoute ><DocAppoinment/></PrivateRoute > } />
 
       </Routes>
     

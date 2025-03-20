@@ -33,7 +33,7 @@ const DoctorBookingSchema = new Schema<IDoctorBooking>(
           userName: 
           { 
             type: String, 
-            required: true 
+            
         },
 
           date: 

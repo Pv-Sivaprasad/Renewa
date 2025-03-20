@@ -34,12 +34,12 @@ export class WebHookService implements IWebHookServices {
           return null;
         }
 
-        const { docId, startTime, date, userId } = session.metadata || {};
+        const { docId, startTime, date, userId ,userName} = session.metadata || {};
         if (!docId || !startTime || !date || !userId) {
           throw new Error('Missing metadata in checkout session');
         }
 
-        // console.log('Extracted metadata:', { docId, startTime, date, userId });
+        console.log('Extracted metadata:', { docId, startTime, date, userId,userName });
 
         try {
           const docSlot = await this.docSlotRepository.findSlot(docId);
@@ -75,9 +75,11 @@ export class WebHookService implements IWebHookServices {
               docId,
               date,
               startTime,
-              isAvailable
+              isAvailable,
+              userName
              }
-
+             console.log('data in webhook service',data);
+             
              await sendPaymentInfo(data)
 
              const updatedPayment = await this.paymentRepository.updatePaymentStatus(session.id);

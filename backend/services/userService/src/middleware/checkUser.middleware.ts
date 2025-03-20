@@ -28,7 +28,7 @@ export const checkUserStatus=async(req:IncomingReques,res:Response,next:NextFunc
     
             if(userData?.isBlocked){
                 // console.log('now it is here as it is true',userData?.isBlocked);
-                return res.status(HttpStatus.BAD_REQUEST).json({success:false,message:"No authentication"})
+                return res.status(HttpStatus.FORBIDDEN).json({success:false,message:"No authentication"})
             }else{
                 next()
 
