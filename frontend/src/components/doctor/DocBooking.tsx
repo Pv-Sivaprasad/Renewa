@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Header';
 import { allAppoinments } from '../../services/doctor/doctorApi';
+import { useNavigate } from 'react-router';
 
 const AppointmentDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [activeTab, setActiveTab] = useState('ongoing');
   const [loading, setLoading] = useState(true);
+  const navigate=useNavigate()
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -14,43 +16,18 @@ const AppointmentDashboard = () => {
         const response = await allAppoinments();
         console.log('response', response);
         
-        // Process the response data to add status
-        // const processedAppointments = response.data.bookings.map((booking, index) => {
-        //   const appointmentDate = new Date(`${booking.date}T${booking.startTime}`);
-        //   const currentDate = new Date();
-          
-        //   // Calculate time difference in hours
-        //   const timeDifference = (appointmentDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60);
-          
-        //   let status = 'upcoming';
-          
-        //   // If the appointment is in the past (more than 1 hour ago), mark as completed
-        //   if (timeDifference < -1) {
-        //     status = 'completed';
-        //   } 
-        //   // If the appointment is current (within 1 hour before or after), mark as ongoing
-        //   else if (timeDifference >= -1 && timeDifference <= 1) {
-        //     status = 'ongoing';
-        //   }
-          
-        //   return {
-        //     id: index + 1,
-        //     username: booking.userName,
-        //     startTime: booking.startTime,
-        //     date: booking.date,
-        //     status: status
-        //   };
-        // });
+       
+    
         const processedAppointments = response.data.bookings.map((booking, index) => {
-          // Ensure the time is in HH:mm format (e.g., '09:00' instead of '9:00')
-          const formattedTime = booking.startTime.padStart(5, '0'); // Adds a leading zero if needed
+         
+          const formattedTime = booking.startTime.padStart(5, '0'); 
         
-          // Construct a valid Date object
+          
           const appointmentDate = new Date(`${booking.date}T${formattedTime}:00`);
         
           const currentDate = new Date();
           
-          // Calculate time difference in hours
+         
           const timeDifference = (appointmentDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60);
         
           let status = 'upcoming';
@@ -61,11 +38,12 @@ const AppointmentDashboard = () => {
             status = 'ongoing';
           }
         
-          console.log('Appointment Date:', appointmentDate);
-          console.log('Current Date:', currentDate);
+          // console.log('Appointment Date:', appointmentDate);
+          // console.log('Current Date:', currentDate);
         
           return {
             id: index + 1,
+            userId:booking.userId,
             username: booking.userName,
             startTime: booking.startTime,
             date: booking.date,
@@ -85,13 +63,12 @@ const AppointmentDashboard = () => {
 
     fetchAppointments();
 
-    // Refresh appointments every minute
     const intervalId = setInterval(fetchAppointments, 60000); 
     
     return () => clearInterval(intervalId);
   }, []);
 
-  // Filter appointments based on active tab
+
   const filteredAppointments = appointments.filter(
     appointment => appointment.status === activeTab
   );
@@ -109,6 +86,10 @@ const AppointmentDashboard = () => {
     };
     return new Date(dateString).toLocaleDateString(undefined);
   };
+
+  const handleChatClick=(userName,userId)=>{
+    navigate(`/doctor/chat/${userId}`,{state:{userName,userId}})
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
@@ -169,7 +150,9 @@ const AppointmentDashboard = () => {
               </div>
               <div>
                 {appointment.status === 'ongoing' && (
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center transition-colors duration-200">
+                  <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center transition-colors duration-200"
+                     onClick={() => handleChatClick(appointment.username, appointment.userId)}
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>

@@ -9,6 +9,7 @@ interface userState {
     isAuthenticated: boolean |  null;
     role:string | null
     docId:string | null
+    userId:string | null
 }
 
 const initialState : userState={
@@ -20,6 +21,7 @@ const initialState : userState={
     isAuthenticated : false,
     role:null,
     docId:null,
+    userId:null
 }
 
 const userSlice=createSlice ({
@@ -31,12 +33,13 @@ const userSlice=createSlice ({
             state.error=null
         },
         
-        loginSuccess: (state, action: PayloadAction<{ token: string; userName: string; email: string }>) => {  
+        loginSuccess: (state, action: PayloadAction<{ token: string; userName: string; email: string; userId:string }>) => {  
             state.loading = false;
             state.token = action.payload.token;
             state.userName = action.payload.userName;
             state.email = action.payload.email;
             state.isAuthenticated=true;
+            state.userId=action.payload.userId
             state.role='user'
           },
         loginFailure:(state,action:PayloadAction<string>)=>{
@@ -65,6 +68,7 @@ const userSlice=createSlice ({
             state.email=null,
             state.isAuthenticated=false
             state.role=null
+            state.userId=null
             
         }
     }

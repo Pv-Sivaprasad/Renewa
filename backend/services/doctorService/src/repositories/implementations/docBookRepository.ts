@@ -9,6 +9,7 @@ export class DoctorBookingRepository implements IDocBookingRepository{
     async findDoctorById(docId: string): Promise<IDoctorBooking | null> {
         return DoctorBookingModel.findOne({ docId })
             .select({
+                'bookings.userId':1,
                 'bookings.userName': 1,
                 'bookings.date': 1,
                 'bookings.startTime': 1,

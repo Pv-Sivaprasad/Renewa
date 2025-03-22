@@ -10,7 +10,8 @@ export type SignInResult={
     username?: string;             
     email?: string; 
     accessToken?:string,
-    refreshToken?:string
+    refreshToken?:string,
+    doctorId?:string,
 }
 
 export type UploadType={

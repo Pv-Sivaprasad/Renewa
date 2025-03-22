@@ -49,7 +49,7 @@ const SlotManagement = () => {
     updatedSlots[index].isSelected = !updatedSlots[index].isSelected;
 
     setAvailableSlots(updatedSlots);
-    if (updatedSlots[index].isSelected) {
+    if (updatedSlots[index].isSelected) { 
       setSelectedSlots((prev) => [...prev, updatedSlots[index]]);
     } else {
       setSelectedSlots((prev) =>
@@ -109,6 +109,7 @@ const SlotManagement = () => {
     if (selectedDate) {
       const fetchSlots = async () => {
         let receivedSlots = await filledSlots(selectedDate);
+        console.log(receivedSlots,"receivedSlots")
         setExistingSlots(receivedSlots.data || []);
       };
       fetchSlots();

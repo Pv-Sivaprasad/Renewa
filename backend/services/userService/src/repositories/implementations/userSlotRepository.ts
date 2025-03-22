@@ -178,6 +178,7 @@ export class UserDocSlotRepository implements IUserDocSlotRepository {
             // console.log(doctor,'in the repos is /*/*/*/');
             
             let data= {
+              docId: booking.docId,  
               doctorName: doctor?.docName || "Unknown Doctor",
               specialization: docData?.speciality || "Not specified",
               image:docData?.image,

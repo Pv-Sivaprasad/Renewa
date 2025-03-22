@@ -13,12 +13,12 @@ export class SlotService {
     }
 
     async getSlotsByDocId(docId:string,date:string){
-        // console.log('entering the get slots of doc in the slot service');
+        console.log('entering the get slots of doc in the slot service');
         
         try {
 
             let slots= await this.slotRepository.getSlotsByDoctorId(docId,date)
-            // console.log('the slots of doc is',slots);
+            console.log('the slots of doc is',slots);
             return slots
         } catch (error) {
            console.log('error in the getslotsbydocid',error);

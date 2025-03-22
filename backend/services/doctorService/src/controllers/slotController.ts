@@ -20,9 +20,11 @@ class SlotController {
 
     if (!docId) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: "No Authorization to view this page" })
-    }
+    }  
     try {
       const avialbaleSlots = await slotService.getSlotsByDocId(docId, date)
+      console.log('availableSlots',avialbaleSlots);
+      
       return res.status(HttpStatus.CREATED).json(avialbaleSlots)
 
     } catch (error) {

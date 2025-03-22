@@ -11,7 +11,8 @@ import { useLocation } from 'react-router';
 
 const BookingPage = () => {
   const location = useLocation();
-  const docId = location.state?.doctorId;
+  const doctorId = location.state?.doctorId;
+  console.log('doctorId',doctorId);
 
   const navigate = useNavigate();
   const userName = useSelector((state: RootState) => state.user.userName);
@@ -84,6 +85,7 @@ const BookingPage = () => {
     const fetchBookingData = async () => {
       try {
         const response = await myBookings();
+       
         const processedBookings = response.data.map((booking, index) => ({
           ...booking,
           id: index + 1,
@@ -199,7 +201,7 @@ const BookingPage = () => {
                       </span>
                       {booking.status === 'Ongoing' && (
                         <button
-                          onClick={() => navigate('/chat',{ state: { userName,docId } })}
+                          onClick={() => navigate(`/chat/${booking.doctorId}`,{ state: { userName,doctorName:booking.doctorName,doctorId:booking.docId } })}
                           className="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors"
                         >
                           Chat

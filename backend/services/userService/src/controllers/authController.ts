@@ -111,7 +111,8 @@ class AuthController {
         .json({
           message: 'Login completed with refersh token',
           accessToken: result.accessToken,username:result.username
-          ,email:result.email
+          ,email:result.email,
+          userId:result.userId
         })
         return
       }

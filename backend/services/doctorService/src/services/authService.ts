@@ -98,13 +98,22 @@ export class AuthService{
         const refreshToken=generateRefreshToken({id:doc.id})
         console.log('the accesstoken is',refreshToken);
 
+        // return {
+        //     success:true,
+        //     message:"Successfully signed in",
+        //     accessToken,
+        //     refreshToken,
+        //     username:doc.username,
+        //     email:doc.email
+        // }
         return {
             success:true,
             message:"Successfully signed in",
             accessToken,
             refreshToken,
             username:doc.username,
-            email:doc.email
+            email:doc.email,
+            doctorId:doc.id
         }
 
     }

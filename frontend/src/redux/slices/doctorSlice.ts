@@ -4,11 +4,12 @@ interface doctorState{
     loading:boolean,
     token:String | null,
     error:String | null,
-    userName:String | null,
+    userName:string | null,
     email:String | null,
     isAuthenticated:boolean
     role:string | null,
-    setDoctor:string | null
+    setDoctor:string | null,
+    doctorId:string| null
 }
 
 
@@ -20,7 +21,8 @@ const initialState : doctorState={
     email:null,
     isAuthenticated:false,
     role:null,
-    setDoctor: null
+    setDoctor: null,
+    doctorId:null
 }
 
 
@@ -28,12 +30,13 @@ const doctorSlice=createSlice({
     name:"doctor",
     initialState,
     reducers:{
-        loginSuccess: (state, action: PayloadAction<{ token: string; userName: string; email: string }>) => {  
+        loginSuccess: (state, action: PayloadAction<{ token: string; userName: string; email: string,doctorId:string }>) => {  
             state.loading = false;
             state.token = action.payload.token;
             state.userName = action.payload.userName;
             state.email = action.payload.email;
             state.isAuthenticated=true;
+            state.doctorId=action.payload.doctorId;
             state.role='doctor'
           },
           logout:(state)=>{
@@ -54,7 +57,8 @@ const doctorSlice=createSlice({
             state.userName=null,
             state.email=null,
             state.isAuthenticated=false,
-            state.role=null
+            state.role=null,
+            state.doctorId=null
             
         },
         setDoctor:(state,action: PayloadAction<string>)=>{

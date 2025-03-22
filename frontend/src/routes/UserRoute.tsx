@@ -15,8 +15,10 @@ import Success from '../pages/user/Success'
 import BookingPage from '../pages/user/Booking'
 import BookingPayments from '../pages/user/Payment'
 import InvoicePage from '../pages/user/Invoice'
-import ChatInterface from '../pages/user/Chat'
+import ChatInterface from '../components/sockets/chatComponent'
+
 import DoctorProfile from '../pages/user/SingleDoc'
+import { PatientChat,DoctorChat } from '../pages/common/chat'
 
 const userRoute = () => {
   return (
@@ -38,7 +40,9 @@ const userRoute = () => {
     <Route path='/bookings' element={<PrivateRoute><BookingPage/></PrivateRoute>}/>
     <Route path='/payments' element={<PrivateRoute><BookingPayments/></PrivateRoute>}/>
     <Route path='/invoice' element={<PrivateRoute><InvoicePage/></PrivateRoute>}/>
-    <Route path='/chat' element={<PrivateRoute><ChatInterface/></PrivateRoute>}/>
+    {/* <Route path='/chat/:docId' element={<PrivateRoute><ChatInterface/></PrivateRoute>}/> */}
+    <Route path="/chat/:doctorId"  element={ <PrivateRoute allowedRoles={["user"]}>   <PatientChat /> </PrivateRoute> }
+/>
 
 
 

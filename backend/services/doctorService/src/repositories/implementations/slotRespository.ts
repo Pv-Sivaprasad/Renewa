@@ -7,31 +7,60 @@ export class SlotRepository {
 
   async getSlotsByDoctorId(docId: string, date: string): Promise<Slot[] | null> {    
     try {
-      const formattedDate = date.trim().replace(/^:/, '');  
+      // const formattedDate = date.trim().replace(/^:/, '');  
+      const formattedDate = date.trim().replace(/^:/, '');
+      console.log('Formatted Date:', formattedDate);  
+
       const docDatas = await DocSlotModel.findOne({ docId }); 
       const dataNeeded = docDatas?.dates;
       if (dataNeeded) {
-        // console.log('Data from dates field:', dataNeeded);
+        console.log('Data from dates field:', dataNeeded);
       
       }
   
+      // const slotInRepo = await DocSlotModel.findOne(
+      //   {
+      //     docId,
+      //     "dates.date": formattedDate  
+      //   },
+      //   { "dates.$": 1 }  
+      // );
+      // if (slotInRepo && slotInRepo.dates.length > 0) {
+      //   await sendDocSlotData(slotInRepo)  
+      //   return slotInRepo.dates[0].slots;
+      // }
       const slotInRepo = await DocSlotModel.findOne(
         {
           docId,
-          "dates.date": formattedDate  
+          "dates.date": formattedDate,
         },
-        { "dates.$": 1 }  
+        { "dates.$": 1 }
       );
-      if (slotInRepo && slotInRepo.dates.length > 0) {
-        await sendDocSlotData(slotInRepo)  
-        return slotInRepo.dates[0].slots;
+      
+      if (!slotInRepo) {
+        console.error('slotInRepo is null. Check if the query matches the database schema.');
+      } else if (slotInRepo.dates.length === 0) {
+        console.error('No matching dates found in the slotInRepo result.');
+      } else {
+        console.log('slotInRepo fetched successfully:', slotInRepo);
+        const slots = slotInRepo.dates[0].slots;
+        await sendDocSlotData(slotInRepo);  
+        return slots;
+
       }
+      
 
       return null;  
-    } catch (error) {
-      console.error('Error fetching slots for doctor:', error);
-      throw error;
     }
+    catch (error) {
+      console.error('Error fetching slots in getSlotsByDoctorId:', error);
+      throw new Error('Failed to fetch slots. Please try again later.');
+    }
+    
+    //  catch (error) {
+    //   console.error('Error fetching slots for doctor:', error);
+    //   throw error;
+    // }
   }
 
   async upsertSlots(docSlotDto: DocSlotDto): Promise<DocSlot> {

@@ -63,6 +63,7 @@ private authServiceUse:AuthService
             // const response=await this.authServiceUse.docSignIn(req.body)
             // console.log(response,'res in the authController');
             
+             
             if(!response.success){
               return  res.status(HttpStatus.BAD_REQUEST).json({response})
             }
@@ -79,6 +80,7 @@ private authServiceUse:AuthService
                 accessToken:response.accessToken,
                 username:response.username,
                 email:response.email,
+                doctorId:response.doctorId
             })
 
 

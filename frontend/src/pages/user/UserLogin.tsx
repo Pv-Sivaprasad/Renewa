@@ -64,7 +64,8 @@ const UserLogin: React.FC = () => {
         dispatch(loginSuccess({
           token:response.data.accessToken,
           userName:response.data.username,
-          email:response.data.email
+          email:response.data.email,
+          userId:response.data.userId
         }))
       }else  {
         toast.error('Invalid credentials')

@@ -59,12 +59,10 @@ const DoctorLoginForm = () => {
                   toast.success("Login successful!");
                   if(response.data.accessToken){
                     dispatch(loginSuccess({
-                      token:response.data.accessToken,
-                      
+                      token:response.data.accessToken, 
                       userName:response.data.username,
-                     
-                      
-                      email:response.data.email
+                      email:response.data.email,
+                      doctorId:response.data.doctorId
                     }))
                     localStorage.setItem('accessToken',response.data.accessToken)
                     navigte('/doctor/dashboard')
@@ -73,7 +71,7 @@ const DoctorLoginForm = () => {
                   toast.error("Unexpected response from the server.");
               }
         } catch (error) {
-          console.log(error, 'the error is');
+          console.log(error, 'the error is',error);
           
           const errorMessage = error.response.data.response.message || "Login failed. Please try again.";
           console.log(errorMessage, 'the error message is');

@@ -139,6 +139,7 @@ export const slotPayment=async(payload: any)=>{
 
 export const myBookings=async()=>{
     let response= await api.get('/bookings')
+    console.log('respinse',response)
     return response
 }
 
