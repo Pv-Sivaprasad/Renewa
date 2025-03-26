@@ -2,7 +2,7 @@ import { UpdateSlotDto } from "../../dto/slotDto";
 import {  IDocSlot } from "../../models/slotModel";
 
 
-export interface IDocSlotRepository{
+export interface IDocSlotRepository  {
    
     getSlotByDocId(docId: string): Promise<IDocSlot | null>;
     upsert(slotData: IDocSlot): Promise<IDocSlot>;

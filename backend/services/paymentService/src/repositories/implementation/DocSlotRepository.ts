@@ -2,7 +2,8 @@ import { IDocSlotRepository } from "../interface/IDocSlotRepository";
 import { DocSlotModel,IDocSlot } from "../../models/slotModel";
 import { ChangeeSlotDto, UpdateSlotDto } from "../../dto/slotDto";
 import { Types } from "mongoose";
-export class DocSlotRepository implements IDocSlotRepository{
+import { IBaseRepository } from "../interface/IBaseRepository";
+export class DocSlotRepository implements IDocSlotRepository {
     
 
     async getSlotByDocId(docId: string): Promise<IDocSlot | null> {

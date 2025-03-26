@@ -2,6 +2,14 @@ import { rabbitMqConnect } from "../../config/rabbitmq";
 import { QUEUE_NAMES } from "../../constants/queueConstant";
 
 
+// export interface UserDataDto{
+//     docId:string,
+//     docname:string,
+//     email:string,
+//     speciality:string
+// }
+
+
 export const sendDoctorData=async(userData:any)=>{
     const channel=await rabbitMqConnect()
     if(!channel){

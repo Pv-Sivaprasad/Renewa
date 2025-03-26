@@ -44,18 +44,19 @@ export class AuthService{
                 password:hashedPassword
             });
             // console.log(savedDoc,'the saved doc is');
-            
-            const userData={
-                docId:savedDoc?.id.toString(),
-                docname:savedDoc?.username,
-                email:savedDoc?.email,
-                speciality:savedDoc?.speciality
+            let docId=savedDoc?.id.toString()
+            const userData ={
+                docId:savedDoc?.id.toString() ,
+                docname:savedDoc?.username as string ,
+                email:savedDoc?.email as string,
+                speciality:savedDoc?.speciality as string
             }
+
             // console.log('the userData before sending is ',userData);
             
             await sendDoctorData(userData).then(()=>{
                 console.log('successully send the data to admin ');  
-            }).catch((err:any)=>{
+            }).catch((err)=>{
                 console.log('error while sending',err);
                 
             })

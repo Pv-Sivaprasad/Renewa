@@ -123,7 +123,7 @@ class SlotController {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message:"Internal Server Error"})
       
     }
-
+   
 
 
   }
